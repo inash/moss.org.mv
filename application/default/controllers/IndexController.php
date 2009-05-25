@@ -8,10 +8,12 @@
  * @version $Id$
  */
 
-class IndexController extends Zend_Controller_Action
+class IndexController extends DefaultController
 {
 	public function indexAction()
 	{
-		echo 'hi';exit;
+		echo 'hi';
+		$this->_helper->viewRenderer->setNoRender();
+		$this->view->headTitle('Hello');
 	}
 }
