@@ -1,4 +1,15 @@
-<?php echo $this->doctype('XHTML1_STRICT') ?>
+<?php
+
+/**
+ * Main layout.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Tuesday May 26, 2009 07:34 AM
+ */
+
+echo $this->doctype('XHTML1_STRICT')
+
+?>
 
 <html>
 <head>
@@ -10,6 +21,43 @@
 </head>
 
 <body>
+<div id="header">
+    <div id="content">
+        <div id="title">MOSS</div>
+        <ul id="links">
+            <li><a href="#">About</a>
+            <li><a href="#">Projects</a>
+            <li><a href="#">FAQ</a>
+            <li><a href="#">Contact</a>
+        </ul>
+        <div style="clear: both;"></div>
+    </div>
+</div>
 
+<div id="menu">
+</div>
+
+<div id="main">
+    <div id="content">
+    <?php echo $this->layout()->content ?>
+    </div>
+</div>
+
+<div id="menu-bottom">
+    <ul id="links">
+        <li><a href="#">Top</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Policies</a></li>
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Sitemap</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</div>
+<div id="footer">
+    All Rights Reserved. Licensed under a
+    <a href="#">Creative Commons Attribution 2.5 License</a>.
+</div>
 </body>
 </html>

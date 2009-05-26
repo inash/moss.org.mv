@@ -7,7 +7,6 @@
  * 
  * @author  Inash Zubair <inash@leptone.com>
  * @created Mon May 25, 2009 4:48 AM
- * @version $Id$
  */
 
 /* Set include paths. */
@@ -40,6 +39,7 @@ $front = Zend_Controller_Front::getInstance();
 $front->addModuleDirectory('../application');
 $front->throwExceptions(true);
 $front->setBaseUrl('/moss/');
+$front->setParam('useDefaultControllerAlways', true);
 
 /* Start layout for view. */
 $layout = Zend_Layout::startMvc();
