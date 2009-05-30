@@ -21,6 +21,9 @@ require_once 'Zend/Controller/Action.php';
 require_once 'Zend/Session.php';
 require_once 'Zend/Layout.php';
 require_once 'Zend/Debug.php';
+require_once 'Zend/Config/Ini.php';
+require_once 'Zend/Db.php';
+require_once 'Zend/Db/Table/Abstract.php';
 require_once 'DefaultController.php';
 
 /* Set error reporting to all. This is for debugging purposes. Hosted
@@ -33,6 +36,13 @@ ini_set('error_log', 'errors.txt');
 
 /* Start session management. */
 Zend_Session::start();
+
+/* Initialize configuration. */
+$config = new Zend_Config_Ini('config.ini', 'staging');
+
+/* Initialize database connection. */
+$db = Zend_Db::factory($config->database);
+Zend_Db_Table_Abstract::setDefaultAdapter($db);
 
 /* Initialize the front controller. */
 $front = Zend_Controller_Front::getInstance();

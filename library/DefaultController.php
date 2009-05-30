@@ -17,5 +17,8 @@ abstract class DefaultController extends Zend_Controller_Action
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->headTitle()->setSeparator(' / ');
 		$this->view->headTitle('MOSS');
+		
+		/* Generate sidebar. */
+		$this->_helper->layout()->sidebar = $this->view->render('index/sidebar.phtml');
 	}
 }

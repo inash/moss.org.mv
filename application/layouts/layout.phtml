@@ -38,8 +38,10 @@ echo $this->doctype('XHTML1_STRICT')
 </div>
 
 <div id="main">
-    <div id="content">
-    <?php echo $this->layout()->content ?>
+    <div id="body">
+        <div id="content"><?php echo $this->layout()->content ?></div>
+        <div id="sidebar"><?php echo $this->layout()->sidebar ?></div>
+        <div style="clear: both;"></div>
     </div>
 </div>
 
@@ -55,6 +57,7 @@ echo $this->doctype('XHTML1_STRICT')
         <li><a href="#">Contact</a></li>
     </ul>
 </div>
+
 <div id="footer">
     All Rights Reserved. Licensed under a
     <a href="#">Creative Commons Attribution 2.5 License</a>.

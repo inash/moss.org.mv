@@ -60,9 +60,19 @@ a:hover {
     background-color: #fff;
     padding: 20px;
 }
-#content {
+#main #body {
     margin: 0 auto;
     width: 900px;
+}
+#main #body #content {
+	float: left;
+	width: 640px;
+}
+#main #body #sidebar {
+	float: right;
+	width: 220px;
+	padding-left: 20px;
+	border-left: 1px solid #ccc;
 }
 
 #menu-bottom {
@@ -93,4 +103,16 @@ a:hover {
     width: 890px;
     padding: 10px;
     padding-left: 0px;
+}
+
+/* Classes. */
+.ul {
+	list-style-type: lower-greek;
+    list-style-position: inside;
+    padding-left: 0px;
+}
+
+#main #body #content a.non-existent {
+	color: brown;
+	font-weight: bold;
 }
