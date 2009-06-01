@@ -18,6 +18,8 @@ echo $this->doctype('XHTML1_STRICT')
     <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl ?>/styles.css" />
     <?php echo $this->headLink() ?>
 
+    <?php echo $this->headScript() ?>
+
 </head>
 
 <body>
@@ -40,7 +42,14 @@ echo $this->doctype('XHTML1_STRICT')
 
 <div id="main">
     <div id="body">
-        <div id="content"><?php echo $this->layout()->content ?></div>
+        <div id="content">
+            <?php if (isset($this->messages) && count($this->messages) == 1): ?>
+            <div id="messages">
+            <?php echo $this->messages[0] ?>
+            </div>
+            <?php endif; ?>
+            <?php echo $this->layout()->content ?>
+        </div>
         <div id="sidebar"><?php echo $this->layout()->sidebar ?></div>
         <div style="clear: both;"></div>
     </div>

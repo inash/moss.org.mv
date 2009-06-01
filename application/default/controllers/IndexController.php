@@ -1,7 +1,14 @@
 <?php
 
 /**
- * Index Controller
+ * Index Controller.
+ * 
+ * This controller acts as a default entry point for the website and
+ * application. It does this by trying to determine unrouted requests to it's
+ * indexAction and then acting as the centerpoint for the WikiController.
+ * 
+ * All unrouted requests are assumed to be a Wiki page, be it whether the page
+ * exists or not. And provides functionality to view/edit/create Wiki Pages.
  * 
  * @author  Inash Zubair <inash@leptone.com>
  * @created Mon May 25, 2009 05:09 AM
@@ -12,7 +19,7 @@ require_once 'models/Pages.php';
 
 class IndexController extends DefaultController
 {
-	/**
+    /**
      * Static page handler. If a requested controller doesn't exist, the
      * application will route all the requests to the default controller's
      * index action, which renders wiki pages.
@@ -40,23 +47,41 @@ class IndexController extends DefaultController
         $pagesModel = new Pages();
         $page = $pagesModel->fetchRow("title='{$pageName}'");
         
-        /* If page does not exist, show page does not exist view and get a list
-         * of probable page matches. This page should display a link to create
-         * the page. Pages that does not exist should be anchored in red or
-         * brown. This is given that $operation = false. */
-        if (!$page && $operation == false) {
-            $this->view->name = $pageName;
-            $this->render('non-existent');
+        /* If the page does not exist, do one of the following depending on the
+         * 1 option available.
+         * 
+         * Either show the non-existent page (which is done by default and if a
+         * valid operation is not specified for this scenario) or forward to
+         * creating the page anew. */
+        if (!$page) {
+            switch ($operation) {
+                case 'new':
+                    $this->_forward('new', 'wiki', 'default', array('page' => $pageName));
+                    break;
+                
+                default:
+                    $this->view->name = $pageName;
+                    $this->render('non-existent');
+            }
+            
+        /* If the page does exist, do so below. By default it just displays the
+         * page. If the valid operations (edit) are provided, those are
+         * forwarded to their respective action handlers in the WikiController. */
+        } else {
+            switch ($operation) {
+                case 'edit':
+                    $this->_forward('edit', 'wiki', 'default', array('page' => $pageName));
+                    break;
+                
+                case 'history':
+                	$this->_forward('history', 'wiki', 'default', array('page' => $pageName));
+                	break;
+                    
+                /* Generic viewing of the page. */
+                default:
+                    $this->view->page = $page;
+            }
         }
-
-        /* If the page did not exist and there is an operation specified, such
-         * as `new`: to create the non-existent page. */
-        if (!$page && $operation != false) {
-            $this->_forward('new', 'wiki', 'default', array('page' => $pageName));
-        }
-        
-        /* Display the page below. */
-        $this->view->page = $page;
     }
     
     /**

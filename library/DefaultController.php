@@ -24,6 +24,11 @@ abstract class DefaultController extends Zend_Controller_Action
 		
 		/* Generate sidebar. */
         $this->_helper->layout()->sidebar = $this->view->render('index/sidebar.phtml');
+        
+        /* Check if the flash messenger has any messages. Process them. */
+        if ($this->_helper->flashMessenger->hasMessages()) {
+        	$this->view->messages = $this->_helper->flashMessenger->getMessages();
+        }
 	}
 	
 	public function postDispatch()

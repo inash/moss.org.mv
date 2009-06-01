@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * Wiki page history view.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Mon Jun 01, 2009 11:18 AM
+ */
+
+$this->headTitle('Page History');
+$this->headTitle($this->page->title);
+$this->headScript()->appendFile($this->baseUrl.'/scripts/stripe.js');
+
+?>
+
+<?php echo $this->render('wiki/header.phtml') ?>
+
+<h1>Page History</h1>
+<form>
+	<table border="0" cellspacing="0" cellpadding="4" id="tbl-wiki-history" class="border" width="640">
+	    <thead>
+		    <tr>
+		        <th colspan="2">Timestamp</th>
+		        <th>User</th>
+		        <th>Summary</th>
+		    </tr>
+		</thead>
+	    <tbody>
+	        <?php foreach ($this->history as $history): ?>
+	        <tr<?php if ($this->page->pageRevisionId == $history['pageRevisionId']): ?> class="highlight"<?php endif; ?>>
+	            <td width="22"><input type="radio" name="revertTo" value="<?php echo $history['pageRevisionId'] ?>" />
+	            <td>
+	                <?php echo date('Y-m-d H:i O', strtotime($history['timestamp'])) ?>
+	                <?php if ($this->page->pageRevisionId == $history['pageRevisionId']): ?>
+	                (Current)
+	                <?php endif; ?>
+	            </td>
+	            <td><a href="<?php echo $this->baseUrl.'/'.$history['userId'] ?>"><?php echo $history['name'] ?></a></td>
+	            <td><?php echo $history['summary'] ?></td>
+	        </tr>
+	        <?php endforeach; ?>
+	    </tbody>
+	    <tfoot>
+	        <tr>
+	            <td colspan="4">
+	                <input type="submit" name="revert" value="Revert" />
+	                <span class="info">Revert to the above selected revision.</span>
+	            </td>
+	    </tfoot>
+	</table>
+</form>
+
+<?php echo $this->render('wiki/footer.phtml') ?>

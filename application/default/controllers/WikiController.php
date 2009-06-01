@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Index Controller
+ * Wiki Controller.
  * 
  * @author  Inash Zubair <inash@leptone.com>
  * @created Sun May 31, 05:51 AM
@@ -18,9 +18,6 @@ class WikiController extends ApplicationController
         
     }
     
-    /**
-     * Shows create new Wiki Page.
-     */
     public function newAction()
     {
         /* Get the page name. */
@@ -81,6 +78,7 @@ class WikiController extends ApplicationController
                 'pageId'    => $pageId,
                 'userId'    => $this->user['userId'],
                 'timestamp' => date('Y-m-d H:i:s'),
+                'summary'   => 'new',
                 'diff'      => $diff));
             
             /* If success, redirect to Static page view action. Set flash
@@ -89,6 +87,120 @@ class WikiController extends ApplicationController
                 "New Page <b>{$title}</b> Successfully Created!");
             
             $this->_redirect("/{$title}");
+        }
+    }
+    
+    public function editAction()
+    {
+        $pageName = $this->_request->getParam('page');
+        
+        /* Get the page. */
+        $pagesModel = new Pages();
+        $page = $pagesModel->fetchRow("title='{$pageName}'");
+        
+        /* If the page does not exist, render non-existent page. */
+        if (!$page) {
+            $this->view->page = $pageName;
+            $this->render('index/non-existent');
+            return false;
+        }
+        
+        $this->view->page = $page;
+    }
+    
+    public function updateAction()
+    {
+        if (!$this->_request->isPost()) {
+            echo 'invalid request';
+            exit;
+        }
+        
+        /* Get and prepare variables. */
+        $params = $this->_request->getPost();
+        $params['title']   = trim(Zend_Filter::get($params['title'], 'Word_UnderscoreToCamelCase'));
+        $params['body']    = trim($params['body'])."\n";
+        $params['summary'] = trim($params['summary']);
+        unset($params['save']);
+        
+        /* Get page and verify if the page exists. */
+        $pagesModel = new Pages();
+        $page = $pagesModel->fetchRow("title='{$params['title']}'");
+        
+        /* If page does not exist, forward to non-existent view. */
+        if (!$page) {
+            $this->view->page = $params['title'];
+            $this->render('index/non-existent');
+            return false;
+        }
+        
+        /* Set file names. */
+        $fileOld = '/tmp/'.Zend_Session::getId().'_wiki_old_'.$page->title;
+        $fileNew = '/tmp/'.Zend_Session::getId().'_wiki_new_'.$page->title;
+        
+        /* Store file contents and generate the diff. */
+        file_put_contents($fileOld, $page->body);
+        file_put_contents($fileNew, $params['body']);
+        $diff = shell_exec("diff --normal --strip-trailing-cr {$fileOld} {$fileNew}");
+        
+        /* If there's no diff, alert and fail back to viewing the page. */
+        if ($diff == '') {
+            $this->_helper->flashMessenger->addMessage("No Change. Page Unmodified.");
+            $this->_redirect("/{$page->title}");
+            return true;
+        }
+        
+        /* TODO: distinguish edit operation by title. eg: +rename, etc. */
+
+        /* Update page revision by inserting a new record with the new diff. */
+        $pageRevModel = new PageRevisions();
+        $pageRevId    = $pageRevModel->insert(array(
+            'pageId'    => $page->pageId,
+            'userId'    => $this->user['userId'],
+            'timestamp' => date('Y-m-d H:i:s'),
+            'summary'   => $params['summary'],
+            'diff'      => $diff));
+        
+        /* Update page record with new data. */
+        $page->pageRevisionId = $pageRevId;
+        $page->dateModified   = date('Y-m-d H:i:s');
+        $page->modifiedBy     = $this->user['userId'];
+        $page->body = $params['body'];
+        $page->save();
+        
+        /* Add flash message and redirect to view page. */
+        $this->_helper->flashMessenger->addMessage("Page Successfully Updated!");
+        $this->_redirect("/{$page->title}");
+    }
+    
+    public function historyAction()
+    {
+        $pageName = $this->_request->getParam('page');
+        
+        /* Get the page and check if it exists or not. */
+        $pagesModel = new Pages();
+        $page = $pagesModel->fetchRow("title='{$pageName}'");
+        
+        if (!$page) {
+            $this->view->page = $pageName;
+            $this->render('index/non-existent');
+            return false;
+        }
+        
+        /* Assign page record to view. */
+        $this->view->page = $page;
+        
+        /* Get history for the page. */
+        $db = Zend_Registry::get('db');
+        $query = $db->query(
+            "SELECT pr.pageRevisionId, pr.userId, pr.timestamp, pr.summary, "
+          . "u.name FROM page_revisions pr, users u "
+          . "WHERE u.userId=pr.userId "
+          . "AND pr.pageId='{$page->pageId}' "
+          . "ORDER BY timestamp DESC");
+        
+        /* Assign history rows if any. */
+        if ($query->rowCount() > 0) {
+        	$this->view->history = $query->fetchAll();
         }
     }
 }

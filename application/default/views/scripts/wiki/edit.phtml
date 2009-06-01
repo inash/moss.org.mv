@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * Edit Wiki Page View.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Mon Jun 1, 2009 09:24 AM
+ */
+
+$this->headTitle('Edit Page');
+$this->headTitle($this->page->title);
+
+?>
+
+<?php echo $this->render('wiki/header.phtml') ?>
+
+<h1>Edit Page</h1>
+
+<p>You're editing the Page titled <b><?php echo $this->page->title ?></b>. The
+content formatting used is
+<a href="http://daringfireball.net/projects/markdown/">Markdown</a>. Refer below
+for a quick Markdown concept and spec.</p>
+
+<p>Leave the Title as it is unless you want to rename the page otherwise. Leave
+a short summary of your modifications, usually an indication of several words.</p>
+
+<form method="post" action="<?php echo $this->baseUrl ?>/wiki/update">
+    <table border="0" cellspacing="0" cellpadding="4" width="100%">
+        <tbody>
+            <tr>
+                <th>Title:</th>
+                <td><input type="text" name="title" size="50" value="<?php echo $this->page->title ?>" class="full-width" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <textarea name="body" class="ta-editor"><?php echo $this->page->body ?></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>Summary:</th>
+                <td><input type="text" name="summary" size="50" class="full-width" /></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" name="save" value="Save" />
+                    <input type="button" name="preview" value="Preview" />
+                    <input type="reset" value="Reset" />
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>
+
+<h2>Markdown Syntax</h2>
+
+<?php echo $this->render('wiki/footer.phtml') ?>

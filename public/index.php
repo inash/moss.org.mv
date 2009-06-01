@@ -26,6 +26,7 @@ require_once 'Zend/Config/Ini.php';
 require_once 'Zend/Db.php';
 require_once 'Zend/Db/Table/Abstract.php';
 require_once 'Zend/Loader.php';
+require_once 'Zend/Registry.php';
 
 /* Set error reporting to all. This is for debugging purposes. Hosted
  * configuration must set the additional ini option display_errors to false and
@@ -43,6 +44,7 @@ $config = new Zend_Config_Ini('config.ini', 'staging');
 
 /* Initialize database connection. */
 $db = Zend_Db::factory($config->database);
+Zend_Registry::set('db', $db);
 Zend_Db_Table_Abstract::setDefaultAdapter($db);
 
 /* Initialize the front controller. */

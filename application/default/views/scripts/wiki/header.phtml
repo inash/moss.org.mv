@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Wiki page header element.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Mon Jun 01, 2009 12:08 PM
+ */
+?>
+
+<div id="wiki-info-box">
+    <ul class="ul">
+        <li><a href="<?php echo $this->baseUrl.'/'.$this->page->title ?>"><?php echo $this->page->title ?></a></li>
+        <li><a href="<?php echo $this->baseUrl.'/'.$this->page->title ?>/edit" class="link-icon wiki-edit">Edit</a></li>
+        <li><a href="<?php echo $this->baseUrl.'/'.$this->page->title ?>/history" class="link-icon wiki-history">History</a></li>
+        <li><a href="<?php echo $this->baseUrl.'/'.$this->page->title ?>/email" class="link-icon email">Email</a></li>
+    </li>
+</div>
