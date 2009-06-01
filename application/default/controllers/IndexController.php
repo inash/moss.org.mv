@@ -7,25 +7,56 @@
  * @created Mon May 25, 2009 05:09 AM
  */
 
+require_once 'DefaultController.php';
 require_once 'models/Pages.php';
 
 class IndexController extends DefaultController
 {
+	/**
+     * Static page handler. If a requested controller doesn't exist, the
+     * application will route all the requests to the default controller's
+     * index action, which renders wiki pages.
+     */
     public function indexAction()
     {
-        /* Router to static action if the module is default but the controller
-         * is not defined, supposedly a static page name, etc. */
-        if ($this->_request->getParam('module') == 'default' &&
-        $this->_request->getParam('controller') != 'index') {
-        	$this->_forward('static');
-        	return false;
+        /* Get page name. Format and clean title. */
+        $name = trim($this->_request->getPathInfo(), '/');
+        
+        /* If the request is for root, redirecto to /Front. */
+        if ($name == '') $this->_redirect('/Front');
+        
+        /* Explode the name parameter and extract operational fields values. */
+        $nameParts = explode('/', $name);
+        $operation = false;
+        if (count($nameParts) > 1) {
+            $operation = array_pop($nameParts);
         }
         
-        /* Else if the request is for the default action, meaning the Index
-         * pages. */
-        else {
-        	$this->_redirect('/Index');
+        /* Set $pageName. */
+        $pageName = $nameParts[0];
+        $pageName = ucwords($pageName);
+
+        /* Search the pages table for the page. */
+        $pagesModel = new Pages();
+        $page = $pagesModel->fetchRow("title='{$pageName}'");
+        
+        /* If page does not exist, show page does not exist view and get a list
+         * of probable page matches. This page should display a link to create
+         * the page. Pages that does not exist should be anchored in red or
+         * brown. This is given that $operation = false. */
+        if (!$page && $operation == false) {
+            $this->view->name = $pageName;
+            $this->render('non-existent');
         }
+
+        /* If the page did not exist and there is an operation specified, such
+         * as `new`: to create the non-existent page. */
+        if (!$page && $operation != false) {
+            $this->_forward('new', 'wiki', 'default', array('page' => $pageName));
+        }
+        
+        /* Display the page below. */
+        $this->view->page = $page;
     }
     
     /**
@@ -36,32 +67,25 @@ class IndexController extends DefaultController
      */
     public function sidebarAction()
     {
-    	echo $this->render();
+        echo $this->render();
     }
     
     /**
-     * Static page handler. If a requested controller doesn't exist, the
-     * application will route all the requests to the default controller's
-     * index action, which in return checks if the request is explicitly for
-     * the index controller. If not forward the request to this static action
-     * handler.
+     * Catch operational functionality for static pages here and forward them
+     * to their respective ApplicationController actions.
      */
-    public function staticAction()
+    public function __call($method, $params)
     {
-    	/* Get page name. Format and clean title. */
-    	$name = trim($this->_request->getPathInfo(), '/');
-    	
-    	/* Search the pages table for the page. */
-    	$pagesModel = new Pages();
-    	$page = $pagesModel->fetchRow(array('title' => $name));
-    	
-    	/* If page does not exist, show page does not exist view and get a list
-    	 * of probable page matches. This page should display a link to create
-    	 * the page. Pages that does not exist should be anchored in red or
-    	 * brown. */
-    	if (!$page) {
-    		$this->view->name = $name;
-    		$this->render('non-existent');
-    	}
+        /* Disable view renderer. */
+        $this->_helper->viewRenderer->setNoRender();
+        
+        /* If the requested operation is to create a new Wiki Page. */
+        if ($method == 'newAction') {
+            $pageName = trim($this->_request->getPathInfo(), 'new');
+            $pageName = trim($pageName, '/');
+            
+            /* Forward request to wiki/new. */
+            $this->_forward('new', 'wiki', 'default', array('page' => $pageName));
+        }
     }
 }

@@ -8,6 +8,10 @@ body {
     background-color: #e3e3e3;
 }
 
+h1 {
+	color: #AA0000;
+}
+
 a {
     color: #1C438B;
     text-decoration: none;
@@ -105,14 +109,120 @@ a:hover {
     padding-left: 0px;
 }
 
+/* Form. */
+form {
+	margin: 0px;
+	padding: 0px;
+}
+form table {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+form table tbody tr th {
+	text-align: right;	
+}
+form table tfoot tr td {
+	border-top: 1px solid #ccc;
+}
+form table tfoot input[type=submit]{
+	color: #AA0000;
+}
+form table tbody tr.error td {
+	border-top: 1px solid #ddd;
+	background-color: #fff;
+	color: #AA0000;
+	font-style: oblique;
+}
+
+/* Form customer classes. */
+form input.full-width {
+	width: 100%;
+}
+
 /* Classes. */
 .ul {
 	list-style-type: lower-greek;
     list-style-position: inside;
     padding-left: 0px;
 }
+.required {
+	color: #AA0000;
+}
+.error {
+	background-color: #f5f5f5;
+	border: 1px solid #ddd;
+	padding: 5px;
+	padding-left: 25px;
+	background-image: url('pix/bullet_error.png');
+	background-repeat: no-repeat;
+	background-position: 5px;
+}
+
+.ta-editor {
+	width: 100%;
+	height: 200px;
+}
 
 #main #body #content a.non-existent {
 	color: brown;
 	font-weight: bold;
+}
+
+/* Identifiers. */
+#main #body #sidebar #user-box {
+	margin-bottom: 20px;
+}
+#main #body #sidebar #user-box #sb-ub-i {
+    float: left;
+}
+#main #body #sidebar #user-box #sb-ub-i img {
+	padding: 2px;
+	background-color: #fff;
+	border: 1px solid #aaa;
+}
+#main #body #sidebar #user-box #sb-ub-c {
+	float: left;
+	margin-left: 10px;
+}
+
+#main #body #content #wiki-info-box {
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 5px;
+	text-align: right;
+	font-size: 10px;
+}
+#main #body #content #wiki-info-box ul {
+	padding: 0px;
+	margin: 0px;
+	list-style: none;
+}
+#main #body #content #wiki-info-box ul li {
+	display: inline;
+	margin-left: 5px;
+}
+
+#main #body #content #wiki-info-box-footer {
+	border-top: 1px solid #ddd;
+	padding-top: 5px;
+	font-size: 10px;
+	text-align: right;
+}
+
+/* Icons */
+a.link-icon {
+    height: 16px;
+    padding-top: 2px;
+    padding-bottom: 1px;
+    padding-left: 18px;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+}
+a.email {
+	background-image: url('pix/email_link.png');
+}
+a.wiki-edit {
+    background-image: url('pix/page_edit.png');
+}
+a.wiki-history {
+    background-image: url('pix/time.png');
 }

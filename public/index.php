@@ -12,6 +12,7 @@
 /* Set include paths. */
 $includes = array(
     '../application',
+    '../application/models',
     '../library');
 set_include_path(get_include_path() . PATH_SEPARATOR . join(PATH_SEPARATOR, $includes));
 
@@ -24,7 +25,7 @@ require_once 'Zend/Debug.php';
 require_once 'Zend/Config/Ini.php';
 require_once 'Zend/Db.php';
 require_once 'Zend/Db/Table/Abstract.php';
-require_once 'DefaultController.php';
+require_once 'Zend/Loader.php';
 
 /* Set error reporting to all. This is for debugging purposes. Hosted
  * configuration must set the additional ini option display_errors to false and
@@ -32,7 +33,7 @@ require_once 'DefaultController.php';
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('log_errors', false);
-ini_set('error_log', 'errors.txt');
+ini_set('error_log', 'php-errors.txt');
 
 /* Start session management. */
 Zend_Session::start();

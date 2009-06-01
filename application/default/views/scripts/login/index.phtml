@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * Displays login page.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Sun May 31, 2009 06:15 AM
+ */
+
+$this->headTitle('Login');
+
+?>
+
+<h1>Login</h1>
+
+<p>Authenticate and Login to moss.org.mv</p>
+
+<form method="post" action="<?php echo $this->baseUrl ?>/login">
+    <table border="0" cellspacing="0" cellpadding="4">
+        <tbody>
+            <tr>
+                <th>Email:</th>
+                <td><input type="text" name="email" value="" /></td>
+            </tr>
+            <tr>
+                <th>Password:</th>
+                <td><input type="password" name="password" /></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" name="login" value="Login" /></td>
+            </tr>
+        </tfoot>
+    </table>
+</form>

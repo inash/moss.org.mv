@@ -9,6 +9,8 @@
  * @created Sun May 31, 2009 03:51 AM
  */
 
+require_once 'PageRevisions.php';
+
 class Pages extends Zend_Db_Table_Abstract
 {
     protected $_name       = 'pages';
@@ -26,7 +28,7 @@ class Pages extends Zend_Db_Table_Abstract
             'refTableClass' => 'Users',
             'refColumns'    => array('userId')
         ),
-        'PageRevision' => array(
+        'Revision' => array(
             'columns'       => array('pageRevisionId'),
             'refTableClass' => 'PageRevisions',
             'refColumns'    => array('pageRevisionId')

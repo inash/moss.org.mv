@@ -7,10 +7,25 @@
  * @created Tuesday May 26, 2009 07:56 AM
  */
 
+require_once 'markdown/markdown.php';
 $this->headTitle("Home")
 
 ?>
 
-<h1>Home</h1>
+<div id="wiki-info-box">
+    <ul class="ul">
+        <li><?php echo $this->page->title ?></li>
+        <li><a href="<?php echo $this->baseUrl.'/'.$this->page->title ?>/edit" class="link-icon wiki-edit">Edit</a></li>
+        <li><a href="#" class="link-icon wiki-history">History</a></li>
+        <li><a href="#" class="link-icon email">Email</a></li>
+    </li>
+</div>
 
-<p>What goes here will soon be decided.</p>
+<?php echo markdown($this->page->body) ?>
+
+<div id="wiki-info-box-footer">
+    Page Last Modified By
+    <a href="<?php echo $this->baseUrl ?>/<?php echo $this->page->modifiedBy ?>">
+    <?php echo $this->page->findParentRow('Users', 'ModifiedBy')->name ?></a>
+    on <?php echo date('D M d, Y H:i A T') ?>
+</div>

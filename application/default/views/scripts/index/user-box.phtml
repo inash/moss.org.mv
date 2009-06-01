@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Partial User Box view.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Sun May 31, 2009 07:22 AM
+ */
+
+?>
+
+<div id="user-box">
+    <div id="sb-ub-i">
+        <img src="http://www.gravatar.com/avatar/cdccdf1d39e459c238c2824fb860be8e?s=30&d=http%3A%2F%2Fgithub.com%2Fimages%2Fgravatars%2Fgravatar-30.png" width="30" height="30" border="0" />
+    </div>
+    <div id="sb-ub-c">
+        <?php echo $this->userns->name ?><br />
+        <a href="<?php echo $this->baseUrl ?>/profile">Profile</a> . 
+        <a href="<?php echo $this->baseUrl ?>/logout">Logout</a>
+    </div>
+    <div style="clear: both;"></div>
+</div>

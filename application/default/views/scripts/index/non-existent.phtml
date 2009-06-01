@@ -9,12 +9,14 @@
  * @created Sun May 31, 2009 04:17 AM
  */
 
+$this->headTitle('Non Existent Page');
+
 ?>
 
-<h1>Page Does Not Exist</h1>
+<h1>Non Existent Page</h1>
 
-<p>The page <a href="#" class="non-existent"><?php echo $this->name ?></a> requested, is a non existent page. Click on
-the link to create a new page with the name, or below is a list of suggestions
-of similar pages.</p>
+<p>The requested page <a href="<?php echo $this->baseUrl ?>/<?php echo $this->name ?>/new" class="non-existent"><?php echo $this->name ?></a>,
+is a non existent page. Click on the link to create a new page with the name,
+or below is a list of suggestions of similar pages.</p>
 
 <p>> list of similar pages (fulltext matches)</p>

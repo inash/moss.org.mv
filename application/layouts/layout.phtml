@@ -25,10 +25,11 @@ echo $this->doctype('XHTML1_STRICT')
     <div id="content">
         <div id="title">MOSS</div>
         <ul id="links">
-            <li><a href="#">About</a>
-            <li><a href="#">Projects</a>
-            <li><a href="#">FAQ</a>
-            <li><a href="#">Contact</a>
+            <li><a href="<?php echo $this->baseUrl ?>/Front">Home</a>
+            <li><a href="<?php echo $this->baseUrl ?>/About">About</a>
+            <li><a href="<?php echo $this->baseUrl ?>/Projects">Projects</a>
+            <li><a href="<?php echo $this->baseUrl ?>/FAQ">FAQ</a>
+            <li><a href="<?php echo $this->baseUrl ?>/contact">Contact</a>
         </ul>
         <div style="clear: both;"></div>
     </div>
