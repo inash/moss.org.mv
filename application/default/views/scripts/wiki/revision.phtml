@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Display page revisions view.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Tue Jun 02, 2009 03:20 AM
+ */
+
+$this->headTitle("Page Revisions");
+$this->headTitle($this->page->title);
+$this->headScript()->appendFile($this->baseUrl.'/scripts/prototype.js');
+$this->headScript()->appendFile($this->baseUrl.'/scripts/jsdiff.js');
+
+?>
+
+<?php echo $this->render('wiki/header.phtml') ?>
+
+<h1>Page Revision</h1>
+
+<p>Displaying page revision at 
+<?php echo date('r', strtotime($this->pageRevision['timestamp'])) ?> 
+for <?php echo $this->page->title ?>.</p>
+
+<div id="wiki-old" style="display: none;"><?php echo $this->prevRevision['body'] ?></div>
+<div id="wiki-new" style="display: none;"><?php echo $this->pageRevision['body'] ?></div>
+<pre width="103" id="diff-rev" class="code"></pre>
+
+<script type="text/javascript">
+var oldt = $('wiki-old').innerHTML;
+var newt = $('wiki-new').innerHTML;
+$('diff-rev').innerHTML = diffString(oldt, newt);
+</script>
+
+<?php echo $this->render('wiki/footer.phtml') ?>

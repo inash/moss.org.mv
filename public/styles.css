@@ -206,6 +206,7 @@ form input.full-width {
 	padding-top: 5px;
 	font-size: 10px;
 	text-align: right;
+	margin-top: 10px;
 }
 
 #main #body #content #messages {
@@ -263,4 +264,18 @@ table.border tbody tr.highlight td {
 table.border tfoot tr td {
 	font-size: 11px;
 	background-color: #f5f5f5;
+}
+
+/* Code */
+pre {
+	font-size: 10px;
+	line-height: 12px;
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+pre ins {
+	background-color: #A5F7A5;
+}
+pre del {
+	background-color: #FFBABA;
 }

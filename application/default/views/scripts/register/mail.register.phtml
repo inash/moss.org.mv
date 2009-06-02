@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * Mail template when users register.
+ * 
+ * @author  Inash Zubair
+ * @created Tue Jun 02, 2009 07:20 AM
+ */
+
+?>
+<?php echo $this->params['name'] ?>,
+
+Thank you for registering at moss.org.mv. Below is the activation link for your
+account.
+
+http://<?php echo $_SERVER['SERVER_NAME'].$this->baseUrl.'/activate/'.$this->params['hash'] ?>
+
+Click on the above URL or copy and paste it into your web browser's address bar.
+Your account will be deactivated if not activated within 30 days.
+
+Thank you.
+
+---
+The TEAM
+moss.org.mv

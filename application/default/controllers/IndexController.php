@@ -36,8 +36,12 @@ class IndexController extends DefaultController
         $nameParts = explode('/', $name);
         $operation = false;
         if (count($nameParts) > 1) {
-            $operation = array_pop($nameParts);
+            $operation = $nameParts[1];
         }
+        
+        /* Prepare extra parameters. */
+        $params = $nameParts;
+        unset($params[0], $params[1]);
         
         /* Set $pageName. */
         $pageName = $nameParts[0];
@@ -74,9 +78,15 @@ class IndexController extends DefaultController
                     break;
                 
                 case 'history':
-                	$this->_forward('history', 'wiki', 'default', array('page' => $pageName));
-                	break;
+                    $this->_forward('history', 'wiki', 'default', array('page' => $pageName));
+                    break;
                     
+                case 'revision':
+                    $this->_forward('revision', 'wiki', 'default', array(
+                        'page' => $pageName,
+                        'pageRevisionId' => $params[2]));
+                    break;
+                
                 /* Generic viewing of the page. */
                 default:
                     $this->view->page = $page;
@@ -92,25 +102,7 @@ class IndexController extends DefaultController
      */
     public function sidebarAction()
     {
+    	// TODO: complete auto sidebar feature.
         echo $this->render();
-    }
-    
-    /**
-     * Catch operational functionality for static pages here and forward them
-     * to their respective ApplicationController actions.
-     */
-    public function __call($method, $params)
-    {
-        /* Disable view renderer. */
-        $this->_helper->viewRenderer->setNoRender();
-        
-        /* If the requested operation is to create a new Wiki Page. */
-        if ($method == 'newAction') {
-            $pageName = trim($this->_request->getPathInfo(), 'new');
-            $pageName = trim($pageName, '/');
-            
-            /* Forward request to wiki/new. */
-            $this->_forward('new', 'wiki', 'default', array('page' => $pageName));
-        }
     }
 }

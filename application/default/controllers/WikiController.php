@@ -50,17 +50,6 @@ class WikiController extends ApplicationController
             
             $userns = new Zend_Session_Namespace('user');
             
-            /* Put empty file in /tmp to initially diff new file. */
-            $fileEmpty = '/tmp/'.Zend_Session::getId().'_empty';
-            file_put_contents($fileEmpty, '');
-            
-            /* Put current new page's content to /tmp. */
-            $filePage = '/tmp/'.Zend_Session::getId().'_wiki_'.$title;
-            file_put_contents($filePage, $body);
-            
-            /* Get a diff between the new file and the current new page. */
-            $diff = shell_exec("diff --normal -N {$fileEmpty} {$filePage}");
-            
             /* Add page. */
             $pageId = $pagesModel->insert(array(
                 'title'          => $title,
@@ -79,7 +68,7 @@ class WikiController extends ApplicationController
                 'userId'    => $this->user['userId'],
                 'timestamp' => date('Y-m-d H:i:s'),
                 'summary'   => 'new',
-                'diff'      => $diff));
+                'body'      => $body));
             
             /* If success, redirect to Static page view action. Set flash
              * message to appear stating that the insertion succeeded. */
@@ -118,7 +107,7 @@ class WikiController extends ApplicationController
         /* Get and prepare variables. */
         $params = $this->_request->getPost();
         $params['title']   = trim(Zend_Filter::get($params['title'], 'Word_UnderscoreToCamelCase'));
-        $params['body']    = trim($params['body'])."\n";
+        $params['body']    = trim($params['body']);
         $params['summary'] = trim($params['summary']);
         unset($params['save']);
         
@@ -133,17 +122,8 @@ class WikiController extends ApplicationController
             return false;
         }
         
-        /* Set file names. */
-        $fileOld = '/tmp/'.Zend_Session::getId().'_wiki_old_'.$page->title;
-        $fileNew = '/tmp/'.Zend_Session::getId().'_wiki_new_'.$page->title;
-        
-        /* Store file contents and generate the diff. */
-        file_put_contents($fileOld, $page->body);
-        file_put_contents($fileNew, $params['body']);
-        $diff = shell_exec("diff --normal --strip-trailing-cr {$fileOld} {$fileNew}");
-        
         /* If there's no diff, alert and fail back to viewing the page. */
-        if ($diff == '') {
+        if ($params['body'] == $page->body) {
             $this->_helper->flashMessenger->addMessage("No Change. Page Unmodified.");
             $this->_redirect("/{$page->title}");
             return true;
@@ -158,7 +138,7 @@ class WikiController extends ApplicationController
             'userId'    => $this->user['userId'],
             'timestamp' => date('Y-m-d H:i:s'),
             'summary'   => $params['summary'],
-            'diff'      => $diff));
+            'body'      => $params['body']));
         
         /* Update page record with new data. */
         $page->pageRevisionId = $pageRevId;
@@ -202,5 +182,40 @@ class WikiController extends ApplicationController
         if ($query->rowCount() > 0) {
         	$this->view->history = $query->fetchAll();
         }
+    }
+    
+    public function revisionAction()
+    {
+    	$pageName = $this->_request->getParam('page');
+    	$pageRevisionId = $this->_request->getParam('pageRevisionId');
+    	
+    	/* Check if the page exists, otherwise render non-existent page */
+    	$pagesModel = new Pages();
+    	$page = $pagesModel->fetchRow("title='{$pageName}'");
+    	
+    	if (!$page) {
+    		$this->view->page = $pageName;
+    		$this->render('index/non-existent');
+    		return false;
+    	}
+    	
+    	/* Get revision and it's previous history. */
+    	$db = Zend_Registry::get('db');
+    	$query = $db->query(
+            "SELECT * FROM page_revisions "
+          . "WHERE pageRevisionId='{$pageRevisionId}'");
+        $pageRevision = $query->fetch();
+
+        $query = $db->query(
+            "SELECT * FROM page_revisions "
+          . "WHERE pageId='{$page->pageId}' "
+          . "AND timestamp < '{$pageRevision['timestamp']}' "
+          . "ORDER BY timestamp DESC "
+          . "LIMIT 1");
+        $prevRevision = $query->fetch();
+        
+        $this->view->page = $page;
+        $this->view->pageRevision = $pageRevision;
+        $this->view->prevRevision = $prevRevision;
     }
 }

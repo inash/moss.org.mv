@@ -12,11 +12,16 @@
 
 abstract class DefaultController extends Zend_Controller_Action
 {
+	protected $config;
+	
 	public function preDispatch()
 	{
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->headTitle()->setSeparator(' - ');
 		$this->view->headTitle('MOSS', 'SET');
+		
+		/* Set config to local protected $config. */
+		$this->config = Zend_Registry::get('config');
 		
 		/* Assign user session namespace to the layout view. */
 		$userns = new Zend_Session_Namespace('user');

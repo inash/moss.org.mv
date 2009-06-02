@@ -54,7 +54,10 @@ class LoginController extends ApplicationController
 
         /* Get user record. Actual authentication action. */
         $usersModel = new Users();
-        $user = $usersModel->fetchRow("email='{$email}' AND password='{$password}'");
+        $user = $usersModel->fetchRow(
+            "email='{$email}' "
+          . "AND password='{$password}' "
+          . "AND active='Y'");
 
         /* If authentication failed, redisplay login page with error message. */
         if (!$user) {
@@ -78,7 +81,7 @@ class LoginController extends ApplicationController
         /* Redirect to auth referer and remove from session. */
         $authReferer = $userns->auth_referer; 
         $authReferer = trim($authReferer, $this->_request->getBaseUrl());
-        if ($authReferer == 'login') $authReferer = 'Front';
+        if ($authReferer == 'login' || $authReferer == 'register') $authReferer = 'Front';
         unset($userns->auth_referer);
         $this->_redirect($authReferer);
     }

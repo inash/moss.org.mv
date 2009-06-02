@@ -41,6 +41,7 @@ Zend_Session::start();
 
 /* Initialize configuration. */
 $config = new Zend_Config_Ini('config.ini', 'staging');
+Zend_Registry::set('config', $config);
 
 /* Initialize database connection. */
 $db = Zend_Db::factory($config->database);
@@ -53,6 +54,14 @@ $front->addModuleDirectory('../application');
 $front->throwExceptions(true);
 $front->setBaseUrl('/moss/');
 $front->setParam('useDefaultControllerAlways', true);
+
+/* Custom routes. */
+$router = $front->getRouter();
+$router->addRoute('activate',
+    new Zend_Controller_Router_Route('activate/:hash', array(
+        'module'     => 'default',
+        'controller' => 'register',
+        'action'     => 'activate')));
 
 /* Start layout for view. */
 $layout = Zend_Layout::startMvc();
