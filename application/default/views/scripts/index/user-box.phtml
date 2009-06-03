@@ -11,7 +11,13 @@
 
 <div id="user-box">
     <div id="sb-ub-i">
-        <img src="http://www.gravatar.com/avatar/cdccdf1d39e459c238c2824fb860be8e?s=30&d=http%3A%2F%2Fgithub.com%2Fimages%2Fgravatars%2Fgravatar-30.png" width="30" height="30" border="0" />
+        <?php
+        $email = $this->userns->email;
+        $size  = 30;
+        $default = 'http://github.com/images/gravatars/gravatar-30.png';
+        $gravUrl = 'http://www.gravatar.com/avatar.php?gravatar_id='.md5(strtolower($email)).'&default='.$default.'&size='.$size;
+        ?>
+        <img src="<?php echo $gravUrl ?>" width="30" height="30" border="0" />
     </div>
     <div id="sb-ub-c">
         <?php echo $this->userns->name ?><br />
