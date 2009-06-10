@@ -15,14 +15,40 @@
  */
 
 require_once 'DefaultController.php';
+require_once 'models/Users.php';
 require_once 'models/Pages.php';
 
 class IndexController extends DefaultController
 {
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        
+        /* Add the sidebar action to the stack to generate the sidebar for this
+         * controller. */
+        if ($this->_request->getModuleName()    == 'default'
+        && $this->_request->getControllerName() == 'index'
+        && $this->_request->getActionName()     != 'sidebar') {
+            
+	        /* If the user is an administrator, add the admin/index/sidebar to the
+	         * action stack to generate the default admin sidebar as well. */
+	        if ($this->user['authenticated'] == true
+	        && $this->user['class'] == 'Administrator') {
+	            $this->_helper->actionStack('sidebar', 'index', 'admin');
+            }
+            
+            $this->_helper->actionStack('sidebar', 'index', 'default');
+        }
+    }
+    
     /**
      * Static page handler. If a requested controller doesn't exist, the
      * application will route all the requests to the default controller's
      * index action, which renders wiki pages.
+     * 
+     * First check if a user exists with the provided parameter. If the user
+     * does not exist, proceed with fetching the wiki page. If the user exists,
+     * display the user profile page view.
      */
     public function indexAction()
     {
@@ -40,8 +66,21 @@ class IndexController extends DefaultController
         }
         
         /* Prepare extra parameters. */
-        $params = $nameParts;
-        unset($params[0], $params[1]);
+        $paramsN = $nameParts;
+        unset($paramsN[0], $paramsN[1]);
+        
+        /* Reindex $params which is used later below. */
+        foreach ($paramsN as $val) $params[] = $val;
+        
+        /* Check if a user profile with the id that matches the provided
+         * parameter exists in the users table. If the user does not exist, 
+         * proceed in displaying the wiki page below. */
+        $usersModel = new Users();
+        $user = $usersModel->find($nameParts[0])->current();
+        if ($user) {
+            $this->_forward('index', 'profile', 'default', $user->toArray());
+            return true;
+        }
         
         /* Set $pageName. */
         $pageName = $nameParts[0];
@@ -84,7 +123,7 @@ class IndexController extends DefaultController
                 case 'revision':
                     $this->_forward('revision', 'wiki', 'default', array(
                         'page' => $pageName,
-                        'pageRevisionId' => $params[2]));
+                        'pageRevisionId' => $params[0]));
                     break;
                 
                 /* Generic viewing of the page. */
@@ -102,7 +141,7 @@ class IndexController extends DefaultController
      */
     public function sidebarAction()
     {
-    	// TODO: complete auto sidebar feature.
-        echo $this->render();
+        // TODO: complete auto sidebar feature.
+        $this->_helper->viewRenderer->setResponseSegment('sidebar');
     }
 }

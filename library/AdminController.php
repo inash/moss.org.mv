@@ -12,10 +12,12 @@
  * @version $Id$
  */
 
+require_once 'ApplicationController.php';
+
 abstract class AdminController extends ApplicationController
 {
 	public function preDispatch()
 	{
-		parent::preDispatch();
+    	parent::preDispatch();
 	}
 }

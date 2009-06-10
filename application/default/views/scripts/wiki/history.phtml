@@ -29,7 +29,7 @@ $this->headTitle($this->page->title);
             <?php foreach ($this->history as $cnt => $history): ?>
             <tr<?php if ($this->page->pageRevisionId == $history['pageRevisionId']): ?> class="highlight"<?php endif; ?>>
                 <td width="22">
-	                <?php if ($this->userns->authenticated): ?>
+	                <?php if ($this->user['authenticated']): ?>
 	                <input type="radio" name="revertTo" value="<?php echo $history['pageRevisionId'] ?>" />
 	                <?php endif; ?>
 	            </td>
@@ -50,7 +50,7 @@ $this->headTitle($this->page->title);
             </tr>
             <?php endforeach; ?>
         </tbody>
-        <?php if ($this->userns->authenticated): ?>
+        <?php if ($this->user['authenticated']): ?>
         <tfoot>
             <tr>
                 <td colspan="4">

@@ -36,12 +36,12 @@ ini_set('display_errors', true);
 ini_set('log_errors', false);
 ini_set('error_log', 'php-errors.txt');
 
-/* Start session management. */
-Zend_Session::start();
-
 /* Initialize configuration. */
 $config = new Zend_Config_Ini('config.ini', 'staging');
 Zend_Registry::set('config', $config);
+
+/* Start session management. */
+Zend_Session::start();
 
 /* Initialize database connection. */
 $db = Zend_Db::factory($config->database);
@@ -50,9 +50,9 @@ Zend_Db_Table_Abstract::setDefaultAdapter($db);
 
 /* Initialize the front controller. */
 $front = Zend_Controller_Front::getInstance();
-$front->addModuleDirectory('../application');
-$front->throwExceptions(true);
-$front->setBaseUrl('/moss/');
+$front->addModuleDirectory($config->app->path->application);
+$front->throwExceptions($config->app->exceptions);
+$front->setBaseUrl($config->app->baseUrl);
 $front->setParam('useDefaultControllerAlways', true);
 
 /* Custom routes. */
@@ -65,7 +65,7 @@ $router->addRoute('activate',
 
 /* Start layout for view. */
 $layout = Zend_Layout::startMvc();
-$layout->setLayoutPath('../application/layouts/');
+$layout->setLayoutPath($config->app->path->layouts);
 
 try {
 	$front->dispatch();

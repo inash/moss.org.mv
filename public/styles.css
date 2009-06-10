@@ -141,9 +141,10 @@ form input.full-width {
 
 /* Classes. */
 .ul {
-	list-style-type: lower-greek;
+	list-style-type: disc;
     list-style-position: inside;
     padding-left: 0px;
+    color: #AA0000;
 }
 .required {
 	color: #AA0000;
@@ -203,6 +204,22 @@ form input.full-width {
 #main #body #content #wiki-info-box ul li {
 	display: inline;
 	margin-left: 5px;
+}
+
+#main #body #content #profile {
+	margin-bottom: 20px;
+}
+#main #body #content #profile #avatar {
+	float: left;
+}
+#main #body #content #profile #avatar img {
+	border: 1px solid #aaa;
+    padding: 2px;
+    background-color: #fff;
+}
+#main #body #content #profile #name {
+	float: left;
+	margin-left: 10px;
 }
 
 #main #body #content #wiki-index {

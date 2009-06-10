@@ -147,6 +147,15 @@ class WikiController extends ApplicationController
         $page->body = $params['body'];
         $page->save();
         
+        /* Add log entry regarding new page revision. */
+        $this->log->insert(array(
+            'entity'    => 'page_revisions',
+            'entityId'  => $pageRevId,
+            'timestamp' => date('Y-m-d H:i:s'),
+            'code'      => 'new',
+            'message'   => "new page revision created for page [{$page->pageId}] {$page->title}",
+            'userId'    => $this->user['userId']));
+        
         /* Add flash message and redirect to view page. */
         $this->_helper->flashMessenger->addMessage("Page Successfully Updated!");
         $this->_redirect("/{$page->title}");

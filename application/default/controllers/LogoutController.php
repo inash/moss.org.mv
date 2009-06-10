@@ -9,12 +9,15 @@
  * @created Sun May 31, 2009 06:59 AM
  */
 
-require_once 'ApplicationController.php';
+require_once 'DefaultController.php';
 
-class LogoutController extends ApplicationController
+class LogoutController extends DefaultController
 {
+	public function preDispatch() {}
+	
     public function indexAction()
     {
+    	Zend_Session::destroy(true);
         session_destroy();
         $this->_redirect('/');
     }

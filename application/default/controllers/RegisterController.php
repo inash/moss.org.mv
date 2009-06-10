@@ -131,6 +131,15 @@ class RegisterController extends DefaultController
             exit;
         }
         
+        /* Add log entry indicating registration of new user. */
+        $this->log->insert(array(
+            'entity'    => 'users',
+            'entityId'  => $userId,
+            'timestamp' => date('Y-m-d H:i:s'),
+            'code'      => 'register',
+            'message'   => "new user registered [{$userId}] {$params['name']}",
+            'userId'    => $userId));
+        
         /* Calculate hash for new user. */
         $hash = $params['userId'].$params['name'].$params['email'].date('Y-m-d H:i:s');
         $hash = md5($hash);
@@ -153,7 +162,6 @@ class RegisterController extends DefaultController
         $this->view->params = $params;
         $body = $this->view->render('register/mail.register.phtml');
         $mail->setBodyText($body);
-//        $mail->send(new Zend_Mail_Transport_Sendmail());
         $mail->send(new Zend_Mail_Transport_Smtp($this->config->mail->server));
         
         $this->_redirect('/register/complete');
@@ -183,6 +191,15 @@ class RegisterController extends DefaultController
         $user = $record->findParentRow('Users');
         $user->active = 'Y';
         $user->save();
+        
+        /* Add log entry indicating activation of user account. */
+        $this->log->insert(array(
+            'entity'    => 'users',
+            'entityId'  => $user->userId,
+            'timestamp' => date('Y-m-d H:i:s'),
+            'code'      => 'activate',
+            'message'   => "user account activated [{$user->userId}] {$user->name}",
+            'userId'    => $user->userId));
         
         /* Delete new user record from users_new table. */
         $record->delete();

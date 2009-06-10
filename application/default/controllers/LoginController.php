@@ -12,6 +12,15 @@ require_once 'Users.php';
 
 class LoginController extends ApplicationController
 {
+	public function preDispatch()
+	{
+		parent::preDispatch();
+		
+		/* Add default/index/sidebar action to the stack to add the default
+		 * sidebar to the layout. */
+		$this->_helper->actionStack('sidebar', 'index');
+	}
+	
     public function indexAction()
     {
         /* If already authenticated, redirect to referer otherwise home page. */
@@ -68,10 +77,10 @@ class LoginController extends ApplicationController
         /* Update user session namespace with authentication information. */
         $userns = new Zend_Session_Namespace('user');
         $userns->authenticated = true;
-        
         $userns->userId = $user->userId;
         $userns->email  = $email;
         $userns->name   = $user->name;
+        $userns->class  = $user->class;
         
         /* Update login information on user record. */
         $user->dateLastLogin = date('Y-m-d H:i:s');

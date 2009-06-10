@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * Display a selected users profile information. Just the basic information.
+ * Based on the user preferences, some of the information has to be hidden.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Sun Jun 7, 2009 07:32 AM
+ */
+
+?>
+
+<div id="profile">
+    <div id="avatar">
+        <?php 
+        $config = Zend_Registry::get('config');
+        $email = $this->profile['email'];
+        $size  = 50;
+        $default = "http://{$config->app->hostname}{$this->baseUrl}/pix/gravatar-50.png";
+        $gravUrl = 'http://www.gravatar.com/avatar.php?gravatar_id='.md5(strtolower($email)).'&default='.$default.'&size='.$size;        
+        ?>
+        <img src="<?php echo $gravUrl ?>" border="0" width="50" height="50" />
+    </div>
+    <div id="name"><h1><?php echo ($this->profile['name'] != '') ? $this->profile['name'] : $this->profile['userId'] ?></h1></div>
+    <div style="clear: both;"></div>
+</div>

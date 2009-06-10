@@ -9,13 +9,13 @@
 
 ?>
 
-<?php if ($this->userns->authenticated == false): ?>
+<?php if ($this->user['authenticated'] == false): ?>
 <div id="user-box">
     Member <a href="<?php echo $this->baseUrl ?>/login">Login</a> /
     <a href="<?php echo $this->baseUrl ?>/register">Register</a>
 </div>
 <?php else: ?>
-<?php echo $this->render('index/user-box.phtml') ?>
+<?php echo $this->render('index/sidebar.userbox.phtml') ?>
 <?php endif; ?>
 
 <div id="search">
