@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * Unauthorized view. Display if an authenticated member tries to access an
+ * administrative page which is secured by the class 'Administrator'. 
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Wed Jun 10, 2009 04:49 PM
+ */
+
+$this->headTitle('Unauthorized');
+
+?>
+
+<h1>Unauthorized</h1>
+
+<p>Sorry. The page you're trying to access is unauthorized!</p>
+
+<p><a href="javascript:window.history.go(-1)">Return</a> back to where you were
+or go back to <a href="<?php echo $this->baseUrl ?>/Front">Home</a> page.</p>

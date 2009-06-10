@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * Paginator control template file for the Zend_Paginator.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Wed Jun 10, 2009 03:51 PM
+ */
+
+?>
+
+<?php if ($this->pageCount): ?>
+<div class="paginator">
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+    <a href="<?php echo $this->url(array('page'=>$this->previous)) ?>">&lt; Previous</a> | 
+<?php else: ?>
+    <span class="disabled">&lt; Previous</span> | 
+<?php endif; ?>
+
+<!-- Numbered page links -->
+<?php foreach ($this->pagesInRange as $page): ?>
+    <?php if ($page != $this->current): ?>
+        <a href="<?php echo $this->url(array('page'=>$page)) ?>"><?php echo $page ?></a> | 
+    <?php else: ?>
+        <?php echo $page ?> | 
+    <?php endif ?>
+<?php endforeach; ?>
+
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+    <a href="<?php echo $this->url(array('page'=>$this->next)) ?>">Next &gt;</a>
+<?php else: ?>
+    <span class="disabled">Next &gt;</span>
+<?php endif; ?>
+</div>
+<?php endif; ?>

@@ -20,27 +20,6 @@ require_once 'models/Pages.php';
 
 class IndexController extends DefaultController
 {
-    public function preDispatch()
-    {
-        parent::preDispatch();
-        
-        /* Add the sidebar action to the stack to generate the sidebar for this
-         * controller. */
-        if ($this->_request->getModuleName()    == 'default'
-        && $this->_request->getControllerName() == 'index'
-        && $this->_request->getActionName()     != 'sidebar') {
-            
-	        /* If the user is an administrator, add the admin/index/sidebar to the
-	         * action stack to generate the default admin sidebar as well. */
-	        if ($this->user['authenticated'] == true
-	        && $this->user['class'] == 'Administrator') {
-	            $this->_helper->actionStack('sidebar', 'index', 'admin');
-            }
-            
-            $this->_helper->actionStack('sidebar', 'index', 'default');
-        }
-    }
-    
     /**
      * Static page handler. If a requested controller doesn't exist, the
      * application will route all the requests to the default controller's

@@ -50,7 +50,12 @@ echo $this->doctype('XHTML1_STRICT')
             <?php endif; ?>
             <?php echo $this->layout()->content ?>
         </div>
-        <div id="sidebar"><?php echo $this->layout()->sidebar ?></div>
+        <div id="sidebar">
+        <?php echo $this->action('sidebar', 'index', 'default') ?>
+        <?php if ($this->user['class'] == 'Administrator'): ?>
+            <?php echo $this->action('sidebar', 'index', 'admin') ?>
+        <?php endif; ?>
+        </div>
         <div style="clear: both;"></div>
     </div>
 </div>

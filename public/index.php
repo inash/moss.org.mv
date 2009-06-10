@@ -63,6 +63,12 @@ $router->addRoute('activate',
         'controller' => 'register',
         'action'     => 'activate')));
 
+$router->addRoute('admin',
+    new Zend_Controller_Router_Route('admin/:action', array(
+        'module'     => 'admin',
+        'controller' => 'index',
+        'action'     => 'activity')));
+
 /* Start layout for view. */
 $layout = Zend_Layout::startMvc();
 $layout->setLayoutPath($config->app->path->layouts);

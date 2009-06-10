@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * View to display the recent activity on the site from the logs table in the
+ * database.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Wed Jun 10, 2009 03:50 PM
+ */
+
+$this->headTitle('Recent Activity');
+
+?>
+
+<h1>Recent Activity</h1>
+
+<form>
+    <table border="0" cellspacing="0" cellpadding="4" class="border" width="640">
+        <?php foreach ($this->paginator->getCurrentItems() as $item): ?>
+        <tr>
+            <td>
+                <?php echo date('r', strtotime($item['timestamp'])) ?><br />
+                <?php echo $item['code'] ?>
+                <?php echo $item['entity'] ?>:<?php echo $item['entityId'] ?> by
+                <?php echo $item['userId'] ?><br />
+                <?php echo $item['message'] ?>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+</form>
+
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'index/paginator.phtml') ?>
