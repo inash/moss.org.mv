@@ -28,17 +28,24 @@ require_once 'Zend/Db/Table/Abstract.php';
 require_once 'Zend/Loader.php';
 require_once 'Zend/Registry.php';
 
+/* Initialize configuration. */
+$config = new Zend_Config_Ini('config.ini', 'staging');
+Zend_Registry::set('config', $config);
+
 /* Set error reporting to all. This is for debugging purposes. Hosted
  * configuration must set the additional ini option display_errors to false and
  * enable logging to a file. */
 error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('log_errors', false);
 ini_set('error_log', 'php-errors.txt');
+if ($config->app->exceptions == true) {
+    ini_set('display_errors', true);
+    ini_set('log_errors', false);
+} else {
+    ini_set('display_errors', false);
+    ini_set('log_errors', true);
+}
 
-/* Initialize configuration. */
-$config = new Zend_Config_Ini('config.ini', 'staging');
-Zend_Registry::set('config', $config);
+date_default_timezone_set($config->timezone);
 
 /* Start session management. */
 Zend_Session::start();
@@ -71,7 +78,7 @@ $router->addRoute('admin',
 
 /* Start layout for view. */
 $layout = Zend_Layout::startMvc();
-$layout->setLayoutPath($config->app->path->layouts);
+$layout->setLayoutPath($config->app->path->application.'/layouts');
 
 try {
 	$front->dispatch();

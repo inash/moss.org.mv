@@ -6,11 +6,12 @@
  * @author  Inash Zubair <inash@leptone.com>
  * @created Mon Jun 01, 2009 12:55 PM
  */
+
 ?>
 
 <div id="wiki-info-box-footer">
     Page Last Modified By
     <a href="<?php echo $this->baseUrl ?>/<?php echo $this->page->modifiedBy ?>">
     <?php echo $this->page->findParentRow('Users', 'ModifiedBy')->name ?></a>
-    on <?php echo date('D M d, Y H:i A T') ?>
+    on <?php echo date('r', strtotime($this->page->dateModified)) ?>
 </div>

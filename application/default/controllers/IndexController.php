@@ -57,7 +57,8 @@ class IndexController extends DefaultController
         $usersModel = new Users();
         $user = $usersModel->find($nameParts[0])->current();
         if ($user) {
-            $this->_forward('index', 'profile', 'default', $user->toArray());
+            if (!$operation) $operation = 'index';
+            $this->_forward($operation, 'profile', 'default');
             return true;
         }
         
@@ -122,5 +123,11 @@ class IndexController extends DefaultController
     {
         // TODO: complete auto sidebar feature.
         $this->_helper->viewRenderer->setResponseSegment('sidebar');
+    }
+    
+    public function debugAction()
+    {
+        Zend_Debug::dump($_SESSION);
+        exit;
     }
 }

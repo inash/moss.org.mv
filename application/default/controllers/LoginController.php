@@ -12,15 +12,15 @@ require_once 'Users.php';
 
 class LoginController extends ApplicationController
 {
-	public function preDispatch()
-	{
-		parent::preDispatch();
-		
-		/* Add default/index/sidebar action to the stack to add the default
-		 * sidebar to the layout. */
-		$this->_helper->actionStack('sidebar', 'index');
-	}
-	
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        
+        /* Add default/index/sidebar action to the stack to add the default
+         * sidebar to the layout. */
+        $this->_helper->actionStack('sidebar', 'index');
+    }
+    
     public function indexAction()
     {
         /* If already authenticated, redirect to referer otherwise home page. */
@@ -51,12 +51,12 @@ class LoginController extends ApplicationController
      */
     public function loginAction()
     {
-    	/* Disable view rendering and layout as they are not required for
-    	 * this action. */
-    	$this->_helper->viewRenderer->setNoRender();
-    	$this->_helper->layout->disableLayout();
-    	
-    	/* Get auth parameters and filter them. */
+        /* Disable view rendering and layout as they are not required for
+         * this action. */
+        $this->_helper->viewRenderer->setNoRender();
+        $this->_helper->layout->disableLayout();
+        
+        /* Get auth parameters and filter them. */
         $email = $this->_request->getPost('email');
         $password = $this->_request->getPost('password');
         $password = md5($password);
@@ -70,8 +70,10 @@ class LoginController extends ApplicationController
 
         /* If authentication failed, redisplay login page with error message. */
         if (!$user) {
-        	echo 'auth failed.';
-        	exit;
+            $this->_helper->flashMessenger->addMessage(
+                'Authentication failed!');
+            $this->_redirect('/login');
+            return false;
         }
         
         /* Update user session namespace with authentication information. */

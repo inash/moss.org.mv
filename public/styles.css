@@ -137,6 +137,10 @@ form table tbody tr.error td {
 	color: #AA0000;
 	font-style: oblique;
 }
+form table tbody tr.title td {
+	border-bottom: 1px solid #999;
+	text-align: center;
+}
 
 /* Form customer classes. */
 form input.full-width {

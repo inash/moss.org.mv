@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * Users' profile settings page. This view shows the user profile modification
+ * form fields. Allows the user to modify his profile settings and change
+ * password, etc.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Wed Jul 22, 2009  02:47 AM
+ */
+
+$this->headTitle($this->user['name']);
+$this->headTitle('Settings');
+
+?>
+
+<?php echo $this->render('profile/header.phtml') ?>
+
+<?php if (isset($this->rmessages) && count($this->rmessages) > 0): ?>
+<p class="error">Please correct the errors below!</p>
+<?php endif; ?>
+
+<form method="post" action="<?php echo $this->baseUrl ?>/inash/settings">
+    <table border="0" cellspacing="0" cellpadding="4" class="table-border">
+        <?php if (isset($this->rmessages['userId'])) echo $this->partial('index/form-error.phtml', array('message'=>$this->rmessages['userId'])) ?>
+        <tr>
+            <th>Username:</th>
+            <td><?php echo $this->formHidden('userId', $this->profile['userId'], array('size'=>30))?><?php echo $this->profile['userId'] ?></td>
+        </tr>
+        <?php if (isset($this->rmessages['name'])) echo $this->partial('index/form-error.phtml', array('message'=>$this->rmessages['name'])) ?>
+        <tr>
+            <th>Name:</th>
+            <td><?php echo $this->formText('name', $this->profile['name'], array('size'=>30))?></td>
+        </tr>
+        <?php if (isset($this->rmessages['email'])) echo $this->partial('index/form-error.phtml', array('message'=>$this->rmessages['email'])) ?>
+        <tr>
+            <th>Email:</th>
+            <td><?php echo $this->formText('email', $this->profile['email'], array('size'=>30))?></td>
+        </tr>
+        <?php if (isset($this->rmessages['nPassword'])) echo $this->partial('index/form-error.phtml', array('message'=>$this->rmessages['nPassword'])) ?>
+        <tr>
+            <th>Change Password:</th>
+            <td><?php echo $this->formPassword('nPassword')?></td>
+        </tr>
+        <?php if (isset($this->rmessages['cnPassword'])) echo $this->partial('index/form-error.phtml', array('message'=>$this->rmessages['cnPassword'])) ?>
+        <tr>
+            <th>Confirm Password:</th>
+            <td><?php echo $this->formPassword('cnPassword')?></td>
+        </tr>
+        <tr class="blank"><td colspan="2">&nbsp;</td></tr>
+        
+        <tr class="title">
+            <td colspan="2">
+                Current Password required to verify modifications.
+            </td>
+        </tr>
+        <?php if (isset($this->rmessages['password'])) echo $this->partial('index/form-error.phtml', array('message'=>$this->rmessages['password'])) ?>
+        <tr>
+            <th>Password:</th>
+            <td><?php echo $this->formPassword('password') ?></td>
+        </tr>
+        <tfoot>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <?php echo $this->formSubmit('update', 'Update') ?>
+                    <?php echo $this->formReset('reset', 'Reset') ?>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>

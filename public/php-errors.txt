@@ -1,8 +1,1 @@
-[31-May-2009 16:42:34] PHP Fatal error:  Uncaught exception 'Exception' with message 'Helo' in /home/inash/Workspace/moss.org.mv/public/index.php:37
-Stack trace:
-#0 {main}
-  thrown in /home/inash/Workspace/moss.org.mv/public/index.php on line 37
-[31-May-2009 16:42:46] PHP Fatal error:  Uncaught exception 'Exception' with message 'Helo' in /home/inash/Workspace/moss.org.mv/public/index.php:37
-Stack trace:
-#0 {main}
-  thrown in /home/inash/Workspace/moss.org.mv/public/index.php on line 37
+
