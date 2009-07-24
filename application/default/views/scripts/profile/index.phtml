@@ -12,4 +12,4 @@ $this->headTitle($this->profile['name']);
 
 ?>
 
-<?php echo $this->render('profile/header.phtml') ?>
+<?php echo $this->partial('profile/header.phtml', array('user'=>$this->profile)) ?>

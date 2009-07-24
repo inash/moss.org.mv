@@ -22,6 +22,13 @@ abstract class DefaultController extends Zend_Controller_Action
     protected $config;
     
     /**
+     * Default Zend_Db database adapter resource.
+     * 
+     * @var Zend_Db
+     */
+    protected $db;
+    
+    /**
      * Holds a reference to the Logs model. Which allows to quickly insert
      * log entries to the logs database table.
      * 
@@ -54,6 +61,9 @@ abstract class DefaultController extends Zend_Controller_Action
         
         /* Set config to local protected $config. */
         $this->config = Zend_Registry::get('config');
+        
+        /* Set the default database adapter to the local protected db. */
+        $this->db = Zend_Registry::get('db');
         
         /* Set logs protected property with an instance of the Logs model. */
         $this->log = new Logs();

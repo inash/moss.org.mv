@@ -16,19 +16,19 @@ $this->headTitle('History');
 
 <h1>Page History</h1>
 <form>
-    <table border="0" cellspacing="0" cellpadding="4" id="tbl-wiki-history" class="border" width="640">
+    <table border="0" cellspacing="0" cellpadding="4" id="tbl-wiki-history" class="border mini" width="640">
         <thead>
             <tr>
-                <th>&nbsp;</th>
-                <th>Timestamp</th>
-                <th>User</th>
+                <th width="14">&nbsp;</th>
+                <th width="170">Timestamp</th>
+                <th width="80">User</th>
                 <th>Summary</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($this->history as $cnt => $history): ?>
             <tr<?php if ($this->page->pageRevisionId == $history['pageRevisionId']): ?> class="highlight"<?php endif; ?>>
-                <td width="22">
+                <td>
 	                <?php if ($this->user['authenticated']): ?>
 	                <input type="radio" name="revertTo" value="<?php echo $history['pageRevisionId'] ?>" />
 	                <?php endif; ?>
@@ -45,7 +45,7 @@ $this->headTitle('History');
                     (Current)
                     <?php endif; ?>
                 </td>
-                <td><a href="<?php echo $this->baseUrl.'/'.$history['userId'] ?>"><?php echo $history['name'] ?></a></td>
+                <td><a href="<?php echo $this->baseUrl.'/'.$history['userId'] ?>"><?php echo $history['userId'] ?></a></td>
                 <td><?php echo $history['summary'] ?></td>
             </tr>
             <?php endforeach; ?>

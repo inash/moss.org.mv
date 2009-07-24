@@ -33,7 +33,7 @@ a short summary of your modifications, usually an indication of several words.</
             </tr>
             <tr>
                 <td colspan="2">
-                    <textarea name="body" class="ta-editor"><?php echo $this->page->body ?></textarea>
+                    <textarea name="body" class="ta-editor"><?php echo stripslashes($this->page->body) ?></textarea>
                 </td>
             </tr>
             <tr>

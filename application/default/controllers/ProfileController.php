@@ -18,7 +18,18 @@ class ProfileController extends DefaultController
 {
     public function indexAction()
     {
-        //
+        $userId = $this->_request->getParam('controller');
+        $usersModel = new Users();
+        $profile = $usersModel->find($userId)->current();
+        
+        if (!$profile) {
+            echo "Invalid user profile!";
+            exit;
+        }
+        
+        $profile = $profile->toArray();
+        unset($profile['password']);
+        $this->view->profile = $profile;
     }
     
     /**
@@ -32,6 +43,13 @@ class ProfileController extends DefaultController
      */
     public function settingsAction()
     {
+        /* Check if user authenticated. Otherwise redirect to login. */
+        $userNs = new Zend_Session_Namespace('user');
+        if (!$userNs->authenticated) {
+            $this->_redirect('/login');
+            return false;
+        }
+        
         /* Get the currently logged in user's record and assign it to the view.
          * This is required for both operations, displaying and processing. */
         $usersModel = new Users();

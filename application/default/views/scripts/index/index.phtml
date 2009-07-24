@@ -13,9 +13,10 @@ $this->headTitle($this->page->title);
 ?>
 
 <?php echo $this->render('wiki/header.phtml') ?>
+
 <?php 
 
-$html = markdown($this->page->body);
+$html = markdown(stripslashes($this->page->body));
 preg_match_all("/(<h[0-6]+>)(.*)(<\/h[0-6]+>)/", $html, $matches, PREG_SET_ORDER);
 
 function mtabify($matches) {
@@ -39,9 +40,10 @@ function mtabify($matches) {
 }
 
 $list = mtabify($matches);
+/*<div id="wiki-index"><?php echo $list ?></div> */
 
 ?>
-<div id="wiki-index"><?php echo $list ?></div>
+
 <div id="wiki"><?php echo $html ?></div>
 
 <?php echo $this->render('wiki/footer.phtml') ?>

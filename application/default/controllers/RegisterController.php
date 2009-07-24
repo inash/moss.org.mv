@@ -156,7 +156,7 @@ class RegisterController extends DefaultController
         $mail = new Zend_Mail();
         $mail->addTo($params['email'], $params['name']);
         $mail->setSubject("MOSS registration: Activate your account");
-        $mail->setFrom("no-reply@moss.org.mv", "MOSS");
+        $mail->setFrom("noreply@moss.org.mv", "MOSS");
         
         /* Prepare mail body. */
         $params['hash'] = $hash;

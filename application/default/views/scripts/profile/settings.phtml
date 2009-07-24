@@ -14,7 +14,11 @@ $this->headTitle('Settings');
 
 ?>
 
-<?php echo $this->render('profile/header.phtml') ?>
+<?php echo $this->partial('profile/header.phtml', array('user'=>$this->user)) ?>
+
+<p>You profile avatar is automatically taken from
+<a href="http://gravatar.com">gravatar.com</a> which basically matches up with
+the email address you provide.</p>
 
 <?php if (isset($this->rmessages) && count($this->rmessages) > 0): ?>
 <p class="error">Please correct the errors below!</p>

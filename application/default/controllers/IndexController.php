@@ -109,6 +109,12 @@ class IndexController extends DefaultController
                 /* Generic viewing of the page. */
                 default:
                     $this->view->page = $page;
+                    
+                    /* Render page specific sidebar. */
+                    $paths = $this->view->getScriptPaths();
+                    $path = $paths[0];
+                    $file = strtolower($pageName);
+                    $this->_helper->actionStack('sidebar', 'index', 'default', array());
             }
         }
     }
@@ -117,11 +123,30 @@ class IndexController extends DefaultController
      * Renders the default sidebar.
      * 
      * This method is intelligent when you have a file same as the name of the
-     * requested page or action in the format: sidebar.pagename.phtml.
+     * requested page or action in the format: sidebar-pagename.phtml.
      */
     public function sidebarAction()
     {
+        $this->_helper->viewRenderer->setResponseSegment('sidebar');
         // TODO: complete auto sidebar feature.
+        
+        /* Render request specific sidebar. */
+        $page = strtolower($this->_request->getParam('controller'));
+        $path = $this->view->getScriptPaths();
+        $path = $path[0];
+        $fileName = "index/sidebar-{$page}.phtml";
+        $file = $path.$fileName;
+        if (file_exists($file)) $this->_forward("sidebar-{$page}");
+    }
+    
+    public function sidebarFrontAction()
+    {
+        $query = $this->db->query(
+            "SELECT userId, name, email FROM users "
+          . "WHERE active='Y' "
+          . "ORDER BY dateRegistered DESC "
+          . "LIMIT 5");
+        $this->view->recentlyJoined = $query->fetchAll();
         $this->_helper->viewRenderer->setResponseSegment('sidebar');
     }
     

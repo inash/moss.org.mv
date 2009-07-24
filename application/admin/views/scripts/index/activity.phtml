@@ -14,20 +14,26 @@ $this->headTitle('Recent Activity');
 
 <h1>Recent Activity</h1>
 
-<form>
-    <table border="0" cellspacing="0" cellpadding="4" class="border" width="640">
-        <?php foreach ($this->paginator->getCurrentItems() as $item): ?>
+<table border="0" cellspacing="0" cellpadding="4" class="border mini" width="640">
+    <thead>
         <tr>
-            <td>
-                <?php echo date('r', strtotime($item['timestamp'])) ?><br />
-                <?php echo $item['code'] ?>
-                <?php echo $item['entity'] ?>:<?php echo $item['entityId'] ?> by
-                <?php echo $item['userId'] ?><br />
-                <?php echo $item['message'] ?>
-            </td>
+            <th>Date</th>
+            <th>Module</th>
+            <th>Code</th>
+            <th>User</th>
+            <th>Message</th>
         </tr>
-        <?php endforeach; ?>
-    </table>
-</form>
+    </thead>
+    <?php foreach ($this->paginator->getCurrentItems() as $item): ?>
+    <tr>
+        <td><?php echo $item['timestamp'] ?></td>
+        <td><?php echo $item['entity'] ?>:<?php echo $item['entityId'] ?></td>
+        <td><?php echo $item['code'] ?></td>
+        <td><?php echo $item['userId'] ?></td>
+        <td><?php echo $item['message'] ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+<br />
 
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'index/paginator.phtml') ?>
