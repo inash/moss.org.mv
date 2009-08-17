@@ -5,7 +5,6 @@ body {
     font-size: 12px;
     color: #333;
     margin: 0px;
-    background-color: #e3e3e3;
 }
 
 h1 {
@@ -93,6 +92,7 @@ a:hover {
     font-size: 11px;
     color: #666;
     border-bottom: 2px groove #fff;
+    background-color: #e3e3e3;
 }
 #menu-bottom #links {
     margin: 0 auto;
@@ -111,6 +111,9 @@ a:hover {
     
 }
 #footer {
+	background-color: #e3e3e3;
+}
+#footer #text {
     font-size: 11px;
     color: #666;
     margin: 0 auto;
@@ -148,9 +151,22 @@ form table tbody tr.title td {
 	text-align: center;
 }
 
-/* Form customer classes. */
+/* Form custom classes. */
 form input.full-width {
 	width: 100%;
+}
+
+/* Zend_Form based tag styles .*/
+form dl dt {
+	float: left;
+	width: 15%;
+	text-align: right;
+	margin-top: 2px;
+	margin-right: 5px;
+	font-weight: bold;
+}
+form dl dd {
+	margin-bottom: 5px;
 }
 
 /* Classes. */

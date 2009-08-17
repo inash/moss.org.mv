@@ -9,9 +9,7 @@
  * @created Sun May 31, 2009 03:51 AM
  */
 
-require_once 'PageRevisions.php';
-
-class Pages extends Zend_Db_Table_Abstract
+class Default_Model_DbTable_Pages extends Zend_Db_Table_Abstract
 {
     protected $_name       = 'pages';
     protected $_primaryKey = 'pageId';
@@ -20,17 +18,17 @@ class Pages extends Zend_Db_Table_Abstract
     protected $_referenceMap    = array(
         'CreatedBy' => array(
             'columns'       => array('createdBy'),
-            'refTableClass' => 'Users',
+            'refTableClass' => 'Default_Model_DbTable_Users',
             'refColumns'    => array('userId')
         ),
         'ModifiedBy' => array(
             'columns'       => array('modifiedBy'),
-            'refTableClass' => 'Users',
+            'refTableClass' => 'Default_Model_DbTable_Users',
             'refColumns'    => array('userId')
         ),
         'Revision' => array(
             'columns'       => array('pageRevisionId'),
-            'refTableClass' => 'PageRevisions',
+            'refTableClass' => 'Default_Model_DbTable_PageRevisions',
             'refColumns'    => array('pageRevisionId')
         )
     );

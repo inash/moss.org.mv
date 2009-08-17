@@ -11,12 +11,29 @@
 
 /* Set include paths. */
 $includes = array(
-    '../application',
-    '../application/models',
-    '../library');
-set_include_path(get_include_path() . PATH_SEPARATOR . join(PATH_SEPARATOR, $includes));
+    realpath(dirname(__FILE__).'/../library'),
+    get_include_path());
+set_include_path(join(PATH_SEPARATOR, $includes));
+
+/* Define constants. */
+define('APP_PATH', realpath(dirname(__FILE__).'/../application').'/');
+define('APP_ENV', (getenv('APP_ENV') ? getenv('APP_ENV') : 'production'));
+define('PUB_PATH', dirname(__FILE__).'/');
 
 /* Include required library files. */
+require_once 'Zend/Application.php';
+
+$app = new Zend_Application(APP_ENV, APP_PATH.'configs/application.ini');
+$app->bootstrap();
+
+try {
+    $app->run();
+} catch (Exception $e) {
+	Zend_Debug::dump($e);
+}
+
+exit;
+
 require_once 'Zend/Controller/Front.php';
 require_once 'Zend/Controller/Action.php';
 require_once 'Zend/Session.php';

@@ -7,6 +7,7 @@
  * @created Mon May 25, 2009 05:14 AM
  */
 
+require_once 'DefaultController.php';
 require_once 'Zend/Mail.php';
 require_once 'Zend/Mail/Transport/Sendmail.php';
 
@@ -16,7 +17,8 @@ class ErrorController extends DefaultController
 	{
 		$errors = $this->_getParam('error_handler');
 		$this->view->errors = $errors;
-		
+		Zend_Debug::dump($errors);
+		exit;
 		/* Email to the administrator or webmaster. */
         $mail = new Zend_Mail();
         $mail->addTo('inash@leptone.com', 'Inash Zubair');

@@ -9,7 +9,6 @@
  */
 
 require_once 'ApplicationController.php';
-require_once 'Users.php';
 require_once 'Zend/Validate/Alnum.php';
 require_once 'Zend/Validate/EmailAddress.php';
 require_once 'Zend/Validate/StringLength.php';
@@ -19,7 +18,7 @@ class ProfileController extends DefaultController
     public function indexAction()
     {
         $userId = $this->_request->getParam('controller');
-        $usersModel = new Users();
+        $usersModel = new Default_Model_DbTable_Users();
         $profile = $usersModel->find($userId)->current();
         
         if (!$profile) {

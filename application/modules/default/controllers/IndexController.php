@@ -15,8 +15,6 @@
  */
 
 require_once 'DefaultController.php';
-require_once 'models/Users.php';
-require_once 'models/Pages.php';
 
 class IndexController extends DefaultController
 {
@@ -54,7 +52,7 @@ class IndexController extends DefaultController
         /* Check if a user profile with the id that matches the provided
          * parameter exists in the users table. If the user does not exist, 
          * proceed in displaying the wiki page below. */
-        $usersModel = new Users();
+        $usersModel = new Default_Model_DbTable_Users();
         $user = $usersModel->find($nameParts[0])->current();
         if ($user) {
             if (!$operation) $operation = 'index';
@@ -67,7 +65,7 @@ class IndexController extends DefaultController
         $pageName = ucwords($pageName);
 
         /* Search the pages table for the page. */
-        $pagesModel = new Pages();
+        $pagesModel = new Default_Model_DbTable_Pages();
         $page = $pagesModel->fetchRow("title='{$pageName}'");
         
         /* If the page does not exist, do one of the following depending on the
@@ -84,7 +82,7 @@ class IndexController extends DefaultController
                 
                 default:
                     $this->view->name = $pageName;
-                    $this->render('non-existent');
+                    $this->_forward('non-existent');
             }
             
         /* If the page does exist, do so below. By default it just displays the
@@ -114,9 +112,15 @@ class IndexController extends DefaultController
                     $paths = $this->view->getScriptPaths();
                     $path = $paths[0];
                     $file = strtolower($pageName);
-                    $this->_helper->actionStack('sidebar', 'index', 'default', array());
             }
         }
+        
+        $this->_helper->actionStack('sidebar');
+    }
+    
+    public function nonExistentAction()
+    {
+        //
     }
     
     /**
@@ -141,6 +145,7 @@ class IndexController extends DefaultController
     
     public function sidebarFrontAction()
     {
+    	$this->_helper->viewRenderer->setNoRender();
         $query = $this->db->query(
             "SELECT userId, name, email FROM users "
           . "WHERE active='Y' "

@@ -10,8 +10,6 @@
  * @created Mon May 25, 2009 05:58 AM
  */
 
-require_once 'Logs.php';
-
 abstract class DefaultController extends Zend_Controller_Action
 {
 	/**
@@ -60,13 +58,13 @@ abstract class DefaultController extends Zend_Controller_Action
         $this->view->headTitle('MOSS', 'SET');
         
         /* Set config to local protected $config. */
-        $this->config = Zend_Registry::get('config');
+//        $this->config = Zend_Registry::get('config');
         
         /* Set the default database adapter to the local protected db. */
-        $this->db = Zend_Registry::get('db');
+        $this->db = $this->getInvokeArg('bootstrap')->getResource('db');
         
         /* Set logs protected property with an instance of the Logs model. */
-        $this->log = new Logs();
+        $this->log = new Default_Model_DbTable_Logs();
         
         /* Assign user session namespace as an array to the protected
          * DefaultController property $user, which is described at this class's

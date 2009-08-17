@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Logs Model.
+ * Default Logs DbTable class. Encapsulates the database table logs within the
+ * Zend_Db_Table_Gateway.
  * 
  * This is the Active Record model for the logs table in the database.
  * 
@@ -9,7 +10,7 @@
  * @created Sun Jun 7, 2009 06:28 AM
  */
 
-class Logs extends Zend_Db_Table_Abstract
+class Default_Model_DbTable_Logs extends Zend_Db_Table_Abstract
 {
     protected $_name       = 'logs';
     protected $_primaryKey = 'logId';

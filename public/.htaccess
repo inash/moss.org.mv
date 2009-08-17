@@ -1,4 +1,7 @@
+SetEnv APP_ENV development
+
 RewriteEngine On
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
-RewriteRule ^(.*)$ /moss/index.php/$1
+RewriteRule ^.*$ /moss/index.php [NC,L]
+

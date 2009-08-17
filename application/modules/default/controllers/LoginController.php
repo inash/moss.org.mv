@@ -8,7 +8,6 @@
  */
 
 require_once 'ApplicationController.php';
-require_once 'Users.php';
 
 class LoginController extends ApplicationController
 {
@@ -62,7 +61,7 @@ class LoginController extends ApplicationController
         $password = md5($password);
 
         /* Get user record. Actual authentication action. */
-        $usersModel = new Users();
+        $usersModel = new Default_Model_DbTable_Users();
         $user = $usersModel->fetchRow(
             "email='{$email}' "
           . "AND password='{$password}' "
