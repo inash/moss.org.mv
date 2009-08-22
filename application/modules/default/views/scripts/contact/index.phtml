@@ -11,36 +11,12 @@
 
 <h1>Contact Us</h1>
 
-<form method="post" action="<?php echo $this->baseUrl ?>/contact">
-    <table border="0" cellspacing="0" cellpadding="4">
-        <tr>
-            <th width="80">Name:</th>
-            <td><input type="text" name="name" size="30" value="<?php echo $this->form['name'] ?>" /></td>
-        </tr>
-        <tr>
-            <th>Email:</th>
-            <td><input type="text" name="email" size="30" value="<?php echo $this->form['name'] ?>" /></td>
-        </tr>
-        <tr>
-            <th>Comments:</th>
-            <td><textarea name="comments" rows="5" cols="50"></textarea></td>
-        </tr>
-        <tr>
-            <th>Verify:</th>
-            <td>
-                <?php echo $this->captcha->render() ?>
-                <input type="hidden" name="captchaId" value="<?php echo $this->captcha->getId() ?>" />
-                <input type="text" name="captcha" />
-            </td>
-        </tr>
-        <tfoot>
-            <tr>
-                <td>&nbsp;</td>
-                <td>
-                    <input type="submit" name="submit" value="Submit" />
-                    <input type="reset" value="Reset" />
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-</form>
+<p>Thank you for your interest in contacting us. Fill in the form below with
+the required details and submit the form. We will get back to you soon.</p>
+
+<?php if ($this->form->isErrors()): ?>
+<div id="messages">There are errors in the Contact Us form. Please correct them
+and submit again.</div>
+<?php endif; ?>
+
+<?php echo $this->form->render() ?>

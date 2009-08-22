@@ -7,19 +7,8 @@
  * @created Sun May 31, 2009 06:11 AM
  */
 
-require_once 'ApplicationController.php';
-
-class LoginController extends ApplicationController
+class LoginController extends Pub_Controller_Action
 {
-    public function preDispatch()
-    {
-        parent::preDispatch();
-        
-        /* Add default/index/sidebar action to the stack to add the default
-         * sidebar to the layout. */
-        $this->_helper->actionStack('sidebar', 'index');
-    }
-    
     public function indexAction()
     {
         /* If already authenticated, redirect to referer otherwise home page. */
@@ -43,22 +32,30 @@ class LoginController extends ApplicationController
         if (!isset($userns->auth_referer)) {
             $userns->auth_referer = $userns->requestUri;
         }
+        
+        /* Set the Login form to the view. */
+        $form = new Default_Form_Login();
+        $this->view->form = $form;
     }
     
-    /**
-     * Do actual authentication here.
-     */
     public function loginAction()
     {
         /* Disable view rendering and layout as they are not required for
          * this action. */
         $this->_helper->viewRenderer->setNoRender();
-        $this->_helper->layout->disableLayout();
+        
+        /* Validate, if fails, show index view with errors. */
+        $form = new Default_Form_Login();
+        if (!$form->isValid($this->_request->getPost())) {
+        	$this->view->form = $form;
+        	$this->render('index');
+        	return false;
+        }
         
         /* Get auth parameters and filter them. */
-        $email = $this->_request->getPost('email');
-        $password = $this->_request->getPost('password');
-        $password = md5($password);
+        $fields   = $form->getValues();
+        $email    = $fields['email'];
+        $password = md5($fields['password']);
 
         /* Get user record. Actual authentication action. */
         $usersModel = new Default_Model_DbTable_Users();
@@ -69,24 +66,23 @@ class LoginController extends ApplicationController
 
         /* If authentication failed, redisplay login page with error message. */
         if (!$user) {
-            $this->_helper->flashMessenger->addMessage(
-                'Authentication failed!');
-            $this->_redirect('/login');
-            return false;
+        	$form->markAsError();
+        	$this->view->form = $form;
+        	$this->render('index');
+        	return false;
         }
         
         /* Update user session namespace with authentication information. */
         $userns = new Zend_Session_Namespace('user');
         $userns->authenticated = true;
-        $userns->userId = $user->userId;
-        $userns->email  = $email;
-        $userns->name   = $user->name;
-        $userns->class  = $user->class;
+        $userns->userId        = $user->userId;
+        $userns->email         = $email;
+        $userns->name          = $user->name;
+        $userns->primaryGroup  = $user->primaryGroup;
         
         /* Update login information on user record. */
         $user->dateLastLogin = date('Y-m-d H:i:s');
         $user->save();
-        
         
         /* Redirect to auth referer and remove from session. */
         $authReferer = $userns->auth_referer; 

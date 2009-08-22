@@ -8,12 +8,7 @@
  * @created Sun Jun 7, 2009 07:28 AM
  */
 
-require_once 'ApplicationController.php';
-require_once 'Zend/Validate/Alnum.php';
-require_once 'Zend/Validate/EmailAddress.php';
-require_once 'Zend/Validate/StringLength.php';
-
-class ProfileController extends DefaultController
+class ProfileController extends Pub_Controller_Action
 {
     public function indexAction()
     {
@@ -51,7 +46,7 @@ class ProfileController extends DefaultController
         
         /* Get the currently logged in user's record and assign it to the view.
          * This is required for both operations, displaying and processing. */
-        $usersModel = new Users();
+        $usersModel = new Default_Model_DbTable_Users();
         $user = $usersModel->find($this->user['userId'])->current();
         $this->view->profile = $user->toArray();
         

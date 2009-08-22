@@ -7,24 +7,18 @@
  * @created Sun May 31, 2009 10:18 AM
  */
 
-require_once 'DefaultController.php';
-require_once 'Zend/Validate/Alnum.php';
-require_once 'Zend/Validate/EmailAddress.php';
-require_once 'Zend/Validate/StringLength.php';
-require_once 'Zend/Mail.php';
-require_once 'Zend/Mail/Transport/Sendmail.php';
-require_once 'Zend/Mail/Transport/Smtp.php';
-require_once 'Users.php';
-require_once 'NewUsers.php';
-
-class RegisterController extends DefaultController
+class RegisterController extends Pub_Controller_Action
 {
     public function indexAction()
     {
         /* If a user is already authenticated redirect to referer. */
         $userns = new Zend_Session_Namespace('user');
         if ($userns->authenticated == true) {
-            $this->_redirect(trim($userns->requestUri, $this->_request->getBaseUrl()));
+        	if ($userns->requestUri != $this->_request->getBaseUrl.'login') {
+                $this->_redirect(trim($userns->requestUri, $this->_request->getBaseUrl()));
+        	} else {
+        		$this->_redirect('/');
+        	}
             return false;
         }
         
@@ -34,103 +28,68 @@ class RegisterController extends DefaultController
         if ($this->_request->isPost()) {
             $this->_forward('process');
         }
+        
+        /* Set the Register form to the view. */
+        $form = new Default_Form_Register();
+        $this->view->form = new Default_Form_Register();
     }
     
     public function processAction()
     {
-        /* Get all parameters and remote unnecessary fields. */
-        $params = $this->_request->getPost();
-        $params['userId'] = strtolower($params['userId']);
-        unset($params['register']);
-        
-        /* Do validation and filteration. */
-        $vAlnum = new Zend_Validate_Alnum();
-        $vEmail = new Zend_Validate_EmailAddress();
-        $vStringLength = new Zend_Validate_StringLength();
-        
-        /* Do userId validation. */
-        if (!$vAlnum->isValid($params['userId'])) {
-            $messages['userId'] = 'Username must only contain alpha-numeric characters!';
-        }
-        
-        $vStringLength->setMin(1);
-        $vStringLength->setMax(50);
-        if (!$vStringLength->isValid($params['userId'])) {
-            $messages['userId'] = 'Username cannot be longer than 50 characters!';
-        }
+        /* Process post form. */
+    	$form = new Default_Form_Register();
+    	if (!$form->isValid($this->_request->getPost())) {
+    		$this->view->form = $form;
+    		$this->render('index');
+    		return false;
+    	}
+    	
+    	/* Check if cpassword and password matches. */
+    	if ($form->getValue('password') != $form->getValue('cpassword')) {
+    		$cpassword = $form->getElement('cpassword');
+    		$cpassword->setErrors(array('Does not match with Password'));
+    		$form->markAsError();
+    	}
+    	
+    	/* Get form values to further custom validate fields. */
+        $params = $form->getValues();
+        unset($params['captcha'], $params['cpassword']);
         
         /* Check if userId already exists. */
-        $db = Zend_Registry::get('db');
-        if (!isset($messages['userId'])) {
-            $query = $db->query(
-                "SELECT COUNT(userId) AS cnt FROM users WHERE userId='{$params['userId']}'");
-            $row = $query->fetch();
-            if ($row['cnt'] > 0) $messages['userId'] = "Username is already taken!";
-        }
-        
-        /* Do name validation. */
-        if ($params['name'] == '') {
-            $messages['name'] = 'Please provide a Name!';
-        }
-        
-        /* Do Email validation. */
-        if (!$vEmail->isValid($params['email'])) {
-            $messages['email'] = 'Invalid Email address!';
+        $usersModel = new Default_Model_DbTable_Users();
+        $userExist  = $usersModel->find($params['userId'])->current();
+        if ($userExist) {
+        	$userId = $form->getElement('userId');
+        	$userId->setErrors(array('Username is already taken'));
+        	$form->markAsError();
         }
         
         /* Check if email already exists. */
-        if (!isset($messages['email'])) {
-            $query = $db->query(
-                "SELECT COUNT(email) AS cnt FROM users WHERE email='{$params['email']}'");
-            $row = $query->fetch();
-            if ($row['cnt'] > 0) $messages['email'] = 'Email is already taken!';
-        }
-        
-        /* Do Password validation. */
-        if (!$vAlnum->isValid($params['password'])) {
-            $messages['password'] = 'Invalid Password!';
-        }
-        
-        /* Validate password length. */
-        $vStringLength->setMin(8);
-        $vStringLength->setMax(50);
-        if (!$vStringLength->isValid($params['password'])) {
-            $messages['password'] = 'Password needs to be more than 8 characters.';
-        }
-        
-        /* Check passwords mismatch. */
-        if ($params['passwordc'] != $params['password']) {
-            $messages['passwordc'] = 'Passwords do not match!';
+        $emailExist = $usersModel->fetchRow("email='{$params['email']}'");
+        if ($emailExist) {
+        	$email = $form->getElement('email');
+        	$email->setErrors(array('Email is already taken'));
+        	$form->markAsError();
         }
         
         /* If error messages exist, render the registration form view along
          * with the error messages. */
-        if (isset($messages) && count($messages) > 0) {
-            unset($params['password'], $params['passwordc']);
-            $this->view->user = $params;
-            $this->view->rmessages = $messages;
+        if ($form->isErrors()) {
+            $this->view->form = $form;
             $this->render('index');
             return false;
         }
         
         /* hash passwords. */
-        $params['password']  = md5($params['password']);
-        $params['passwordc'] = md5($params['passwordc']);
+        $params['password'] = md5($params['password']);
         
         /* If registration completed, redirect to registered view. */
-        $usersModel = new Users();
         $userId = $usersModel->insert(array(
             'userId'         => $params['userId'],
             'name'           => $params['name'],
             'email'          => $params['email'],
             'password'       => $params['password'],
             'dateRegistered' => date('Y-m-d H:i:s')));
-        
-        /* If an error occured, forward to error controller. */
-        if (!$userId) {
-            echo "error registering user.";
-            exit;
-        }
         
         /* Add log entry indicating registration of new user. */
         $this->log->insert(array(
@@ -146,13 +105,15 @@ class RegisterController extends DefaultController
         $hash = md5($hash);
         
         /* Add new user entry. */
-        $newUsersModel = new NewUsers();
+        $newUsersModel = new Default_Model_DbTable_NewUsers();
         $unId = $newUsersModel->insert(array(
             'userId'    => $userId,
             'timestamp' => date('Y-m-d H:i:s'),
             'hash'      => $hash));
         
         /* Send email. */
+        $server = $this->getInvokeArg('bootstrap')->getApplication()->getOption('mail');
+        $server = $server['server'];
         $mail = new Zend_Mail();
         $mail->addTo($params['email'], $params['name']);
         $mail->setSubject("MOSS registration: Activate your account");
@@ -163,7 +124,7 @@ class RegisterController extends DefaultController
         $this->view->params = $params;
         $body = $this->view->render('register/mail.register.phtml');
         $mail->setBodyText($body);
-        $mail->send(new Zend_Mail_Transport_Smtp($this->config->mail->server));
+        $mail->send(new Zend_Mail_Transport_Smtp($server));
         
         $this->_redirect('/register/complete');
     }
@@ -175,7 +136,7 @@ class RegisterController extends DefaultController
         $hash = trim($this->_request->getParam('hash'));
         
         /* Check if hash exists and get it. */
-        $newUsersModel = new NewUsers();
+        $newUsersModel = new Default_Model_DbTable_NewUsers();
         $record = $newUsersModel->fetchRow("hash='{$hash}'");
         
         /* If records doesn't exist, assume that the request is invalid and
@@ -204,7 +165,6 @@ class RegisterController extends DefaultController
         
         /* Delete new user record from users_new table. */
         $record->delete();
-        
         $this->view->user = $user;
     }
 }

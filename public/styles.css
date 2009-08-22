@@ -28,7 +28,7 @@ a:hover {
     margin: 0 auto;
     width: 900px;
 }
-#header #content #title {
+#header #content #title a {
 	font-size: 16px;
 	font-weight: bold;
 	color: #AA0000;
@@ -132,12 +132,15 @@ form table {
 	margin-bottom: 10px;
 }
 form table tbody tr th {
-	text-align: right;	
+	font-weight: normal;
+	text-align: right;
+	vertical-align: top;
+	padding-top: 6px;
 }
-form table tfoot tr td {
+form table .buttons td {
 	border-top: 1px solid #ccc;
 }
-form table tfoot input[type=submit] {
+form table .buttons input[type=submit] {
 	color: #AA0000;
 }
 form table tbody tr.error td {
@@ -150,6 +153,20 @@ form table tbody tr.title td {
 	border-bottom: 1px solid #999;
 	text-align: center;
 }
+form table tbody tr td .description {
+	font-size: 10px;
+	font-style: italic;
+}
+form table tr td ul.errors {
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+}
+form table tr td ul.errors li {
+    font-size: 10px;
+    padding: 0px;
+    margin: 0px;
+}
 
 /* Form custom classes. */
 form input.full-width {
@@ -158,15 +175,18 @@ form input.full-width {
 
 /* Zend_Form based tag styles .*/
 form dl dt {
-	float: left;
-	width: 15%;
+    float: left;
+	width: 20%;
 	text-align: right;
 	margin-top: 2px;
 	margin-right: 5px;
-	font-weight: bold;
 }
 form dl dd {
 	margin-bottom: 5px;
+}
+form dl dd #captcha-input {
+	position: relative;
+	sleft: 37px;
 }
 
 /* Classes. */

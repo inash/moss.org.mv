@@ -12,10 +12,9 @@
 <div id="user-box">
     <div id="sb-ub-i">
         <?php
-        $config = Zend_Registry::get('config');
         $email = $this->user['email'];
         $size  = 30;
-        $default = "http://{$config->app->hostname}{$this->baseUrl}/pix/gravatar-30.png";
+        $default = "http://{$_SERVER['HTTP_HOST']}{$this->baseUrl}/pix/gravatar-30.png";
         $gravUrl = 'http://www.gravatar.com/avatar.php?gravatar_id='.md5(strtolower($email)).'&default='.$default.'&size='.$size;
         ?>
         <img src="<?php echo $gravUrl ?>" width="30" height="30" border="0" />

@@ -7,8 +7,6 @@
  * @created Fri Jul 24, 2009 07:07 PM
  */
 
-$config = Zend_Registry::get('config');
-
 ?>
 
 <?php echo $this->render('index/sidebar.phtml') ?>
@@ -19,7 +17,7 @@ $config = Zend_Registry::get('config');
 <?php foreach ($this->recentlyJoined as $user): ?>
 <?php
     $size = 30;
-    $default = "http://{$config->app->hostname}{$this->baseUrl}/pix/gravatar-{$size}.png";
+    $default = "http://{$_SERVER['HTTP_HOST']}{$this->baseUrl}/pix/gravatar-{$size}.png";
     $gravUrl = 'http://www.gravatar.com/avatar.php?gravatar_id='.md5(strtolower($user['email'])).'&default='.$default.'&size='.$size;
 ?>
 <a href="<?php echo "{$this->baseUrl}/{$user['userId']}" ?>" title="<?php echo $user['name'] ?>"><img src="<?php echo $gravUrl ?>" width="30" height="30" border="0" /></a>

@@ -13,25 +13,10 @@ $this->headTitle('Login');
 
 <h1>Login</h1>
 
-<p>Authenticate and Login to moss.org.mv</p>
+<p>Authenticate and log into moss.org.mv</p>
 
-<form method="post" action="<?php echo $this->baseUrl ?>/login">
-    <table border="0" cellspacing="0" cellpadding="4">
-        <tbody>
-            <tr>
-                <th>Email:</th>
-                <td><input type="text" name="email" value="" /></td>
-            </tr>
-            <tr>
-                <th>Password:</th>
-                <td><input type="password" name="password" /></td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>&nbsp;</td>
-                <td><input type="submit" name="login" value="Login" /></td>
-            </tr>
-        </tfoot>
-    </table>
-</form>
+<?php if ($this->form->isErrors()): ?>
+<div id="messages">Authentication failed. Please correct the errors below.</div>
+<?php endif; ?>
+
+<?php echo $this->form ?>

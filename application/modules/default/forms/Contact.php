@@ -13,22 +13,27 @@ class Default_Form_Contact extends Zend_Form
         
         /* Add name element. */
         $this->addElement('text', 'name', array(
-            'label'      => 'Name:',
-            'required'   => true,
-            'filters'    => array('StringTrim'),
-            'validators' => array('NotEmpty')));
+            'label'         => 'Name:',
+            'required'      => true,
+            'filters'       => array('StringTrim'),
+            'validators'    => array('NotEmpty'),
+            'errorMessages' => array('Name is required and can\'t be empty')));
         
         /* Add email element. */
         $this->addElement('text', 'email', array(
-            'label'      => 'Email:',
-            'required'   => true,
-            'filters'    => array('StringTrim'),
-            'validators' => array('EmailAddress')));
+            'label'         => 'Email:',
+            'required'      => true,
+            'filters'       => array('StringTrim'),
+            'validators'    => array('EmailAddress'),
+            'errorMessages' => array('Email is required and can\'t be empty')));
         
         /* Add the comment element. */
         $this->addElement('textarea', 'comment', array(
-            'label'    => 'Comment:',
-            'required' => true));
+            'label'         => 'Comment:',
+            'required'      => true,
+            'rows'          => 5,
+            'cols'          => 50,
+            'errorMessages' => array('Comment is required and can\'t be empty')));
         
         /* Add a captcha. */
         $this->addElement('captcha', 'captcha', array(
@@ -42,13 +47,9 @@ class Default_Form_Contact extends Zend_Form
                 'imgUrl'  => 'captcha/')));
         
         /* Add the submit button. */
-        $this->addElement('submit', 'submit', array(
+        $submit = $this->addElement('submit', 'submit', array(
             'ignore' => true,
             'label'  => 'Submit'));
-        
-        /* Add the reset button. */
-        $this->addElement('reset', 'reset', array(
-            'label' => 'Reset'));
         
         /* Add CSRF protection. */
         $this->addElement('hash', 'csrf', array(

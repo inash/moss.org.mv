@@ -9,9 +9,7 @@
  * @created Sun May 31, 2009 06:59 AM
  */
 
-require_once 'DefaultController.php';
-
-class LogoutController extends DefaultController
+class LogoutController extends Pub_Controller_Action
 {
 	public function preDispatch() {}
 	

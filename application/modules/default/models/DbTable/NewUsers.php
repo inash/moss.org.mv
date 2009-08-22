@@ -1,7 +1,7 @@
 <?php
 
 /**
- * New Users Model.
+ * New Users Db Table Model.
  * 
  * This is the Active Record model for the users_new table in the database.
  * 
@@ -9,15 +9,13 @@
  * @created Tue Jun 02, 2009 04:41 AM
  */
 
-require_once 'Users.php';
-
-class NewUsers extends Zend_Db_Table_Abstract
+class Default_Model_DbTable_NewUsers extends Zend_Db_Table_Abstract
 {
     protected $_name       = 'users_new';
     protected $_primaryKey = 'unId';
     protected $_referenceMap = array(
         'User' => array(
             'columns'       => array('userId'),
-            'refTableClass' => 'Users',
+            'refTableClass' => 'Default_Model_DbTable_Users',
             'refColumns'    => array('userId')));
 }

@@ -26,7 +26,7 @@ echo $this->doctype('XHTML1_STRICT')
 <body>
 <div id="header">
     <div id="content">
-        <div id="title">MOSS</div>
+        <div id="title"><a href="<?php echo $this->baseUrl ?>/Front">MOSS</a></div>
         <ul id="links">
             <li><a href="<?php echo $this->baseUrl ?>/Front">Home</a>
             <li><a href="<?php echo $this->baseUrl ?>/About">About</a>
@@ -53,9 +53,6 @@ echo $this->doctype('XHTML1_STRICT')
         </div>
         <div id="sidebar">
         <?php echo $this->layout()->sidebar ?>
-        <?php if ($this->user['class'] == 'Administrator'): ?>
-            <?php echo $this->action('sidebar', 'index', 'admin') ?>
-        <?php endif; ?>
         </div>
         <div style="clear: both;"></div>
     </div>

@@ -10,7 +10,7 @@
  * @created Mon May 25, 2009 05:58 AM
  */
 
-abstract class DefaultController extends Zend_Controller_Action
+abstract class Pub_Controller_Action extends Zend_Controller_Action
 {
 	/**
 	 * Main application configuration.
@@ -54,8 +54,6 @@ abstract class DefaultController extends Zend_Controller_Action
     public function preDispatch()
     {
         $this->view->baseUrl = $this->_request->getBaseUrl();
-        $this->view->headTitle()->setSeparator(' - ');
-        $this->view->headTitle('MOSS', 'SET');
         
         /* Set config to local protected $config. */
 //        $this->config = Zend_Registry::get('config');
@@ -74,10 +72,10 @@ abstract class DefaultController extends Zend_Controller_Action
         
         if ($userns->authenticated == true) {
             $this->user['authenticated'] = true;
-            $this->user['userId'] = $userns->userId;
-            $this->user['email']  = $userns->email;
-            $this->user['name']   = $userns->name;
-            $this->user['class']  = $userns->class;
+            $this->user['userId']        = $userns->userId;
+            $this->user['email']         = $userns->email;
+            $this->user['name']          = $userns->name;
+            $this->user['primaryGroup']  = $userns->primaryGroup;
         }
         
         /* Assign user array to the layout view as well. */

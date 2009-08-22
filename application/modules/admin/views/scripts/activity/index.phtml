@@ -14,6 +14,9 @@ $this->headTitle('Recent Activity');
 
 <h1>Recent Activity</h1>
 
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'index/paginator.phtml') ?>
+<br />
+
 <table border="0" cellspacing="0" cellpadding="4" class="border mini" width="640">
     <thead>
         <tr>

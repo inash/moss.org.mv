@@ -14,9 +14,7 @@
  * @created Mon May 25, 2009 05:09 AM
  */
 
-require_once 'DefaultController.php';
-
-class IndexController extends DefaultController
+class IndexController extends Pub_Controller_Action
 {
     /**
      * Static page handler. If a requested controller doesn't exist, the
@@ -115,7 +113,7 @@ class IndexController extends DefaultController
             }
         }
         
-        $this->_helper->actionStack('sidebar');
+        //$this->_helper->actionStack('sidebar', 'index', 'default');
     }
     
     public function nonExistentAction()
@@ -145,7 +143,7 @@ class IndexController extends DefaultController
     
     public function sidebarFrontAction()
     {
-    	$this->_helper->viewRenderer->setNoRender();
+//    	$this->_helper->viewRenderer->setNoRender();
         $query = $this->db->query(
             "SELECT userId, name, email FROM users "
           . "WHERE active='Y' "
