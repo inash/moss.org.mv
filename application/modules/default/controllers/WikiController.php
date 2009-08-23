@@ -11,6 +11,7 @@ class WikiController extends Pub_Controller_Action
 {
     public function preDispatch()
     {
+    	parent::preDispatch();
     	$action = $this->_request->getActionName();
     	$restricted = array('new', 'edit', 'update');
     	$userns = new Zend_Session_Namespace('user');
@@ -43,6 +44,12 @@ class WikiController extends Pub_Controller_Action
         	return true;
         }
         
+        /* Determing action, either to preview or continue saving the new page. */
+        $action = $this->_request->getPost('preview');
+        if ($action == 'Preview') {
+        	// TODO: show preview and return true.
+        }
+        
         /* Begin transaction. */
         $db = $pagesModel->getAdapter();
         $db->beginTransaction();
@@ -54,7 +61,7 @@ class WikiController extends Pub_Controller_Action
             unset($params['preview'], $params['save']);
             
             /* Filter and CamelCase titles. */
-            $name  = trim(Zend_Filter::get($params['title'], 'Word_UnderscoreToCamelCase'));
+            $name  = trim(Zend_Filter::get($params['name'], 'Word_UnderscoreToCamelCase'));
             $title = trim($params['title']);
             $body  = trim($params['body']);
             
@@ -73,7 +80,7 @@ class WikiController extends Pub_Controller_Action
                 'published'      => 'Published'));
             
             /* Add page revision. */
-            $pageRevModel = new PageRevisions();
+            $pageRevModel = new Default_Model_DbTable_PageRevisions();
             $pageRevisionId = $pageRevModel->insert(array(
                 'pageId'    => $pageId,
                 'userId'    => $this->user['userId'],
@@ -84,10 +91,10 @@ class WikiController extends Pub_Controller_Action
             /* If success, redirect to Static page view action. Set flash
              * message to appear stating that the insertion succeeded. */
             $this->_helper->flashMessenger->addMessage(
-                "New Page <b>{$title}</b> Successfully Created!");
+                "New Page <b>{$name}</b> Successfully Created!");
             
             $db->commit();
-            $this->_redirect("/{$title}");
+            $this->_redirect("/{$name}");
             
         } catch (Exception $e) {
         	$db->rollBack();
@@ -122,7 +129,7 @@ class WikiController extends Pub_Controller_Action
         
         /* Get and prepare variables. */
         $params = $this->_request->getPost();
-        $params['name']    = trim(Zend_Filter::get($params['title'], 'Word_UnderscoreToCamelCase'));
+        $params['name']    = trim(Zend_Filter::get($params['name'], 'Word_UnderscoreToCamelCase'));
         $params['title']   = trim($params['title']);
         $params['body']    = trim($params['body']);
         $params['summary'] = trim($params['summary']);
@@ -130,19 +137,15 @@ class WikiController extends Pub_Controller_Action
         
         /* Get page and verify if the page exists. */
         $pagesModel = new Default_Model_DbTable_Pages();
-        $page = $pagesModel->fetchRow("title='{$params['title']}'");
+        $page = $pagesModel->fetchRow("name='{$params['name']}'");
         
         /* If page does not exist, forward to non-existent view. */
-        if (!$page) {
-            $this->view->page = $params['name'];
-            $this->render('index/non-existent');
-            return false;
-        }
+        if (!$page) $this->_forward("/{$params['name']}");
         
         /* If there's no diff, alert and fail back to viewing the page. */
         if ($params['body'] == $page->body) {
             $this->_helper->flashMessenger->addMessage("No Change. Page Unmodified.");
-            $this->_redirect("/{$page->title}");
+            $this->_redirect("/{$page->name}");
             return true;
         }
         
@@ -154,7 +157,7 @@ class WikiController extends Pub_Controller_Action
         
         try {
 	        /* Update page revision by inserting a new record with the new diff. */
-	        $pageRevModel = new PageRevisions();
+	        $pageRevModel = new Default_Model_DbTable_PageRevisions();
 	        $pageRevId    = $pageRevModel->insert(array(
 	            'pageId'    => $page->pageId,
 	            'userId'    => $this->user['userId'],
@@ -175,13 +178,13 @@ class WikiController extends Pub_Controller_Action
 	            'entityId'  => $pageRevId,
 	            'timestamp' => date('Y-m-d H:i:s'),
 	            'code'      => 'new',
-	            'message'   => "new page revision created for page [{$page->pageId}] {$page->title}",
+	            'message'   => "new page revision created for page [{$page->pageId}] {$page->name}",
 	            'userId'    => $this->user['userId']));
 	        
 	        /* Add flash message and redirect to view page. */
 	        $this->_helper->flashMessenger->addMessage("Page Successfully Updated!");
 	        $db->commit();
-	        $this->_redirect("/{$page->title}");
+	        $this->_redirect("/{$page->name}");
 	        
         } catch (Exception $e) {
         	$db->rollBack();

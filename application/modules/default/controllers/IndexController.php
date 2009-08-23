@@ -64,7 +64,7 @@ class IndexController extends Pub_Controller_Action
 
         /* Search the pages table for the page. */
         $pagesModel = new Default_Model_DbTable_Pages();
-        $page = $pagesModel->fetchRow("title='{$pageName}'");
+        $page = $pagesModel->fetchRow("name='{$pageName}'");
         
         /* If the page does not exist, do one of the following depending on the
          * 1 option available.

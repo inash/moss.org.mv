@@ -1,0 +1,7 @@
+
+Sun 23 Aug 2009 05:20:57 AM MVT
+-------------------------------
+- fix: title issue when creating a new wiki page.
+- fix: wiki links changed from wiki page title to name field.
+- fix: show message when there is no history instead of error.
+- fix: PageRevisions model references in the wiki controller.
