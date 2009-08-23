@@ -79,8 +79,15 @@ class IndexController extends Pub_Controller_Action
                     break;
                 
                 default:
-                    $this->view->name = $pageName;
-                    $this->_forward('non-existent');
+                	
+                	/* Display 404 page for unauthorised users and the default
+                	 * non-existent page for authorised users who has 'add'
+                	 * permission for the wiki module. */
+                	if ($this->user['authenticated'] && $this->user['primaryGroup'] == 'Administrator') {
+	                    $this->_forward('non-existent', 'index', 'default', array('page' => $pageName));
+                	} else {
+                		$this->_forward('error404', 'index', 'default', array('page' => $pageName));
+                	}
             }
             
         /* If the page does exist, do so below. By default it just displays the
@@ -112,13 +119,23 @@ class IndexController extends Pub_Controller_Action
                     $file = strtolower($pageName);
             }
         }
-        
-        //$this->_helper->actionStack('sidebar', 'index', 'default');
+    }
+    
+    public function error404Action()
+    {
+    	$page = $this->_request->getParam('page');
+    	$this->view->name = $page;
+    	
+    	/* Get fulltext entry matches based on the page parameter requested. */
+    	$pagesModel = new Default_Model_Pages();
+    	$entries = $pagesModel->fetchFullTextMatches($page);
+    	$this->view->fullTextMatches = $entries;
     }
     
     public function nonExistentAction()
     {
-        //
+        $page = $this->_request->getParam('page');
+        $this->view->name = $page;
     }
     
     /**

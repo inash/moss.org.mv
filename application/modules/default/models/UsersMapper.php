@@ -7,46 +7,8 @@
  * @created Wed Aug 19, 2009 01:50 AM
  */
 
-class Default_Model_UsersMapper
+class Default_Model_UsersMapper extends Pub_Model_Mapper
 {
-	/**
-	 * @var Zend_Db_Table_Abstract
-	 */
-    protected $_dbTable;
-    
-    /**
-     * Specify Zend_Db_Table instance to use for data operations.
-     * 
-     * @param Zend_Db_Table_Abstract $dbTable
-     * @return Default_Model_Users
-     */
-    public function setDbTable($dbTable)
-    {
-        if (is_string($dbTable)) {
-            $dbTable = new $dbTable();
-        }
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
-            throw new Exception('Invalid table data gateway provided!');
-        }
-        $this->_dbTable = $dbTable;
-        return $this;
-    }
-    
-    /**
-     * Get registered Zend_Db_Table instance.
-     * 
-     * Lazy loads Default_Model_DbTable_Users if no instance registered.
-     * 
-     * @return Zend_Db_Table_Abstract
-     */
-    public function getDbTable()
-    {
-        if (null === $this->_dbTable) {
-            $this->setDbTable('Default_Model_DbTable_Users');
-        }
-        return $this->_dbTable;
-    }
-    
     /**
      * Save a user entry.
      * 

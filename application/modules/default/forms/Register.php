@@ -33,7 +33,7 @@ class Default_Form_Register extends Zend_Form
             'maxLength'     => 50,
             'required'      => true,
             'filters'       => array('StringTrim', 'StringToLower'),
-            'validators'    => array('NotEmpty', 'Alnum',
+            'validators'    => array('Alnum',
                 array('StringLength', false, array(1, 50))),
             'errorMessages' => array('Username is required')));
         

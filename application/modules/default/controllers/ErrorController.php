@@ -21,10 +21,13 @@ class ErrorController extends Pub_Controller_Action
         $mail->setFrom('noreply@moss.org.mv', 'MOSS');
         
         /* Prepare body. */
+        $server = $this->getInvokeArg('bootstrap')->getOption('mail');
+        $server = $server['server'];
+        
         $body  = print_r($errors, true);
         $body .= print_r($_SERVER, true);
         $mail->setBodyText($body);
-        $mail->send(new Zend_Mail_Transport_Sendmail);
+        $mail->send(new Zend_Mail_Transport_Smtp($server));
 		
 		switch ($errors->type) {
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER :

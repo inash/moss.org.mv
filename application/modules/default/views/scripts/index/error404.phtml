@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Sun Aug 23, 2009 07:51 PM
+ */
+
+$this->headTitle('Error 404');
+
+?>
+
+<h1>Page Does Not Exist</h1>
+
+<p>The requested page <strong><?php echo $this->name ?></strong>,
+does not currently exist. Below is a list of suggestions of similar pages.</p>
+
+<?php if ($this->fullTextMatches): ?>
+<ul>
+<?php foreach ($this->fullTextMatches as $entry): ?>
+    <li><a href="<?php echo $this->baseUrl ?>/<?php echo $entry['name'] ?>"><?php echo $entry['title'] ?></a></li>
+<?php endforeach; ?>
+</ul>
+<?php else: ?>
+<p id="messages">No similar pages available.</p>
+<?php endif; ?>

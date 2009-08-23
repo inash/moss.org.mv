@@ -1,6 +1,14 @@
 
-Sun 23 Aug 2009 05:20:57 AM MVT
--------------------------------
+Sun Aug 23, 2009 08:57 PM - committed
+- fix: #1 full text search for error404. displays error404 with similar pages
+  for unauthorised users, while non-existent page is displayed for
+  administrators who can create pages.
+- added: default Pages model, PagesMapper and abstract Pub_Model_Mapper.
+- removed: NonEmpty validator for field userId in Register form. as this causes
+  the ViewRenderer to display the same error message for the field multiple
+  times when the validation fails.
+
+Sun 23 Aug 2009 05:20:57 AM MVT - committed
 - fix: title issue when creating a new wiki page.
 - fix: wiki links changed from wiki page title to name field.
 - fix: show message when there is no history instead of error.
