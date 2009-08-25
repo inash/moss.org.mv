@@ -70,4 +70,17 @@ class Default_Model_UsersMapper extends Pub_Model_Mapper
     	}
     	return $entries;
     }
+    
+    public function isFeePending($userId)
+    {
+    	if ($userId === null) return false;
+    	$feesDbTable = new Default_Model_DbTable_Fees();
+    	$stmt = $feesDbTable->select()
+            ->from(array('f' => 'fees'))
+            ->where("userId = '{$userId}'")
+            ->where("forTheYear = YEAR(CURDATE())");
+        $query = $stmt->query();
+        if (count($query) == 1) return false;
+        return true;
+    }
 }

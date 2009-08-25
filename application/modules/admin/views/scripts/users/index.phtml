@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * User's listing and administration view.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Mon Aug 24, 2009 05:13 AM
+ */
+
+$this->headTitle('Manage Users');
+
+?>
+
+<h1>Manage Users</h1>
+
+<?php echo $this->action('header', 'users', 'admin', $this->params) ?>
+
+<?php if (isset($this->paginator) && $this->paginator->count() > 0): ?>
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'users/paginator.phtml', $this->params) ?>
+
+<table border="0" cellspacing="0" cellpadding="4" class="border mini" width="100%" id="tblUsers">
+    <thead>
+        <tr>
+	        <th width="80">Username</th>
+	        <th>Name</th>
+	        <th width="105">Registered</th>
+	    </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->paginator as $user): ?>
+        <tr>
+            <td><a href="<?php echo $this->baseUrl ?>/admin/users/view/userId/<?php echo $user['userId'] ?>"><?php echo $user['userId'] ?></a></td>
+            <td><?php echo $user['name'] ?></td>
+            <td><?php echo $user['dateRegistered'] ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<?php else: ?>
+<div id="messages">There are no records available for the selected filter.</div>
+<?php endif; ?>

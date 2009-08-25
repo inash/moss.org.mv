@@ -1,4 +1,13 @@
 
+Tue Aug 25, 2009 07:08 AM
+- added: db table field users.membershipType varchar(50).
+- added: db table fees: feeId, timestamp, userId, forTheYear, currency, amount.
+- added: ApplicationAction controller with power acl functionality.
+- added: db tables: groups, users_groups, menu_groups, modules and menus and
+  permissions.
+- added: admin_users module to administrate users.
+- fixed: sidebar to include automatic menu generation for menu items.
+
 Sun Aug 23, 2009 08:57 PM - committed
 - fix: #1 full text search for error404. displays error404 with similar pages
   for unauthorised users, while non-existent page is displayed for

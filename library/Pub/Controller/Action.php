@@ -71,11 +71,53 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
         $this->user['authenticated'] = false;
         
         if ($userns->authenticated == true) {
+            
+            /* Fetch menus for the current user's groups assignment. Sarey's
+             * magnificent query for retrieving a set from a tertiary
+             * relationship table. */
+            $query = $this->db->query(
+                "SELECT me.*, mg.title as menuGroupTitle, mo.title as moduleTitle, "
+              . "mo.description "
+              . "FROM menus me "
+              . "INNER JOIN modules mo on mo.name = me.moduleName "
+              . "INNER JOIN menu_groups mg on mg.name = me.menuGroup "
+              . "WHERE me.userGroup in ("
+              .     "SELECT `group` FROM users_groups WHERE userId='{$this->user['userId']}') "
+              . "OR me.userGroup='{$userns->primaryGroup}' "
+              . "ORDER BY me.menuGroup, me.`order`");
+
+            /* Filter and normalize menu entries, removing any subsequent
+             * duplicates by going through each item. */
+            $menus = array();
+            $adminMenus = array();
+            
+            while ($row = $query->fetch()) {
+                if (!array_key_exists(strtolower($row['moduleName']), $menus)) {
+                    $row['moduleName'] = strtolower($row['moduleName']);
+    
+                    /* Separate admin menus and normal menus. */
+                    if ($row['menuGroup'] == 'admin') {
+                        $adminMenus[$row['moduleName']] = $row;
+                    } else {
+                        $menus[$row['menuGroup']][] = $row;
+                    }
+                }
+            }
+
+            /* Assign menus to view. */
+            $this->view->menus = $menus;
+            $this->view->adminMenus = $adminMenus;
+            
             $this->user['authenticated'] = true;
             $this->user['userId']        = $userns->userId;
             $this->user['email']         = $userns->email;
             $this->user['name']          = $userns->name;
+            $this->user['memberType']    = $userns->memberType;
             $this->user['primaryGroup']  = $userns->primaryGroup;
+            $this->user['website']       = $userns->website;
+            $this->user['company']       = $userns->company;
+            $this->user['location']      = $userns->location;
+            $this->user['groups']        = $userns->groups;
         }
         
         /* Assign user array to the layout view as well. */

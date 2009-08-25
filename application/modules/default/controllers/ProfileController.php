@@ -61,9 +61,12 @@ class ProfileController extends Pub_Controller_Action
         
         /* Get current user record to compare modifications with. */
         $changes = array();
-        if ($params['userId'] != $user->userId) $changes[] = 'userId';
-        if ($params['name']   != $user->name)   $changes[] = 'name';
-        if ($params['email']  != $user->email)  $changes[] = 'email';
+        if ($params['userId']    != $user->userId)    $changes[] = 'userId';
+        if ($params['name']      != $user->name)      $changes[] = 'name';
+        if ($params['email']     != $user->email)     $changes[] = 'email';
+        if ($params['website']   != $user->website)   $changes[] = 'website';
+        if ($params['company']   != $user->company)   $changes[] = 'company';
+        if ($params['location']  != $user->location)  $changes[] = 'location';
         
         /* Check if password modifications exist. */
         $md5nPassword  = md5($params['nPassword']);
@@ -87,7 +90,7 @@ class ProfileController extends Pub_Controller_Action
          * message indication authentication failure. */
         if ($md5Password != $user->password) {
             $messages['password'] = 'Invalid current password to authenticate changes!';
-            $this->view->profile = $params;
+            $this->view->profile   = $params;
             $this->view->rmessages = $messages;
             $this->render();
             return false;
@@ -110,7 +113,7 @@ class ProfileController extends Pub_Controller_Action
         }
         
         /* Check if userId already exists. */
-        $db = Zend_Registry::get('db');
+        $db = $usersModel->getAdapter();
         if (!isset($messages['userId']) && $params['userId'] != $user->userId) {
             $query = $db->query(
                 "SELECT COUNT(userId) AS cnt FROM users WHERE userId='{$params['userId']}'");
@@ -166,11 +169,14 @@ class ProfileController extends Pub_Controller_Action
         }
         
         /* If chanegs are all good, apply them to the database. */
+        $db->beginTransaction();
         try {
-            $db->beginTransaction();
             $user->userId   = $params['userId'];
             $user->name     = $params['name'];
             $user->email    = $params['email'];
+            $user->website  = $params['website'];
+            $user->company  = $params['company'];
+            $user->location = $params['location'];
             
             if (in_array('password', $changes)) {
                 $user->password = $md5nPassword;

@@ -13,3 +13,40 @@ $this->headTitle($this->profile['name']);
 ?>
 
 <?php echo $this->partial('profile/header.phtml', array('user'=>$this->profile)) ?>
+
+<div id="profile-box">
+    <table border="0" cellspacing="0" cellpadding="2">
+        <tr>
+            <th>Name:</th>
+            <td><?php echo $this->profile['name'] ?></td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td><?php if ($this->profile['email'] != ''): ?><a href="mailto:<?php echo $this->profile['email'] ?>"><?php echo $this->profile['email'] ?></a><?php endif; ?>&nbsp;</td>
+        </tr>
+        <tr>
+            <th>Member Type:</th>
+            <td><?php echo $this->profile['memberType'] ?></td>
+        </tr>
+        <tr>
+            <th>Website:</th>
+            <td><?php if ($this->profile['website'] != ''): ?><a href="http://<?php echo ltrim($this->profile['website'], 'http://') ?>"><?php echo $this->profile['website'] ?></a><?php endif; ?>&nbsp;</td>
+        </tr>
+        <tr>
+            <th>Company:</th>
+            <td><?php echo $this->profile['company'] ?></td>
+        </tr>
+        <tr>
+            <th>Location:</th>
+            <td><?php echo $this->profile['location'] ?></td>
+        </tr>
+        <tr>
+            <th>Member Since:</th>
+            <td><?php echo date('D, d M Y', strtotime($this->profile['dateRegistered'])) ?></td>
+        </tr>
+        <tr>
+            <th>Last Seen:</th>
+            <td><?php echo date('D, d M Y', strtotime($this->profile['dateLastLogin'])) ?></td>
+        </tr>
+    </table>
+</div>

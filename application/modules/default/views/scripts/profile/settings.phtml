@@ -41,6 +41,21 @@ the email address you provide.</p>
             <th>Email:</th>
             <td><?php echo $this->formText('email', $this->profile['email'], array('size'=>30))?></td>
         </tr>
+        <?php if (isset($this->rmessages['website'])) echo $this->partial('index/form-error.phtml', array('message'=>$this->rmessages['website'])) ?>
+        <tr>
+            <th>Website:</th>
+            <td><?php echo $this->formText('website', $this->profile['website'], array('size'=>30))?></td>
+        </tr>
+        <?php if (isset($this->rmessages['company'])) echo $this->partial('index/form-error.phtml', array('message'=>$this->rmessages['company'])) ?>
+        <tr>
+            <th>Company:</th>
+            <td><?php echo $this->formText('company', $this->profile['company'], array('size'=>30))?></td>
+        </tr>
+        <?php if (isset($this->rmessages['location'])) echo $this->partial('index/form-error.phtml', array('message'=>$this->rmessages['location'])) ?>
+        <tr>
+            <th>Location:</th>
+            <td><?php echo $this->formText('location', $this->profile['location'], array('size'=>30))?></td>
+        </tr>
         <?php if (isset($this->rmessages['nPassword'])) echo $this->partial('index/form-error.phtml', array('message'=>$this->rmessages['nPassword'])) ?>
         <tr>
             <th>Change Password:</th>

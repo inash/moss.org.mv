@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * Admin users actions partial view.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Tue Aug 25, 2009 07:56 AM
+ */
+
+?>
+
+<div class="actions">
+    Actions:
+    <a href="<?php echo $this->baseUrl ?>/admin/users/view/userId/<?php echo $this->user->getUserId() ?>">View</a> .
+    <a href="<?php echo $this->baseUrl ?>/admin/users/edit/userId/<?php echo $this->user->getUserId() ?>">Edit</a> .
+    <a href="#" id="lnkDelete">Delete</a> .
+    <a href="#">Fee Payment</a> .
+    <a href="#">Disable</a>
+</div>

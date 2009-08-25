@@ -27,3 +27,9 @@
     </div>
     <div style="clear: both;"></div>
 </div>
+
+<?php if ($this->isFeePending): ?>
+<div class="error mini">
+    Renew your Membership.
+    <a href="<?php echo $this->baseUrl ?>/Membership#notification">More</a></div>
+<?php endif; ?>

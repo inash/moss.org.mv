@@ -15,7 +15,7 @@
     <a href="<?php echo $this->baseUrl ?>/register">Register</a>
 </div>
 <?php else: ?>
-<?php echo $this->render('index/sidebar.userbox.phtml') ?>
+<?php echo $this->action('sidebar-user', 'index', 'default') ?>
 <?php endif; ?>
 
 <div id="search">
@@ -27,6 +27,22 @@
 </div>
 
 <div id="links">
+<?php if (isset($this->adminMenus)): ?>
+<?php $currentGroup = ''; ?>
+<?php foreach ($this->adminMenus as $group => $menu): ?>
+    <h1><?php echo $menu['menuGroupTitle'] ?></h1>
+    <ul class="ul">
+    <?php if ($currentGroup != $group && $currentGroup != ''): ?>
+    </ul>
+    <h1><?php echo $menu['menuGroupTitle'] ?></h1>
+    <ul>
+    <?php endif; ?>
+    <li><a href="<?php echo $this->baseUrl ?>/<?php echo str_replace('_', '/', $menu['moduleName']) ?>"><?php echo $menu['moduleTitle'] ?></a></li>
+    <?php $currentGroup = $group ?>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
     <ul class="ul">
         <li><a href="#">Home Page</a></li>
         <li><a href="#">Translation Page</a></li>

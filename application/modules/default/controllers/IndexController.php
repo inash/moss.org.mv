@@ -79,15 +79,15 @@ class IndexController extends Pub_Controller_Action
                     break;
                 
                 default:
-                	
-                	/* Display 404 page for unauthorised users and the default
-                	 * non-existent page for authorised users who has 'add'
-                	 * permission for the wiki module. */
-                	if ($this->user['authenticated'] && $this->user['primaryGroup'] == 'Administrator') {
-	                    $this->_forward('non-existent', 'index', 'default', array('page' => $pageName));
-                	} else {
-                		$this->_forward('error404', 'index', 'default', array('page' => $pageName));
-                	}
+                    
+                    /* Display 404 page for unauthorised users and the default
+                     * non-existent page for authorised users who has 'add'
+                     * permission for the wiki module. */
+                    if ($this->user['authenticated'] && $this->user['primaryGroup'] == 'Administrator') {
+                        $this->_forward('non-existent', 'index', 'default', array('page' => $pageName));
+                    } else {
+                        $this->_forward('error404', 'index', 'default', array('page' => $pageName));
+                    }
             }
             
         /* If the page does exist, do so below. By default it just displays the
@@ -123,13 +123,13 @@ class IndexController extends Pub_Controller_Action
     
     public function error404Action()
     {
-    	$page = $this->_request->getParam('page');
-    	$this->view->name = $page;
-    	
-    	/* Get fulltext entry matches based on the page parameter requested. */
-    	$pagesModel = new Default_Model_Pages();
-    	$entries = $pagesModel->fetchFullTextMatches($page);
-    	$this->view->fullTextMatches = $entries;
+        $page = $this->_request->getParam('page');
+        $this->view->name = $page;
+        
+        /* Get fulltext entry matches based on the page parameter requested. */
+        $pagesModel = new Default_Model_Pages();
+        $entries = $pagesModel->fetchFullTextMatches($page);
+        $this->view->fullTextMatches = $entries;
     }
     
     public function nonExistentAction()
@@ -158,9 +158,18 @@ class IndexController extends Pub_Controller_Action
         if (file_exists($file)) $this->_forward("sidebar-{$page}");
     }
     
+    public function sidebarUserAction()
+    {
+        $paidMemberTypes = array('Individual', 'Business', 'Privileged');
+        if (in_array($this->user['memberType'], $paidMemberTypes)) {
+            $user = new Default_Model_Users();
+            $user->find($this->user['userId']);
+            $this->view->isFeePending = $user->isFeePending();
+        }
+    }
+    
     public function sidebarFrontAction()
     {
-//    	$this->_helper->viewRenderer->setNoRender();
         $query = $this->db->query(
             "SELECT userId, name, email FROM users "
           . "WHERE active='Y' "
@@ -169,6 +178,8 @@ class IndexController extends Pub_Controller_Action
         $this->view->recentlyJoined = $query->fetchAll();
         $this->_helper->viewRenderer->setResponseSegment('sidebar');
     }
+    
+    public function deniedAction() {}
     
     public function debugAction()
     {

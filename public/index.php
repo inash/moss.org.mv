@@ -34,5 +34,5 @@ $bootstrap = $app->getBootstrap();
 try {
     $app->run();
 } catch (Exception $e) {
-	Zend_Debug::dump($e);
+	echo $e->getMessage();
 }

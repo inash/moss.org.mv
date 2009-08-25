@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * Header view partial for admin users listing.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Mon Aug 24, 2009 05:42 AM
+ */
+
+?>
+
+<div id="submenu">
+    <a href="<?php echo $this->baseUrl ?>/admin/users">List</a> .
+    Filter:
+    <?php echo $this->formSelect('filter', $this->params['filter'], null, $this->filters) ?>
+    <?php echo $this->formText('criteria', $this->params['criteria'], array('size'=>10)) ?>
+    State:
+    <?php echo $this->formSelect('state', $this->params['state'], null, $this->states) ?>
+    <?php echo $this->formButton('btnFilter', 'Filter') ?>
+</div>
+
+<script type="text/javascript">
+/* Autoselect criteria field value when clicked. */
+$('criteria').observe('click', function() {
+	this.selectionStart = 0;
+	this.selectionEnd = this.getValue().length;
+});
+
+/* Submit filter function. */
+function filter() {
+	var uri = baseUrl + '/admin/users/index'
+	    + (($('criteria').getValue() != '') ? '/filter/' + $('filter').getValue() + '/criteria/' + $('criteria').getValue() : '')
+	    + '/state/' + $('state').getValue();
+	window.location.href = uri;
+}
+
+/* Submit filter selection when enter is hit on the criteria field. */
+$('criteria').observe('keypress', function(e) {
+	if (e.keyCode != 13) return false;
+	filter();
+});
+
+/* Filter button logic. */
+$('btnFilter').observe('click', function() { filter(); });
+</script>

@@ -27,8 +27,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initDoctype()
     {
     	$this->bootstrap('view');
+    	$this->bootstrap('frontController');
     	$view = $this->getResource('view');
+    	$frontController = $this->getResource('frontController');
     	$view->doctype('XHTML1_STRICT');
+    	$view->headScript()->appendFile($frontController->getBaseUrl().'/scripts/prototype.js');
+    	$view->headScript()->appendScript("var baseUrl = '{$frontController->getBaseUrl()}';");
     }
     
     protected function _initHeadTitle()
@@ -43,6 +47,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     	$this->bootstrap('frontController');
     	$front  = $this->getResource('frontController');
     	$router = $front->getRouter();
+    }
+    
+    protected function _initSessionUser()
+    {
+        $userns = new Zend_Session_Namespace('user');
+        return $userns;
     }
     
     protected function _initSidebar()
