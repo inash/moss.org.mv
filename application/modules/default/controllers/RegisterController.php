@@ -112,8 +112,6 @@ class RegisterController extends Pub_Controller_Action
             'hash'      => $hash));
         
         /* Send email. */
-        $server = $this->getInvokeArg('bootstrap')->getApplication()->getOption('mail');
-        $server = $server['server'];
         $mail = new Zend_Mail();
         $mail->addTo($params['email'], $params['name']);
         $mail->setSubject("MOSS registration: Activate your account");
@@ -124,7 +122,15 @@ class RegisterController extends Pub_Controller_Action
         $this->view->params = $params;
         $body = $this->view->render('register/mail.register.phtml');
         $mail->setBodyText($body);
-        $mail->send(new Zend_Mail_Transport_Smtp($server));
+        
+        /* Use smtp if environment is not production. */ 
+        if (APP_ENV != 'production') {
+            $server = $this->getInvokeArg('bootstrap')->getApplication()->getOption('mail');
+            $server = $server['server'];
+            $mail->send(new Zend_Mail_Transport_Smtp($server));
+        } else {
+            $mail->send();
+        }
         
         $this->_redirect('/register/complete');
     }
@@ -150,7 +156,7 @@ class RegisterController extends Pub_Controller_Action
         }
         
         /* Activate record. */
-        $user = $record->findParentRow('Users');
+        $user = $record->findParentRow('Default_Model_DbTable_Users');
         $user->active = 'Y';
         $user->save();
         
