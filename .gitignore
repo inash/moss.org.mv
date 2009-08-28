@@ -3,4 +3,5 @@
 .settings/*
 misc/moss-data.sql
 public/captcha/*
+library/zf
 

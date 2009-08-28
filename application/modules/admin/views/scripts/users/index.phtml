@@ -23,7 +23,7 @@ $this->headTitle('Manage Users');
         <tr>
 	        <th width="80">Username</th>
 	        <th>Name</th>
-	        <th width="105">Registered</th>
+	        <th width="105">Last Seen</th>
 	    </tr>
     </thead>
     <tbody>
@@ -31,7 +31,7 @@ $this->headTitle('Manage Users');
         <tr>
             <td><a href="<?php echo $this->baseUrl ?>/admin/users/view/userId/<?php echo $user['userId'] ?>"><?php echo $user['userId'] ?></a></td>
             <td><?php echo $user['name'] ?></td>
-            <td><?php echo $user['dateRegistered'] ?></td>
+            <td><?php echo $user['dateLastLogin'] ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

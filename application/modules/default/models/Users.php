@@ -77,7 +77,7 @@ class Default_Model_Users extends Pub_Model
 	}
 
 	public function setWebsite($website) {
-		$this->website = $website;
+		$this->website = stripslashes($website);
 	}
 
 	public function getCompany() {
@@ -85,7 +85,7 @@ class Default_Model_Users extends Pub_Model
 	}
 
 	public function setCompany($company) {
-		$this->company = $company;
+		$this->company = stripslashes($company);
 	}
 
 	public function getLocation() {
@@ -93,7 +93,7 @@ class Default_Model_Users extends Pub_Model
 	}
 
 	public function setLocation($location) {
-		$this->location = $location;
+		$this->location = stripslashes($location);
 	}
 
 	public function getDateRegistered() {

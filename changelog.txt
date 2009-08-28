@@ -1,5 +1,12 @@
 
-Tue Aug 25, 2009 07:08 AM
+Fri Aug 28, 2009 04:41 AM
+- added: db table fields fee.enteredBy, fee.method. method field indicates
+  how the fee was entered. through the frontend by the user or from the backend
+  by an administrator.
+- added: admin_users::subscription action.
+- fixed: activate route.
+
+Tue Aug 25, 2009 07:08 AM - committed
 - added: db table field users.membershipType varchar(50).
 - added: db table fees: feeId, timestamp, userId, forTheYear, currency, amount.
 - added: ApplicationAction controller with power acl functionality.

@@ -11,6 +11,7 @@
 
 /* Set include paths. */
 $includes = array(
+    realpath(dirname(__FILE__).'/../library/zf/library'),
     realpath(dirname(__FILE__).'/../library'),
     get_include_path());
 set_include_path(join(PATH_SEPARATOR, $includes));

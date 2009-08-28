@@ -30,17 +30,19 @@
 <?php if (isset($this->adminMenus)): ?>
 <?php $currentGroup = ''; ?>
 <?php foreach ($this->adminMenus as $group => $menu): ?>
+<?php if ($currentGroup == ''): ?>
     <h1><?php echo $menu['menuGroupTitle'] ?></h1>
     <ul class="ul">
-    <?php if ($currentGroup != $group && $currentGroup != ''): ?>
+<?php endif; ?>
+<?php $currentGroup = $group ?>
+<?php if ($currentGroup != $group && $currentGroup != ''): ?>
     </ul>
     <h1><?php echo $menu['menuGroupTitle'] ?></h1>
     <ul>
-    <?php endif; ?>
-    <li><a href="<?php echo $this->baseUrl ?>/<?php echo str_replace('_', '/', $menu['moduleName']) ?>"><?php echo $menu['moduleTitle'] ?></a></li>
-    <?php $currentGroup = $group ?>
+<?php endif; ?>
+        <li><a href="<?php echo $this->baseUrl ?>/<?php echo str_replace('_', '/', $menu['moduleName']) ?>"><?php echo $menu['moduleTitle'] ?></a></li>
 <?php endforeach; ?>
-</ul>
+    </ul>
 <?php endif; ?>
 
     <ul class="ul">

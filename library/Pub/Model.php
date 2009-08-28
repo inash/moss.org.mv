@@ -107,6 +107,24 @@ abstract class Pub_Model
 	}
 	
 	/**
+	 * Returns the models current state values as an associative array.
+	 * 
+	 * @return array
+	 */
+    public function toArray()
+    {
+        $props  = get_class_vars(get_class($this));
+        $values = array();
+        foreach ($props as $key => $val) {
+            if (substr($key, 0, 1) != '_') {
+                $method = 'get'.ucfirst($key);
+                $values[$key] = $this->$method();
+            }
+        }
+        return $values;
+    }
+	
+	/**
 	 * Save the current entry.
 	 * 
 	 * @return void

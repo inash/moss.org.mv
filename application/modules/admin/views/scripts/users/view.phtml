@@ -11,7 +11,7 @@ $this->headTitle('Manage - '.$this->user->getUserId());
 
 ?>
 
-<h1>Manage User</h1>
+<h1>View User</h1>
 
 <?php echo $this->action('header', 'users', 'admin') ?>
 
@@ -31,7 +31,7 @@ $this->headTitle('Manage - '.$this->user->getUserId());
         <td><?php echo $this->user->getEmail() ?></td>
     </tr>
     <tr>
-        <th>Membership Type:</th>
+        <th>Member Type:</th>
         <td><?php echo $this->user->getMemberType() ?></td>
     </tr>
     <tr>

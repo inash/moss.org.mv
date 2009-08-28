@@ -17,9 +17,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     	$autoloader->suppressNotFoundWarnings(false);
     	$autoloader->registerNamespace('Pub_');
     	
-        $moduleloader = new Zend_Application_Module_Autoloader(array(
+    	$moduleloader = new Zend_Application_Module_Autoloader(array(
             'namespace' => 'Default',
-            'basePath'  => dirname(__FILE__).'/modules/default'));
+            'basePath'  => APPLICATION_PATH.'modules/default'));
         
         return $moduleloader;
     }
@@ -47,6 +47,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     	$this->bootstrap('frontController');
     	$front  = $this->getResource('frontController');
     	$router = $front->getRouter();
+    	
+    	/* Add the default registration activation route. */
+        $router->addRoute('activate',
+            new Zend_Controller_Router_Route('activate/:hash', array(
+                'module'     => 'default',
+                'controller' => 'register',
+                'action'     => 'activate')));
     }
     
     protected function _initSessionUser()

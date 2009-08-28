@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * User edit view.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Thu Aug 27, 2009 04:53 AM
+ */
+
+$this->headTitle("Edit - {$this->user->getUserId()}");
+
+?>
+
+<h1>Edit User</h1>
+
+<?php echo $this->action('header', 'users', 'admin') ?>
+
+<?php echo $this->render('users/actions.phtml') ?>
+
+<?php echo $this->form ?>

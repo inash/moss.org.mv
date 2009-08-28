@@ -22,6 +22,7 @@ class Default_Model_UsersMapper extends Pub_Model_Mapper
             'name'           => $user->getName(),
             'email'          => $user->getEmail(),
             'password'       => $user->getPassword(),
+            'memberType'     => $user->getMemberType(),
             'primaryGroup'   => $user->getPrimaryGroup(),
             'website'        => $user->getWebsite(),
             'company'        => $user->getCompany(),
@@ -29,13 +30,14 @@ class Default_Model_UsersMapper extends Pub_Model_Mapper
             'dateRegistered' => $user->getDateRegistered(),
             'dateLastLogin'  => $user->getDateLastLogin(),
             'active'         => $user->getActive(),
-            'reset'          => $user->getReset());
+            'reset'          => $user->getReset(),
+            'disabled'       => $user->getDisabled());
         
         if (null === ($dateRegistered = $user->getDateRegistered())) {
         	$data['dateRegistered'] = date('Y-m-d H:i:s');
         	$this->getDbTable()->insert($data);
         } else {
-        	$this->getDbTable()->update($data, array('userId=?', $user->getUserId()));
+        	$this->getDbTable()->update($data, array("userId='{$user->getUserId()}'"));
         }
     }
     
@@ -80,7 +82,7 @@ class Default_Model_UsersMapper extends Pub_Model_Mapper
             ->where("userId = '{$userId}'")
             ->where("forTheYear = YEAR(CURDATE())");
         $query = $stmt->query();
-        if (count($query) == 1) return false;
+        if ($query->rowCount() == 1) return false;
         return true;
     }
 }

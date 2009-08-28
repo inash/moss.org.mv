@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * Fee payment view. This view displays a form which allows an administrator
+ * to enter the annual membership fee information for registered users. It
+ * allows a single fee to be paid for a certain year. This is restricted from
+ * the database side.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Thu Aug 27, 2009 06:58 AM
+ */
+
+$this->headTitle("Fee Payment - {$this->user->getUserId()}");
+
+?>
+
+<h1>Subscription</h1>
+
+<?php echo $this->action('header', 'users', 'admin') ?>
+
+<?php echo $this->render('users/actions.phtml') ?>
+
+<?php if (in_array($this->user->getMemberType(), array('User', 'Student'))): ?>
+<p id="messages">The member's Member Type is <?php echo $this->user->getMemberType() ?>.<br />
+You can change to a Fee incurring Member Type and enter a Fee.</p>
+<?php endif; ?>
+
+<p>Adding subscription for the user <?php echo $this->user->getName() ?>.</p>
+
+<?php echo $this->form ?>

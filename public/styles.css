@@ -362,14 +362,6 @@ table.border input[type=radio] {
 table.view tbody tr th {
 	font-weight: normal;
 	text-align: right;
-	background-color: #f5f5f5;
-	border-right: 1px solid #eee;
-}
-table.view tbody tr th, table.view tbody tr td {
-	border-bottom: 1px solid #ddd;
-}
-table.view tbody tr:last-child th, table.view tbody tr:last-child td {
-	border-bottom: none;
 }
 
 /* Code */
