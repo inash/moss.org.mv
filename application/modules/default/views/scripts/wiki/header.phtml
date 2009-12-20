@@ -10,9 +10,8 @@
 
 <div id="wiki-info-box">
     <ul class="ul">
-        <li><a href="<?php echo $this->baseUrl.'/'.$this->page->name ?>"><?php echo $this->page->title ?></a></li>
+        <?php if ($this->user['authenticated'] == true): ?>
         <li><a href="<?php echo $this->baseUrl.'/'.$this->page->name ?>/edit" class="link-icon wiki-edit">Edit</a></li>
-        <li><a href="<?php echo $this->baseUrl.'/'.$this->page->name ?>/history" class="link-icon wiki-history">History</a></li>
-        <li><a href="<?php echo $this->baseUrl.'/'.$this->page->name ?>/email" class="link-icon email">Email</a></li>
+        <?php endif; ?>
     </li>
 </div>

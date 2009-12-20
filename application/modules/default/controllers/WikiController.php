@@ -80,13 +80,14 @@ class WikiController extends Pub_Controller_Action
                 'published'      => 'Published'));
             
             /* Add page revision. */
-            $pageRevModel = new Default_Model_DbTable_PageRevisions();
-            $pageRevisionId = $pageRevModel->insert(array(
-                'pageId'    => $pageId,
-                'userId'    => $this->user['userId'],
-                'timestamp' => date('Y-m-d H:i:s'),
-                'summary'   => 'new',
-                'body'      => $body));
+            /* disabled temporarily. */
+//            $pageRevModel = new Default_Model_DbTable_PageRevisions();
+//            $pageRevisionId = $pageRevModel->insert(array(
+//                'pageId'    => $pageId,
+//                'userId'    => $this->user['userId'],
+//                'timestamp' => date('Y-m-d H:i:s'),
+//                'summary'   => 'new',
+//                'body'      => $body));
             
             /* If success, redirect to Static page view action. Set flash
              * message to appear stating that the insertion succeeded. */
@@ -143,7 +144,9 @@ class WikiController extends Pub_Controller_Action
         if (!$page) $this->_forward("/{$params['name']}");
         
         /* If there's no diff, alert and fail back to viewing the page. */
-        if ($params['body'] == $page->body) {
+        if ($params['body'] == $page->body &&
+        $params['title'] == $page->title &&
+        $params['name'] == $page->name) {
             $this->_helper->flashMessenger->addMessage("No Change. Page Unmodified.");
             $this->_redirect("/{$page->name}");
             return true;
@@ -157,29 +160,43 @@ class WikiController extends Pub_Controller_Action
         
         try {
 	        /* Update page revision by inserting a new record with the new diff. */
-	        $pageRevModel = new Default_Model_DbTable_PageRevisions();
-	        $pageRevId    = $pageRevModel->insert(array(
-	            'pageId'    => $page->pageId,
-	            'userId'    => $this->user['userId'],
-	            'timestamp' => date('Y-m-d H:i:s'),
-	            'summary'   => $params['summary'],
-	            'body'      => $params['body']));
+            /* disabled temporarily. */
+//	        $pageRevModel = new Default_Model_DbTable_PageRevisions();
+//	        $pageRevId    = $pageRevModel->insert(array(
+//	            'pageId'    => $page->pageId,
+//	            'userId'    => $this->user['userId'],
+//	            'timestamp' => date('Y-m-d H:i:s'),
+//	            'summary'   => $params['summary'],
+//	            'body'      => $params['body']));
 	        
 	        /* Update page record with new data. */
+            $page->name           = $params['name'];
+            $page->title          = $params['title'];
+            $page->body           = $params['body'];
 	        $page->pageRevisionId = $pageRevId;
 	        $page->dateModified   = date('Y-m-d H:i:s');
 	        $page->modifiedBy     = $this->user['userId'];
-	        $page->body = $params['body'];
 	        $page->save();
 	        
 	        /* Add log entry regarding new page revision. */
 	        $this->log->insert(array(
 	            'entity'    => 'page_revisions',
-	            'entityId'  => $pageRevId,
+	            'entityId'  => $page->pageId,
 	            'timestamp' => date('Y-m-d H:i:s'),
 	            'code'      => 'new',
 	            'message'   => "new page revision created for page [{$page->pageId}] {$page->name}",
 	            'userId'    => $this->user['userId']));
+	        
+	        /* Notify moderators. */
+	        if (APP_ENV == 'production') {
+                $emailBody = "http://{$_SERVER['SERVER_NAME']}{$this->view->baseUrl}/{$page->name}";
+   	            $mail = new Zend_Mail();
+   	            $mail->addTo('inash@leptone.com');
+   	            $mail->setSubject('Wiki update notification.');
+   	            $mail->setBodyText($emailBody);
+   	            $mail->setFrom('no-reply@moss.org.mv');
+   	            $mail->send();
+	        }
 	        
 	        /* Add flash message and redirect to view page. */
 	        $this->_helper->flashMessenger->addMessage("Page Successfully Updated!");

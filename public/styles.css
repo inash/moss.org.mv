@@ -3,12 +3,22 @@
 body {
     font-family: Arial, sans-serif;
     font-size: 12px;
+    line-height: 18px;
     color: #333;
     margin: 0px;
 }
 
 h1 {
+	font-weight: normal;
 	color: #AA0000;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 10px;
+}
+h2 {
+	font-size: 18px;
+	font-weight: normal;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 5px;
 }
 
 a {
@@ -241,10 +251,11 @@ form dl dd #captcha-input {
 
 #main #body #content #wiki h1 {
 	font-size: 18px;
+	padding-bottom: 5px;
 }
 
 #main #body #content #wiki-info-box {
-	border-bottom: 1px solid #ddd;
+	/*border-bottom: 1px solid #ddd;*/
 	padding-bottom: 5px;
 	text-align: right;
 	font-size: 10px;
@@ -366,9 +377,9 @@ table.view tbody tr th {
 
 /* Code */
 pre {
-	font-size: 10px;
+	font-size: 12spx;
 	line-height: 12px;
-	border: 1px solid #ccc;
+	border: 1px dashed #2F6FAB;
 	padding: 10px;
 }
 pre ins {

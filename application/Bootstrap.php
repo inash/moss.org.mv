@@ -39,7 +39,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
     	$view = $this->getResource('view');
     	$view->headTitle()->setSeparator(' - ');
-    	$view->headTitle('MOSS');
+    	$view->headTitle('MOSS, Maldivess Open Source Society');
     }
     
     protected function _initRoutes()

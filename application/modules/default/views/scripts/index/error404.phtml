@@ -12,7 +12,18 @@ $this->headTitle('Error 404');
 <h1>Page Does Not Exist</h1>
 
 <p>The requested page <strong><?php echo $this->name ?></strong>,
-does not currently exist. Below is a list of suggestions of similar pages.</p>
+does not currently exist. If you're a member of the Administrators group, you
+will be able to create and edit this page once you login.</p>
+
+<p>
+<?php if ($this->user['authenticated'] == true): ?>
+<a href="<?php echo $this->baseUrl ?>/<?php echo $this->name ?>/new">Click here</a>
+to create a new page with the name, or below is a list of suggestions of similar
+pages.
+<?php else: ?>
+Below is a list of suggestions of similar pages.
+<?php endif; ?>
+</p>
 
 <?php if ($this->fullTextMatches): ?>
 <ul>
