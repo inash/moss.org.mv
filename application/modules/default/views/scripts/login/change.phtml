@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * Screen for forced password change.
+ *
+ * @created Sun Jan 10, 2010 1:21 AM
+ */
+
+$this->headTitle('Reset Password');
+
+?>
+
+<h1>Reset your Password</h1>
+
+<p>You're required to change your password because recently you requested to
+reset your password or this is a periodic security check for users to update
+their passwords.</p>
+
+<?php if ($this->form->isErrors()): ?>
+<?php if (isset($this->message)): ?>
+<div id="messages"><?php echo $this->message ?></div>
+<?php else: ?>
+<div id="messages">Please correct the errors below.</div>
+<?php endif; ?>
+<?php endif; ?>
+
+<?php echo $this->form ?>

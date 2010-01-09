@@ -32,7 +32,7 @@ class Pub_Form_Decorator_Composite extends Zend_Form_Decorator_Abstract
         $helper  = $element->helper;
         
         if ($helper == 'formSubmit') {
-        	return $element->getView()->$helper(
+            return $element->getView()->$helper(
                 $element->getName(),
                 $element->getLabel(),
                 $element->getValue(),
@@ -41,7 +41,7 @@ class Pub_Form_Decorator_Composite extends Zend_Form_Decorator_Abstract
         }
         
 //        if ($element->getType() == 'Zend_Form_Element_Captcha') {
-//        	$output = $element->getView()->formHidden(
+//            $output = $element->getView()->formHidden(
 //                $element->getName().'[id]',
 //                $element->getValue());
 //            $output .= $element->getView()->formText(
@@ -58,22 +58,22 @@ class Pub_Form_Decorator_Composite extends Zend_Form_Decorator_Abstract
     
     public function buildErrors()
     {
-    	$element  = $this->getElement();
-    	$messages = $element->getMessages();
-    	if (empty($messages)) {
-    		return '';
-    	}
-    	return '<div class="errors">'
+        $element  = $this->getElement();
+        $messages = $element->getMessages();
+        if (empty($messages)) {
+            return '';
+        }
+        return '<div class="errors">'
             . $element->getView()->formErrors($messages)
             . '</div>';
     }
     
     public function buildDescription()
     {
-    	$element  = $this->getElement();
-    	$desc     = $element->getDescription();
-    	if (empty($desc)) return '';
-    	return PHP_EOL . '<span class="description">' . $desc . '</span>';
+        $element  = $this->getElement();
+        $desc     = $element->getDescription();
+        if (empty($desc)) return '';
+        return PHP_EOL . '<span class="description">' . $desc . '</span>';
     }
     
     public function render($content)
@@ -94,26 +94,26 @@ class Pub_Form_Decorator_Composite extends Zend_Form_Decorator_Abstract
         $desc      = $this->buildDescription();
         
         if ($element->helper == 'formSubmit') {
-        	$output = '<tr class="buttons"><td>&nbsp;</td><td>' . $input . '</td></tr>';
+            $output = '<tr class="buttons"><td>&nbsp;</td><td>' . $input . '</td></tr>';
         } elseif ($element->helper == 'formHidden') {
-        	$output = $input;
+            $output = $input;
         } elseif ($element->getType() == 'Zend_Form_Element_Captcha') { 
-        	//$view    = $element->getView();
+            //$view    = $element->getView();
             //$captcha = $element->getCaptcha();
             //$markup  = $captcha->render($view, $element);
             $output  = '<tr><th class="required">' . $label . '</td>'
                 . '<td>' . $content . $errors . '</td></tr>';
             return $output;
         } else {
-        	if ($element->isRequired()) {
-        		$output = '<tr><th class="required">';
-        	} else {
+            if ($element->isRequired()) {
+                $output = '<tr><th class="required">';
+            } else {
                 $output = '<tr><th>';
-        	}
-        	
-        	$output .= $label . '</th>'
-	            . '<td>' . $input . $desc . $errors . '</td>'
-	            . '</tr>';
+            }
+
+            $output .= $label . '</th>'
+                . '<td>' . $input . $desc . $errors . '</td>'
+                . '</tr>';
         }
         
         switch ($placement) {

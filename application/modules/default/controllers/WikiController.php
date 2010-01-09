@@ -81,13 +81,13 @@ class WikiController extends Pub_Controller_Action
             
             /* Add page revision. */
             /* disabled temporarily. */
-//            $pageRevModel = new Default_Model_DbTable_PageRevisions();
-//            $pageRevisionId = $pageRevModel->insert(array(
-//                'pageId'    => $pageId,
-//                'userId'    => $this->user['userId'],
-//                'timestamp' => date('Y-m-d H:i:s'),
-//                'summary'   => 'new',
-//                'body'      => $body));
+            $pageRevModel = new Default_Model_DbTable_PageRevisions();
+            $pageRevisionId = $pageRevModel->insert(array(
+                'pageId'    => $pageId,
+                'userId'    => $this->user['userId'],
+                'timestamp' => date('Y-m-d H:i:s'),
+                'summary'   => 'new',
+                'body'      => $body));
             
             /* If success, redirect to Static page view action. Set flash
              * message to appear stating that the insertion succeeded. */
@@ -161,13 +161,13 @@ class WikiController extends Pub_Controller_Action
         try {
 	        /* Update page revision by inserting a new record with the new diff. */
             /* disabled temporarily. */
-//	        $pageRevModel = new Default_Model_DbTable_PageRevisions();
-//	        $pageRevId    = $pageRevModel->insert(array(
-//	            'pageId'    => $page->pageId,
-//	            'userId'    => $this->user['userId'],
-//	            'timestamp' => date('Y-m-d H:i:s'),
-//	            'summary'   => $params['summary'],
-//	            'body'      => $params['body']));
+	        $pageRevModel = new Default_Model_DbTable_PageRevisions();
+	        $pageRevId    = $pageRevModel->insert(array(
+	            'pageId'    => $page->pageId,
+	            'userId'    => $this->user['userId'],
+	            'timestamp' => date('Y-m-d H:i:s'),
+	            'summary'   => $params['summary'],
+	            'body'      => $params['body']));
 	        
 	        /* Update page record with new data. */
             $page->name           = $params['name'];
@@ -192,9 +192,9 @@ class WikiController extends Pub_Controller_Action
                 $emailBody = "http://{$_SERVER['SERVER_NAME']}{$this->view->baseUrl}/{$page->name}";
    	            $mail = new Zend_Mail();
    	            $mail->addTo('inash@leptone.com');
-   	            $mail->setSubject('Wiki update notification.');
+   	            $mail->setSubject('Wiki Update Notification.');
    	            $mail->setBodyText($emailBody);
-   	            $mail->setFrom('no-reply@moss.org.mv');
+   	            $mail->setFrom('noreply@moss.org.mv', 'MOSS');
    	            $mail->send();
 	        }
 	        

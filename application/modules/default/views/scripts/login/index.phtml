@@ -13,10 +13,15 @@ $this->headTitle('Login');
 
 <h1>Login</h1>
 
-<p>Authenticate and log into moss.org.mv</p>
+<p>Enter your Email address and password to log in.
+<a href="<?php echo $this->baseUrl ?>/reset">Forgot</a>?</p>
 
 <?php if ($this->form->isErrors()): ?>
+<?php if (isset($this->message)): ?>
+<div id="messages"><?php echo $this->message ?></div>
+<?php else: ?>
 <div id="messages">Authentication failed. Please correct the errors below.</div>
+<?php endif; ?>
 <?php endif; ?>
 
 <?php echo $this->form ?>

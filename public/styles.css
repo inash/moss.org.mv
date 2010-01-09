@@ -9,16 +9,16 @@ body {
 }
 
 h1 {
-	font-weight: normal;
-	color: #AA0000;
-	border-bottom: 1px solid #ccc;
-	padding-bottom: 10px;
+    font-weight: normal;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
 }
 h2 {
-	font-size: 18px;
-	font-weight: normal;
-	border-bottom: 1px solid #ccc;
-	padding-bottom: 5px;
+    font-size: 18px;
+    font-weight: normal;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
 }
 
 a {
@@ -32,23 +32,24 @@ a:hover {
 #header {
     /*background-color: #C63737; /* #AA0000; #6D0000; */
     background-color: #fff;
-    border-bottom: 5px solid #AA0000;
+    border-bottom: 1px solid #999;
 }
 #header #content {
     margin: 0 auto;
     width: 900px;
 }
 #header #content #title a {
-	font-size: 16px;
-	font-weight: bold;
-	color: #AA0000;
+    background-image: url('pix/logo-home.png');
+    width: 220px;
+    height: 40px;
     float: left;
-    padding: 10px;
-    padding-left: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 #header #content #links {
     float: right;
     margins: 0px;
+    margin-top: 20px;
     padding: 0px;
     list-style: none;
     display: block;
@@ -59,7 +60,7 @@ a:hover {
     padding: 10px;
 }
 #header #content #links li:last-child {
-	padding-right: 0px;
+    padding-right: 0px;
 }
 #header #content #links li a {
     color: #666;
@@ -78,22 +79,24 @@ a:hover {
     width: 900px;
 }
 #main #body #content {
-	float: left;
-	width: 640px;
+    float: left;
+    width: 640px;
 }
 
 #main #body #sidebar {
-	float: right;
-	width: 220px;
-	padding-left: 20px;
-	border-left: 1px solid #ddd;
+    float: right;
+    width: 220px;
+    padding-left: 20px;
+    border-left: 1px solid #ddd;
 }
 #main #body #sidebar h1 {
-	font-size: 14px;
+    font-size: 14px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 #recently-joined img {
-	padding: 2px;
+    padding: 2px;
     background-color: #fff;
     border: 1px solid #aaa;
 }
@@ -111,17 +114,17 @@ a:hover {
     list-style: none;
 }
 #menu-bottom #links li {
-	display: inline;
-	padding: 10px;
+    display: inline;
+    padding: 10px;
 }
 #menu-bottom #links li:first-child {
-	padding-left: 0px;
+    padding-left: 0px;
 }
 #menu-bottom #links a {
     
 }
 #footer {
-	background-color: #e3e3e3;
+    background-color: #e3e3e3;
 }
 #footer #text {
     font-size: 11px;
@@ -134,38 +137,48 @@ a:hover {
 
 /* Form. */
 form {
-	margin: 0px;
-	padding: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+form input[type=text], form input[type=password], form textarea {
+    border: 1px solid #999;
+    padding: 3px;
+}
+form input[type=submit], form input[type=reset], form input[type=button] {
+    background-image: url('pix/bg-btn.gif');
+    height: 22px;
+    border: 1px solid #212D5F;
+    color: #fff;
+    font-weight: normal;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #212D5F;
 }
 form table {
-	margin-top: 10px;
-	margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 form table tbody tr th {
-	font-weight: normal;
-	text-align: right;
-	vertical-align: top;
-	padding-top: 6px;
+    font-weight: normal;
+    text-align: right;
+    vertical-align: top;
+    padding-top: 6px;
 }
 form table .buttons td {
-	border-top: 1px solid #ccc;
-}
-form table .buttons input[type=submit] {
-	color: #AA0000;
+    border-top: 1px solid #ccc;
 }
 form table tbody tr.error td {
-	border-top: 1px solid #ddd;
-	background-color: #fff;
-	color: #AA0000;
-	font-style: oblique;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+    color: #AA0000;
+    font-style: oblique;
 }
 form table tbody tr.title td {
-	border-bottom: 1px solid #999;
-	text-align: center;
+    border-bottom: 1px solid #999;
+    text-align: center;
 }
 form table tbody tr td .description {
-	font-size: 10px;
-	font-style: italic;
+    font-size: 10px;
+    font-style: italic;
 }
 form table tr td ul.errors {
     padding: 0px;
@@ -180,116 +193,124 @@ form table tr td ul.errors li {
 
 /* Form custom classes. */
 form input.full-width {
-	width: 100%;
+    width: 100%;
 }
 
 /* Zend_Form based tag styles .*/
-form dl dt {
-    float: left;
-	width: 20%;
-	text-align: right;
-	margin-top: 2px;
-	margin-right: 5px;
-}
 form dl dd {
-	margin-bottom: 5px;
+    margin-left: 0px;
+    margin-bottom: 5px;
+    left: 0px;
 }
 form dl dd #captcha-input {
-	position: relative;
-	sleft: 37px;
+    position: relative;
+}
+form dl dd ul {
+    list-style-type: none;
+    font-style: oblique;
+    padding: 0px;
+    font-size: 11px;
+}
+form dl dd ul li {
+    padding: 0px;
 }
 
 /* Classes. */
 .ul {
-	list-style-type: disc;
+    list-style-type: disc;
     list-style-position: inside;
     padding-left: 0px;
-    color: #AA0000;
+    color: #212D5F;
 }
 .required {
-	color: #AA0000;
+    color: #212D5F;
 }
 .error {
-	background-color: #f5f5f5;
-	border: 1px solid #ddd;
-	padding: 5px;
-	padding-left: 25px;
-	background-image: url('pix/bullet_error.png');
-	background-repeat: no-repeat;
-	background-position: 5px;
-	margin-bottom: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 5px;
+    padding-left: 25px;
+    background-image: url('pix/bullet_error.png');
+    background-repeat: no-repeat;
+    background-position: 5px;
+    margin-bottom: 10px;
 }
 .mini, .mini tbody td {
-	font-size: 11px;
+    font-size: 11px;
 }
 .ta-editor {
-	width: 100%;
-	height: 200px;
+    width: 100%;
+    height: 200px;
 }
 
 #main #body #content a.non-existent {
-	color: brown;
-	font-weight: bold;
+    color: brown;
+    font-weight: bold;
 }
 
 /* Identifiers. */
 #main #body #sidebar #user-box {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 #main #body #sidebar #user-box #sb-ub-i {
     float: left;
 }
 #main #body #sidebar #user-box #sb-ub-i img {
-	padding: 2px;
-	background-color: #fff;
-	border: 1px solid #aaa;
+    padding: 2px;
+    background-color: #fff;
+    border: 1px solid #aaa;
 }
 #main #body #sidebar #user-box #sb-ub-c {
-	float: left;
-	margin-left: 10px;
+    float: left;
+    margin-left: 10px;
+}
+
+#main #body #sidebar #search form input[type=submit] {
+    margin-top: 5px;
 }
 
 #main #body #content #wiki h1 {
-	font-size: 18px;
-	padding-bottom: 5px;
+    font-size: 18px;
+    padding-bottom: 5px;
 }
 
 #main #body #content #wiki-info-box {
-	/*border-bottom: 1px solid #ddd;*/
-	padding-bottom: 5px;
-	text-align: right;
-	font-size: 10px;
+    /*border-bottom: 1px solid #ddd;*/
+    float: right;
+    padding-bottom: 5px;
+    text-align: right;
+    font-size: 10px;
 }
 #main #body #content #wiki-info-box ul {
-	padding: 0px;
-	margin: 0px;
-	list-style: none;
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
 }
 #main #body #content #wiki-info-box ul li {
-	display: inline;
-	margin-left: 5px;
+    display: inline;
+    margin-left: 5px;
 }
 
 #main #body #content #profile {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 #main #body #content #profile #avatar {
-	float: left;
+    float: left;
 }
 #main #body #content #profile #avatar img {
-	border: 1px solid #aaa;
+    border: 1px solid #aaa;
     padding: 2px;
     background-color: #fff;
 }
 #main #body #content #profile #name {
-	float: left;
-	margin-left: 10px;
+    float: left;
+    margin-left: 10px;
 }
 
 #main #body #content #wiki-index {
-	float: right;
-	border: 1px solid #ddd;
-	background-color: #f5f5f5;
+    float: right;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
     padding-right: 10px;
     font-size: 11px;
     margin-left: 20px;
@@ -297,20 +318,20 @@ form dl dd #captcha-input {
     margin-bottom: 15px;
 }
 #main #body #content #wiki-index ul {
-	padding-left: 10px;
-	list-style: disc inside;
+    padding-left: 10px;
+    list-style: disc inside;
 }
 
 #main #body #content #wiki-info-box-footer {
-	border-top: 1px solid #ddd;
-	padding-top: 5px;
-	font-size: 10px;
-	text-align: right;
-	margin-top: 10px;
+    border-top: 1px solid #ddd;
+    padding-top: 5px;
+    font-size: 10px;
+    text-align: right;
+    margin-top: 10px;
 }
 
 #main #body #content #messages {
-	background-color: #f5f5f5;
+    background-color: #f5f5f5;
     border: 1px solid #ddd;
     padding: 5px;
     padding-left: 25px;
@@ -330,7 +351,7 @@ a.link-icon {
     background-position: 0px 0px;
 }
 a.email {
-	background-image: url('pix/email_link.png');
+    background-image: url('pix/email_link.png');
 }
 a.wiki-edit {
     background-image: url('pix/page_edit.png');
@@ -341,29 +362,29 @@ a.wiki-history {
 
 /* Table border. */
 table.border {
-	border: 1px solid #ddd;
+    border: 1px solid #ddd;
 }
 table.border thead tr th {
     border-bottom: 1px solid #ddd;
     text-align: left;
 }
 table.border tbody tr td {
-	border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 table.border tbody tr:last-child td {
     border: none;
 }
 table.border tbody tr:hover td {
-	background-color: #f5f5f5;
+    background-color: #f5f5f5;
 }
 table.border tbody tr.highlight td {
-	border-bottom: 1px solid #999;
-	background-color: #e5e5e5;
-	font-style: oblique;
+    border-bottom: 1px solid #999;
+    background-color: #e5e5e5;
+    font-style: oblique;
 }
 table.border tfoot tr td {
-	font-size: 11px;
-	background-color: #f5f5f5;
+    font-size: 11px;
+    background-color: #f5f5f5;
 }
 table.border input[type=radio] {
     margin: 0px;
@@ -371,42 +392,42 @@ table.border input[type=radio] {
 
 /* Table view. */
 table.view tbody tr th {
-	font-weight: normal;
-	text-align: right;
+    font-weight: normal;
+    text-align: right;
 }
 
 /* Code */
 pre {
-	font-size: 12spx;
-	line-height: 12px;
-	border: 1px dashed #2F6FAB;
-	padding: 10px;
+    font-size: 12spx;
+    line-height: 12px;
+    border: 1px dashed #2F6FAB;
+    padding: 10px;
 }
 pre ins {
-	background-color: #A5F7A5;
+    background-color: #A5F7A5;
 }
 pre del {
-	background-color: #FFBABA;
+    background-color: #FFBABA;
 }
 
 /* profile box */
 #profile-box {
-	border: 1px solid #aaaaaa;
+    border: 1px solid #aaaaaa;
     padding: 5px;
 }
 #profile-box table tr th {
-	text-align: right;
-	font-weight: normal;
-	color: #666;
+    text-align: right;
+    font-weight: normal;
+    color: #666;
 }
 
 #submenu, .actions {
-	margin-bottom: 10px;
-	border: 1px solid #ccc;
-	padding: 5px;
-	font-size: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 10px;
 }
 
 .actions {
-	margin-top: 10px;
+    margin-top: 10px;
 }

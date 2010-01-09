@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * Mail template when users reset their passwords.
+ * 
+ * @author  Inash Zubair
+ * @created Sat Jan 9, 2009 3:24 PM
+ */
+
+?>
+<?php echo $this->user['name'] ?>,
+
+You recently forgot your password and requested to reset it. Here is your
+temporary password:
+
+<?php echo $this->password ?>
+
+
+You will need to log in with that password and immediately change it to your
+preference before proceeding on to the website.
+
+http://<?php echo $_SERVER['SERVER_NAME'].$this->baseUrl.'/login' ?>
+
+
+Click on the above URL or copy paste it into your web browser's address bar.
+Once you're at the login page, proceed with logging in with your temporary
+password.
+
+Thank you.
+
+---
+The TEAM
+moss.org.mv

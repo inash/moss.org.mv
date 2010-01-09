@@ -8,7 +8,7 @@
  * @created Thu Aug 27, 2009 05:22 AM
  */
 
-class Admin_Bootstrap extends Zend_Application_Bootstrap_Bootstrap
+class Admin_Bootstrap extends Zend_Application_Module_Bootstrap
 {
     protected function _initAutoloader()
     {

@@ -13,7 +13,7 @@ class Default_Form_Contact extends Zend_Form
         
         /* Add name element. */
         $this->addElement('text', 'name', array(
-            'label'         => 'Name:',
+            'label'         => 'Name',
             'required'      => true,
             'filters'       => array('StringTrim'),
             'validators'    => array('NotEmpty'),
@@ -21,7 +21,7 @@ class Default_Form_Contact extends Zend_Form
         
         /* Add email element. */
         $this->addElement('text', 'email', array(
-            'label'         => 'Email:',
+            'label'         => 'Email',
             'required'      => true,
             'filters'       => array('StringTrim'),
             'validators'    => array('EmailAddress'),
@@ -29,7 +29,7 @@ class Default_Form_Contact extends Zend_Form
         
         /* Add the comment element. */
         $this->addElement('textarea', 'comment', array(
-            'label'         => 'Comment:',
+            'label'         => 'Comment',
             'required'      => true,
             'rows'          => 5,
             'cols'          => 50,
@@ -37,7 +37,7 @@ class Default_Form_Contact extends Zend_Form
         
         /* Add a captcha. */
         $this->addElement('captcha', 'captcha', array(
-            'label'    => 'Verify:',
+            'label'    => 'Verify',
             'required' => true,
             'captcha'  => array(
                 'captcha' => 'Image',
@@ -49,7 +49,8 @@ class Default_Form_Contact extends Zend_Form
         /* Add the submit button. */
         $submit = $this->addElement('submit', 'submit', array(
             'ignore' => true,
-            'label'  => 'Submit'));
+            'label'  => 'Submit',
+            'class'  => 'hide'));
         
         /* Add CSRF protection. */
         $this->addElement('hash', 'csrf', array(

@@ -39,7 +39,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
     	$view = $this->getResource('view');
     	$view->headTitle()->setSeparator(' - ');
-    	$view->headTitle('MOSS, Maldivess Open Source Society');
+    	$view->headTitle('MOSS, Maldives Open Source Society');
     }
     
     protected function _initRoutes()
@@ -54,6 +54,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'module'     => 'default',
                 'controller' => 'register',
                 'action'     => 'activate')));
+
+        /* Add reset password route. */
+        $router->addRoute('reset',
+            new Zend_Controller_Router_Route('reset', array(
+                'module'     => 'default',
+                'controller' => 'login',
+                'action'     => 'reset')));
+
+        /* Add forced change password route. */
+        $router->addRoute('change',
+            new Zend_Controller_Router_Route('change', array(
+                'module'     => 'default',
+                'controller' => 'login',
+                'action'     => 'change')));
     }
     
     protected function _initSessionUser()
