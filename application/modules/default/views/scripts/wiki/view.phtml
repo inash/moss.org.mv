@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * Default index view.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Tuesday May 26, 2009 07:56 AM
+ */
+
+require_once 'markdown/markdown.php';
+$this->headTitle($this->page->title);
+
+?>
+
+<?php echo $this->render('wiki/header.phtml') ?>
+
+<?php 
+
+$html = markdown(stripslashes($this->page->body));
+preg_match_all("/(<h[0-6]+>)(.*)(<\/h[0-6]+>)/", $html, $matches, PREG_SET_ORDER);
+
+function mtabify($matches) {
+	$output = '';
+	$cntp   = 1;
+	$output = "<ul>\n";
+	foreach ($matches as $cnt => $match) {
+        $hlevel = substr(substr($match[1], 2), 0, 1);
+        if ($hlevel > $cntp) $output .= str_repeat("    ", $hlevel-1)."<ul>\n";
+        if ($hlevel < $cntp) {
+            for($i=$cntp-1; $i>0; $i--) {
+                $output .= str_repeat("    ", $i)."</ul>\n";
+            }
+        }
+        $url = '<a href="#h'.$cnt.'">'.trim($match[2]).'</a>';
+        $output .= str_repeat("    ", $hlevel).'<li>'.$url."</li>\n";
+        $cntp = $hlevel;
+	}
+	$output .= "</ul>";
+	return $output;
+}
+
+$list = mtabify($matches);
+/*<div id="wiki-index"><?php echo $list ?></div> */
+
+?>
+
+<div id="wiki"><?php echo $html ?></div>
+
+<?php echo $this->render('wiki/footer.phtml') ?>

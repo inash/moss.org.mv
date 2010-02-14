@@ -15,9 +15,11 @@ class Admin_ActivityController extends Pub_Controller_Action
     	
         $bootstrap = $this->getInvokeArg('bootstrap');
         $db = $bootstrap->getResource('db');
-        $dbSelect = $db->select()->from('logs')
+        $dbSelect = $db->select()
+            ->from(array('l' => 'logs'))
+            ->joinLeft(array('u' => 'users'), 'u.userId=l.userId', array('uname' => 'u.name'))
             ->order('timestamp DESC');
-
+        
         $paginator = Zend_Paginator::factory($dbSelect, 'DbSelect');
         $paginator->setCurrentPageNumber($page);
         $paginator->setItemCountPerPage(20);

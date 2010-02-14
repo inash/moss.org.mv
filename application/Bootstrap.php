@@ -68,6 +68,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'module'     => 'default',
                 'controller' => 'login',
                 'action'     => 'change')));
+
+        /* Add route to view news items. */
+        $router->addRoute('news',
+            new Zend_Controller_Router_Route('news/:year/:month/:name', array(
+                'module'     => 'default',
+                'controller' => 'news',
+                'action'     => 'view')));
     }
     
     protected function _initSessionUser()

@@ -50,9 +50,6 @@ class Pub_Controller_ApplicationAction extends Pub_Controller_Action
         require_once 'Zend/Log/Writer/Firebug.php';
         $this->debug = new Zend_Log(new Zend_Log_Writer_Firebug());
         
-        /* assuming user is not logged in, set the default guest prop. */
-        $userProp['Guest'] = array('login' => 'Login');
-
         /* check authentication and load user information from session. */
         if (isset($userns->authenticated) && $userns->authenticated == true) {
             
@@ -65,8 +62,6 @@ class Pub_Controller_ApplicationAction extends Pub_Controller_Action
             $this->checkAcl();
             $this->view->acl = $this->acl;
         }
-        
-        $this->view->userProp = $userProp;
     }
 
     private function checkAcl()

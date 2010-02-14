@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * News edit screen.
+ *
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Sat Jan 30, 2010 05:01 AM
+ */
+
+$this->headTitle('Edit News');
+
+?>
+
+<h1>Edit News Item</h1>
+
+<?php echo $this->action('header', 'news', 'admin') ?>
+
+<?php echo $this->form ?>
+
+<?php
+$this->addScriptPath(APPLICATION_PATH.'modules/default/views/scripts');
+echo $this->render('index/markdown-syntax.phtml')
+?>

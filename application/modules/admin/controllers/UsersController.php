@@ -16,19 +16,20 @@ class Admin_UsersController extends Pub_Controller_ApplicationAction
     {
         static $permission = 'view';
         
-    	/* Get request variables. */
-    	$params['filter']   = $this->_request->getParam('filter', null);
-    	$params['criteria'] = $this->_request->getParam('criteria', null);
-    	$params['state']    = $this->_request->getParam('state', null);
-    	
-    	/* Assign them to the view. */
-    	$this->view->params = $params;
-    	
-    	/* Set filter array. */
+        /* Get request variables. */
+        $params['filter']   = $this->_request->getParam('filter', null);
+        $params['criteria'] = $this->_request->getParam('criteria', null);
+        $params['state']    = $this->_request->getParam('state', null);
+
+        /* Assign them to the view. */
+        $this->view->params = $params;
+
+        /* Set filter array. */
         $filters = array(
             'userId' => 'Username',
             'name'   => 'Name',
-            'email'  => 'Email');
+            'email'  => 'Email',
+            'primaryGroup' => 'Primary Group');
         $this->view->filters = $filters;
         
         /* Set states array. */
@@ -61,20 +62,20 @@ class Admin_UsersController extends Pub_Controller_ApplicationAction
         if ($criteria != '') $select->where("{$filter} LIKE '%{$criteria}%'");
         
         switch ($state) {
-        	case 'fee':
-        		$select->where(
+            case 'fee':
+                $select->where(
                         "u.userId NOT IN ("
                       .     "SELECT userId FROM fees "
                       .     "WHERE forTheYear = year(curdate()) "
                       .     "GROUP BY userId)");
-        		break;
-        	case 'inactive':
-        		$select->where("active='N'");
-        		break;
-        		
-        	case 'disabled':
-        		$select->where("disabled='Y'");
-        		break;
+                break;
+            case 'inactive':
+                $select->where("active='N'");
+                break;
+
+            case 'disabled':
+                $select->where("disabled='Y'");
+                break;
         }
         
         /* Prepare paginator. */
@@ -97,12 +98,12 @@ class Admin_UsersController extends Pub_Controller_ApplicationAction
         static $permission = 'view';
         
         /* Get userId. */
-    	$userId = $this->_request->getParam('userId');
-    	$usersModel = new Default_Model_Users();
-    	
-    	/* Find user and set to the view. */
-    	$user = $usersModel->find($userId);
-    	$this->view->user = $user;
+        $userId = $this->_request->getParam('userId');
+        $usersModel = new Default_Model_Users();
+
+        /* Find user and set to the view. */
+        $user = $usersModel->find($userId);
+        $this->view->user = $user;
     }
     
     public function editAction()

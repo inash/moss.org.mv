@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * New journal entry view.
+ *
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Sun Jan 24, 2010 02:09 AM
+ */
+
+$this->headLink()->appendStylesheet($this->baseUrl.'/scripts/calendar/calendarview.css');
+$this->headScript()->appendFile($this->baseUrl.'/scripts/calendar/calendarview.js');
+
+?>
+
+<h1>New Journal Entry</h1>
+
+<?php echo $this->action('header', 'journal', 'admin') ?>
+
+<form method="post" action="">
+    <table border="0" cellspacing="0" cellpadding="4">
+        <tr>
+            <th>Date:</th>
+            <td><?php echo $this->formText('date', null, array('size'=>29)) ?></td>
+            <th>Description:</th>
+            <td><?php echo $this->formText('description', null, array('size'=>29)) ?></td>
+        </tr>
+        <tr>
+            <th>Debits:</th>
+            <td id="tdDebits">
+                <?php echo $this->formText('debit[]', null, array('size'=>20)) ?>
+                <?php echo $this->formText('drAmt[]', null, array('size'=>5)) ?>
+                <a href="#" id="lnkAddDebit" class="icon-add" title="Add extra Debit account field"></a><br />
+            </td>
+            <th>Credits:</th>
+            <td id="tdCredits">
+                <?php echo $this->formText('credit[]', null, array('size'=>20)) ?>
+                <?php echo $this->formText('crAmt[]', null, array('size'=>5)) ?>
+                <a href="#" id="lnkAddCredit" class="icon-add" title="Add extra Credit account field"></a><br />
+            </td>
+        </tr>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <input type="submit" name="submit" value="Add" />
+                    <input type="reset" value="Reset" />
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>
+
+<script type="text/javascript">
+/* Initialize calendar control. */
+Calendar.setup({dateField: 'date'});
+
+var cntEl = 0;
+$('lnkAddDebit', 'lnkAddCredit').each(function(el, i) {
+    var typeU = el.id.substr(6);                    // Sentence case.
+    var type  = typeU.toLowerCase();                // Lower case.
+    var typeS = (type == 'debit') ? 'dr' : 'cr';    // Abbreviation code.
+    el.observe('click', function(e) {
+        e.stop();
+        var tCntEl = cntEl;
+        var td = $('td'+typeU+'s');
+        var inp = document.createElement('input');
+        inp.type = 'text';
+        inp.id   = type+cntEl;
+        inp.name = type+'[]';
+        inp.size = 20;
+        inp.style.marginTop = '5px';
+        td.appendChild(inp);
+        td.appendChild(document.createTextNode(' '));
+
+        var inpv = document.createElement('input');
+        inpv.type = 'text';
+        inpv.id   = typeS+'Amt'+cntEl;
+        inpv.name = typeS+'Amt[]';
+        inpv.size = 5;
+        inpv.style.margniTop = '5px;';
+        td.appendChild(inpv);
+        td.appendChild(document.createTextNode(' '));
+
+        var adel = document.createElement('a');
+        adel.id = 'del'+typeS+cntEl;
+        adel.className = 'icon-delete';
+        adel.style.cursor = 'pointer';
+        adel.style.display = 'inline-block';
+        adel.style.verticalAlign = 'middle';
+        adel.style.width  = '16px';
+        adel.style.height = '16px';
+        adel.title = 'Remove this '+typeU+' account field';
+        adel.observe('click', function(e) {
+           var cnt = this.id.replace('del'+typeS, '');
+           $(type+cnt).remove();
+           $(typeS+'Amt'+cnt).remove();
+           this.nextSibling.remove();
+           this.remove();
+        });
+        td.appendChild(adel);
+        td.appendChild(document.createElement('br'));
+        cntEl++;
+    });
+});
+</script>

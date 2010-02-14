@@ -39,8 +39,9 @@ a:hover {
     width: 900px;
 }
 #header #content #title a {
-    background-image: url('pix/logo-home.png');
-    width: 220px;
+    background-image: url('pix/logo-home-2.png');
+    background-repeat: no-repeat;
+    width: 150px;
     height: 40px;
     float: left;
     margin-top: 10px;
@@ -48,26 +49,27 @@ a:hover {
 }
 #header #content #links {
     float: right;
-    margins: 0px;
-    margin-top: 20px;
-    padding: 0px;
-    list-style: none;
-    display: block;
+    margin-top: 31px;
 }
-#header #content #links li {
-    font-size: 14px;
-    display: inline;
-    padding: 10px;
-}
-#header #content #links li:last-child {
-    padding-right: 0px;
-}
-#header #content #links li a {
-    color: #666;
+#header #content #links a {
+    float: left;
+    color: #1C438B; /*#002565;*/
+    font-weight: bold;
+    font-size: 11px;
     text-decoration: none;
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #999;
+    border-right: none;
+    border-bottom: none;
 }
-#header #content #links li a:hover {
-    text-decoration: underline;
+#header #content #links a:hover {
+    background-color: #eee;
+}
+#header #content #links a:last-child {
+    clear: right;
+    border-right: 1px solid #999;
 }
 
 #main {
@@ -80,18 +82,18 @@ a:hover {
 }
 #main #body #content {
     float: left;
-    width: 640px;
+    width: 680px;
 }
 
 #main #body #sidebar {
     float: right;
-    width: 220px;
-    padding-left: 20px;
-    border-left: 1px solid #ddd;
+    width: 200px;
+    spadding-left: 20px;
+    sborder-left: 1px solid #ddd;
 }
 #main #body #sidebar h1 {
     font-size: 14px;
-    padding-bottom: 5px;
+    padding-bottom: 3px;
     margin-bottom: 10px;
 }
 
@@ -104,7 +106,7 @@ a:hover {
 #menu-bottom {
     font-size: 11px;
     color: #666;
-    border-bottom: 2px groove #fff;
+    border-bottom: 1px solid #aaa;
     background-color: #e3e3e3;
 }
 #menu-bottom #links {
@@ -139,19 +141,23 @@ a:hover {
 form {
     margin: 0px;
     padding: 0px;
+    display: inline;
 }
-form input[type=text], form input[type=password], form textarea {
+input[type=text], input[type=password], textarea, select {
     border: 1px solid #999;
     padding: 3px;
 }
-form input[type=submit], form input[type=reset], form input[type=button] {
+textarea { height: auto; }
+select { padding: 2px; }
+input[type=submit], input[type=reset], input[type=button], button {
     background-image: url('pix/bg-btn.gif');
-    height: 22px;
     border: 1px solid #212D5F;
     color: #fff;
     font-weight: normal;
     cursor: pointer;
     text-shadow: 1px 1px 0 #212D5F;
+    padding-bottom: 2px;
+    height: 22px;
 }
 form table {
     margin-top: 10px;
@@ -162,6 +168,9 @@ form table tbody tr th {
     text-align: right;
     vertical-align: top;
     padding-top: 6px;
+}
+form table tbody tr td {
+    vertical-align: top;
 }
 form table .buttons td {
     border-top: 1px solid #ccc;
@@ -189,6 +198,10 @@ form table tr td ul.errors li {
     font-size: 10px;
     padding: 0px;
     margin: 0px;
+}
+form table tfoot tr td {
+    border-top: 1px solid #ccc;
+    text-align: center;
 }
 
 /* Form custom classes. */
@@ -265,13 +278,24 @@ form dl dd ul li {
     margin-left: 10px;
 }
 
-#main #body #sidebar #search form input[type=submit] {
-    margin-top: 5px;
+#main #body #sidebar #search {
+    border: 1px solid #999;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+#search input[type=text] {
+    border: none;
+    width: 162px;
+}
+#search a {
+    padding: 3px 5px 4px 21px;
+    background-image: url('pix/find.png');
+    background-position: center 50%;
+    border-left: 1px solid #ccc;
 }
 
 #main #body #content #wiki h1 {
     font-size: 18px;
-    padding-bottom: 5px;
 }
 
 #main #body #content #wiki-info-box {
@@ -341,6 +365,50 @@ form dl dd ul li {
     margin-bottom: 10px;
 }
 
+#featured {
+    background-color: #E5EAF2;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+#featured.announcement {
+    background-color: #E5F1D0;
+}
+#featured #type {
+    font-size: 11px;
+    font-style: oblique;
+    float: right;
+    color: #aaa;
+}
+#featured h2 {
+    font-size: 18px;
+    margin: 0px;
+}
+#featured h2 a {
+    color: #333;
+}
+#featured h2 a:hover {
+    text-decoration: none;
+    color: #1C438B;
+}
+
+/* News view styles. */
+#news-view h1 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+#news-view h2 {
+    margin-bottom: 5px;
+}
+#news-view #info {
+    margin-bottom: 10px;
+    font-size: 11px;
+}
+
+#news-view-options {
+    float: right;
+    font-size: 10px;
+}
+
 /* Icons */
 a.link-icon {
     height: 16px;
@@ -350,23 +418,60 @@ a.link-icon {
     background-repeat: no-repeat;
     background-position: 0px 0px;
 }
-a.email {
-    background-image: url('pix/email_link.png');
-}
 a.wiki-edit {
     background-image: url('pix/page_edit.png');
 }
 a.wiki-history {
     background-image: url('pix/time.png');
 }
+.icon {
+    margin-left: 3px;
+    padding: 2px 0 1px 16px;
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+}
+.icon-email {
+    background-image: url('pix/email_link.png');
+}
+.icon-print {
+    background-image: url('pix/printer.png');
+}
+.icon-twitter {
+    background-image: url('pix/twitter_16.png');
+}
+.icon-facebook {
+    background-image: url('pix/facebook_16.png');
+}
+.icon-feed {
+    background-image: url('pix/rss_16.png');
+}
+.icon-feed-14x14 {
+    padding: 0 0 0 14px;
+    background-image: url('pix/feed-icon-14x14.png');
+}
+.icon-add {
+    background-image: url('pix/add.png');
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+}
+.icon-delete {
+    background-image: url('pix/delete.png');
+    background-repeat: no-repeat;
+    display: block;
+    width: 16px;
+    height: 16px;
+}
 
 /* Table border. */
 table.border {
     border: 1px solid #ddd;
 }
-table.border thead tr th {
+table.border thead tr td {
+    font-weight: bold;
     border-bottom: 1px solid #ddd;
-    text-align: left;
 }
 table.border tbody tr td {
     border-bottom: 1px solid #e5e5e5;
@@ -382,6 +487,12 @@ table.border tbody tr.highlight td {
     background-color: #e5e5e5;
     font-style: oblique;
 }
+table.border tbody tr.border-top-special td {
+    border-top: 1px solid #999;
+}
+table.border tbody tr.border-top-special:first-child td {
+    border-top: none;
+}
 table.border tfoot tr td {
     font-size: 11px;
     background-color: #f5f5f5;
@@ -390,25 +501,39 @@ table.border input[type=radio] {
     margin: 0px;
 }
 
+table.listing tbody tr td {
+    border-bottom: 1px solid #ccc;
+}
+
 /* Table view. */
 table.view tbody tr th {
+    color: #212D5F;
     font-weight: normal;
     text-align: right;
+    border-bottom: 1px solid #e5e5e5;
+}
+table.view tbody tr td {
+    border-bottom: 1px solid #e5e5e5;
+}
+table.view tbody tr:last-child th, table.view tbody tr:last-child td {
+    border-bottom: none;
 }
 
 /* Code */
-pre {
-    font-size: 12spx;
+pre, div.pre {
+    font-size: 12px;
     line-height: 12px;
     border: 1px dashed #2F6FAB;
     padding: 10px;
 }
-pre ins {
+div.pre ins {
     background-color: #A5F7A5;
 }
-pre del {
+div.pre del {
     background-color: #FFBABA;
 }
+
+.nowrap { white-space: nowrap; }
 
 /* profile box */
 #profile-box {
@@ -425,9 +550,12 @@ pre del {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     padding: 5px;
-    font-size: 10px;
 }
 
 .actions {
     margin-top: 10px;
+}
+.feed {
+    padding: 0 0 0 14px;
+    background: url('pix/feed-icon-14x14.png') no-repeat 0 50%;
 }

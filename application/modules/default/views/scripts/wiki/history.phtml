@@ -17,53 +17,69 @@ $this->headTitle('History');
 <h1>Page History</h1>
 
 <?php if (is_array($this->history) && count($this->history) > 0): ?>
-<form>
-    <table border="0" cellspacing="0" cellpadding="4" id="tbl-wiki-history" class="border mini" width="640">
+<form method="post">
+    <table border="0" cellspacing="0" cellpadding="4" id="tbl-wiki-history" class="border" width="100%">
         <thead>
             <tr>
-                <th width="14">&nbsp;</th>
-                <th width="170">Timestamp</th>
-                <th width="80">User</th>
-                <th>Summary</th>
+                <td width="14">&nbsp;</td>
+                <td>Timestamp</td>
+                <td>User</td>
+                <td>Summary</td>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($this->history as $cnt => $history): ?>
             <tr<?php if ($this->page->pageRevisionId == $history['pageRevisionId']): ?> class="highlight"<?php endif; ?>>
                 <td>
-	                <?php if ($this->user['authenticated']): ?>
-	                <input type="radio" name="revertTo" value="<?php echo $history['pageRevisionId'] ?>" />
+	                <?php if ($this->user['authenticated'] &&
+                            $this->acl->isAllowed($this->user['userId'], 'default_wiki', 'revert')): ?>
+	                <input type="radio" name="revision" value="<?php echo $history['pageRevisionId'] ?>" />
 	                <?php endif; ?>
 	            </td>
-                <td>
+                <td class="nowrap">
                     <?php if ($cnt+1 < count($this->history)): ?>
-                    <a href="<?php echo $this->baseUrl.'/'.$this->page->title ?>/revision/<?php echo $history['pageRevisionId'] ?>">
-                    <?php echo date('Y-m-d H:i O', strtotime($history['timestamp'])) ?>
+                    <a href="<?php echo $this->baseUrl.'/'.$this->page->name ?>/revision/<?php echo $history['pageRevisionId'] ?>">
+                    <?php echo date('d M, Y H:i A', strtotime($history['timestamp'])) ?>
                     </a>
                     <?php else: ?>
-                    <?php echo date('Y-m-d H:i O', strtotime($history['timestamp'])) ?>
-                    <?php endif; ?>
-                    <?php if ($this->page->pageRevisionId == $history['pageRevisionId']): ?>
-                    (Current)
+                    <?php echo date('d M, Y H:i A', strtotime($history['timestamp'])) ?>
                     <?php endif; ?>
                 </td>
-                <td><a href="<?php echo $this->baseUrl.'/'.$history['userId'] ?>"><?php echo $history['userId'] ?></a></td>
+                <td class="nowrap"><a href="<?php echo $this->baseUrl.'/'.$history['userId'] ?>"><?php echo $history['name'] ?></a></td>
                 <td><?php echo $history['summary'] ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
-        <?php if ($this->user['authenticated']): ?>
+        <?php if ($this->user['authenticated'] &&
+                $this->acl->isAllowed($this->user['userId'], 'default_wiki', 'revert')): ?>
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <input type="submit" name="revert" value="Revert" />
-                    <span class="info">Revert to the above selected revision.</span>
+                    <input type="submit" id="btnRevert" name="revert" value="Revert" />
+                    Revert to the above selected revision.
                 </td>
             </tr>
         </tfoot>
         <?php endif; ?>
     </table>
 </form>
+
+<?php if ($this->user['authenticated'] == true &&
+        $this->acl->isAllowed($this->user['userId'], 'default_wiki', 'revert')): ?>
+<script type="text/javascript">
+$('btnRevert').observe('click', function(e) {
+    e.stop();
+    if (confirm('Sure to Revert to this Version?')) {
+        $$('#tbl-wiki-history tbody tr td input[type=radio]').each(function(el) {
+            if (el.checked == true) {
+                el.form.action = '<?php echo $this->baseUrl ?>/<?php echo $this->page->name ?>/revision/'+el.value;
+                el.form.submit();
+            }
+        });
+    }
+});
+</script>
+<?php endif; ?>
 <?php else: ?>
 <div id="messages">There are no wiki page histories available.</div>
 <?php endif; ?>

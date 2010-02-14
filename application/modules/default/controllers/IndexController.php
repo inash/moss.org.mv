@@ -30,95 +30,44 @@ class IndexController extends Pub_Controller_Action
         /* Get page name. Format and clean title. */
         $name = trim($this->_request->getPathInfo(), '/');
         
-        /* If the request is for root, redirecto to /Front. */
-        if ($name == '') $this->_redirect('/Front');
-        
-        /* Explode the name parameter and extract operational fields values. */
-        $nameParts = explode('/', $name);
-        $operation = false;
-        if (count($nameParts) > 1) {
-            $operation = $nameParts[1];
-        }
-        
-        /* Prepare extra parameters. */
-        $paramsN = $nameParts;
-        unset($paramsN[0], $paramsN[1]);
-        
-        /* Reindex $params which is used later below. */
-        foreach ($paramsN as $val) $params[] = $val;
-        
-        /* Check if a user profile with the id that matches the provided
-         * parameter exists in the users table. If the user does not exist, 
-         * proceed in displaying the wiki page below. */
-        $usersModel = new Default_Model_DbTable_Users();
-        $user = $usersModel->find($nameParts[0])->current();
-        if ($user) {
-            if (!$operation) $operation = 'index';
-            $this->_forward($operation, 'profile', 'default');
+        /* If the request is not for root, redirect to wiki page. */
+        if ($name != '') {
+            $this->_forward('view', 'wiki', 'default', array('name' => $name));
             return true;
         }
-        
-        /* Set $pageName. */
-        $pageName = $nameParts[0];
-        $pageName = ucwords($pageName);
 
-        /* Search the pages table for the page. */
-        $pagesModel = new Default_Model_DbTable_Pages();
-        $page = $pagesModel->fetchRow("name='{$pageName}'");
+        /* Get featured announcement item. */
+        $ndbt = new Default_Model_DbTable_News();
+        $select = $this->db->select()
+                ->from(array('mn' => 'moss_news'), array('newsId', 'userId', 'date', 'type', 'name', 'title', 'excerpt'))
+                ->joinLeft(array('u' => 'users'), 'u.userId=mn.userId', array('uname' => 'u.name'))
+                ->where("mn.featured='Y'")
+                ->where("type='Announcement'")
+                ->order('date DESC')
+                ->limit(1);
+        $featured = $this->db->query($select)->fetch();
+        if (!empty($featured)) $featured['link'] = $ndbt->getLink($featured);
+        $this->view->featuredAnnouncement = $featured;
+
+        /* Get featured news item. */
+        $select = $this->db->select()
+                ->from(array('mn' => 'moss_news'), array('newsId', 'userId', 'date', 'type', 'name', 'title', 'excerpt'))
+                ->joinLeft(array('u' => 'users'), 'u.userId=mn.userId', array('uname' => 'u.name'))
+                ->where("mn.featured='Y'")
+                ->where("type='News'")
+                ->order('date DESC')
+                ->limit(1);
+        $featured = $this->db->query($select)->fetch();
+        if (!empty($featured)) $featured['link'] = $ndbt->getLink($featured);
+        $this->view->featuredNews = $featured;
+
+        /* Display announcements under announcements tab in home screen. */
+        $announcements = $ndbt->fetchAll(array("type='Announcement'"), 'date DESC', 10);
+        $this->view->announcements = $announcements;
         
-        /* If the page does not exist, do one of the following depending on the
-         * 1 option available.
-         * 
-         * Either show the non-existent page (which is done by default and if a
-         * valid operation is not specified for this scenario) or forward to
-         * creating the page anew. */
-        if (!$page) {
-            switch ($operation) {
-                case 'new':
-                    $this->_forward('new', 'wiki', 'default', array('page' => $pageName));
-                    break;
-                
-                default:
-                    
-                    /* Display 404 page for unauthorised users and the default
-                     * non-existent page for authorised users who has 'add'
-                     * permission for the wiki module. */
-                    if ($this->user['authenticated'] && $this->user['primaryGroup'] == 'Administrator') {
-                        $this->_forward('non-existent', 'index', 'default', array('page' => $pageName));
-                    } else {
-                        $this->_forward('error404', 'index', 'default', array('page' => $pageName));
-                    }
-            }
-            
-        /* If the page does exist, do so below. By default it just displays the
-         * page. If the valid operations (edit) are provided, those are
-         * forwarded to their respective action handlers in the WikiController. */
-        } else {
-            switch ($operation) {
-                case 'edit':
-                    $this->_forward('edit', 'wiki', 'default', array('page' => $pageName));
-                    break;
-                
-                case 'history':
-                    $this->_forward('history', 'wiki', 'default', array('page' => $pageName));
-                    break;
-                    
-                case 'revision':
-                    $this->_forward('revision', 'wiki', 'default', array(
-                        'page' => $pageName,
-                        'pageRevisionId' => $params[0]));
-                    break;
-                
-                /* Generic viewing of the page. */
-                default:
-                    $this->view->page = $page;
-                    
-                    /* Render page specific sidebar. */
-                    $paths = $this->view->getScriptPaths();
-                    $path = $paths[0];
-                    $file = strtolower($pageName);
-            }
-        }
+        /* Display news items under news tab in home screen. */
+        $news = $ndbt->fetchAll(array("type='News'"), 'date DESC', 10);
+        $this->view->news = $news;
     }
     
     public function error404Action()
@@ -149,6 +98,15 @@ class IndexController extends Pub_Controller_Action
         $this->_helper->viewRenderer->setResponseSegment('sidebar');
         // TODO: complete auto sidebar feature.
         
+        /* Render index side bar with recent stuff. */
+        if ($this->_request->getParam('action') == 'index' &&
+            $this->_request->getParam('controller') == 'index' &&
+            $this->_request->getParam('module') == 'default'
+        ) {
+            $this->_forward('sidebar-front');
+            return true;
+        }
+
         /* Render request specific sidebar. */
         $page = strtolower($this->_request->getParam('controller'));
         $path = $this->view->getScriptPaths();

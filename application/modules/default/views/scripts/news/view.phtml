@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * News view screen.
+ *
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Fri Jan 22, 2009 08:02 AM
+ */
+
+require_once 'markdown/markdown.php';
+
+$this->headTitle('MOSS', 'SET');
+$this->headTitle($this->news['title']);
+
+?>
+
+<div id="news-view-options">
+    <a href="#" class="icon icon-email"></a>
+    <a href="#" class="icon icon-print"></a>
+    <a href="#" class="icon icon-twitter"></a>
+    <a href="#" class="icon icon-facebook"></a>
+</div>
+
+<div id="news-view">
+    <h1><?php echo $this->news['title'] ?></h1>
+    <div id="info">
+        By <a href="<?php echo $this->baseUrl ?>/<?php echo $this->news['userId'] ?>"><?php echo $this->news['uname'] ?></a> -
+        <?php echo date('d M, Y H:i A', strtotime($this->news['date'])) ?>
+    </div>
+    
+    <?php echo markdown($this->news['content']) ?>
+</div>

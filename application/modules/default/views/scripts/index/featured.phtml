@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * Partial to display feature announcement and news item in the home page.
+ *
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Sat Feb 13, 2010 04:00 PM
+ */
+
+?>
+
+<div id="featured" class="<?php echo strtolower($this->featured['type']) ?>">
+    <span id="type"><?php echo $this->featured['type'] ?></span>
+    <h2><a href="<?php echo $this->baseUrl.'/'.$this->featured['link'] ?>"><?php echo $this->featured['title'] ?></a></h2>
+    <div class="mini" style="margin-bottom: 10px;">
+        By <a href="<?php echo $this->baseUrl.'/'.$this->featured['userId'] ?>"><?php echo $this->featured['uname'] ?></a> -
+        <?php echo date('d M, Y H:i A', strtotime($this->featured['date'])) ?>
+    </div>
+    <?php echo markdown($this->featured['excerpt']) ?>
+    <span class="mini"><a href="<?php echo $this->baseUrl.'/'.$this->featured['link'] ?>">Read More</a></span>
+</div>

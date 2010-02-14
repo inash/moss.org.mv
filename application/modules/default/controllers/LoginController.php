@@ -48,9 +48,9 @@ class LoginController extends Pub_Controller_Action
         /* Validate, if fails, show index view with errors. */
         $form = new Default_Form_Login();
         if (!$form->isValid($this->_request->getPost())) {
-        	$this->view->form = $form;
-        	$this->render('index');
-        	return false;
+            $this->view->form = $form;
+            $this->render('index');
+            return false;
         }
         
         /* Get auth parameters and filter them. */

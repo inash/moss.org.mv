@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * News listing and administration view.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Fri 25 Dec, 2009 12:18 PM
+ */
+
+$this->headTitle('Manage News');
+
+?>
+
+<h1>Listing News</h1>
+
+<?php echo $this->action('header', 'news', 'admin', $this->params) ?>
+
+<?php echo $this->paginationControl($this->pagniator, 'Sliding', 'index/paginator.phtml') ?>
+
+<?php if ($this->paginator->getTotalItemCount() > 0): ?>
+<table border="0" cellspacing="0" cellpadding="4" width="100%" class="border">
+    <thead>
+        <tr>
+            <td width="150">Date</td>
+            <td>Title</td>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->paginator as $item): ?>
+        <tr>
+            <td><?php echo date('d M, Y H:i A', strtotime($item['date'])) ?></td>
+            <td><a href="<?php echo $this->baseUrl ?>/admin/news/edit/newsId/<?php echo $item['newsId'] ?>"><?php echo $item['title'] ?></a></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<?php else: ?>
+<div id="messages">There are no records available for the selected filter.</div>
+<?php endif; ?>

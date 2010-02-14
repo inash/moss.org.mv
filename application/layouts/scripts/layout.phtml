@@ -11,7 +11,7 @@ echo $this->doctype('XHTML1_STRICT')
 
 ?>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <base href="<?php echo $this->baseUrl ?>" />
     <?php echo $this->headTitle() ?>
@@ -26,14 +26,14 @@ echo $this->doctype('XHTML1_STRICT')
 <body>
 <div id="header">
     <div id="content">
-        <div id="title"><a href="<?php echo $this->baseUrl ?>/Front"></a></div>
-        <ul id="links">
-            <li><a href="<?php echo $this->baseUrl ?>/Front">Home</a>
-            <li><a href="<?php echo $this->baseUrl ?>/About">About</a>
-            <li><a href="<?php echo $this->baseUrl ?>/Projects">Projects</a>
-            <li><a href="<?php echo $this->baseUrl ?>/FAQ">FAQ</a>
-            <li><a href="<?php echo $this->baseUrl ?>/contact">Contact</a>
-        </ul>
+        <div id="title"><a href="<?php echo $this->baseUrl ?>/"></a></div>
+        <div id="links">
+            <a href="<?php echo $this->baseUrl ?>/">Home</a>
+            <a href="<?php echo $this->baseUrl ?>/About">About</a>
+            <a href="<?php echo $this->baseUrl ?>/Projects">Projects</a>
+            <a href="<?php echo $this->baseUrl ?>/FAQ">FAQ</a>
+            <a href="<?php echo $this->baseUrl ?>/contact">Contact</a>
+        </div>
         <div style="clear: both;"></div>
     </div>
 </div>

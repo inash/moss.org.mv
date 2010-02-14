@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * Header view partial for admin news listing.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Fri 25 Dec, 2009 12:18 PM
+ */
+
+?>
+
+<div id="submenu">
+    <a href="<?php echo $this->baseUrl ?>/admin/news">List</a> .
+    <a href="<?php echo $this->baseUrl ?>/admin/news/add">Add</a> .
+    Filter:
+    <?php echo $this->formSelect('filter', $this->params['filter'], null, $this->filters) ?>
+    <?php echo $this->formText('criteria', $this->params['criteria'], array('size'=>10)) ?>
+    <?php echo $this->formButton('btnFilter', 'Filter') ?>
+</div>
+
+<script type="text/javascript">
+/* Autoselect criteria field value when clicked. */
+$('criteria').observe('click', function() {
+	this.selectionStart = 0;
+	this.selectionEnd = this.getValue().length;
+});
+
+/* Submit filter function. */
+function filter() {
+	var uri = baseUrl + '/admin/news/index/filter/' + $('filter').getValue()
+	    + (($('criteria').getValue() != '') ? '/criteria/' + $('criteria').getValue() : '');
+	window.location.href = uri;
+}
+
+/* Submit filter selection when enter is hit on the criteria field. */
+$('criteria').observe('keypress', function(e) {
+	if (e.keyCode != 13) return false;
+	filter();
+});
+
+/* Filter button logic. */
+$('btnFilter').observe('click', function() { filter(); });
+</script>

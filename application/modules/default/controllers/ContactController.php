@@ -39,7 +39,7 @@ class ContactController extends Pub_Controller_Action
         $transport = new Zend_Mail_Transport_Smtp($mail['server']);
         Zend_Mail::setDefaultTransport($transport);
 
-        $body = $params['comment']."\n\n===\n\n".print_r($_SERVER, true);
+        $body = stripslashes($params['comment'])."\n\n===\n\n".print_r($_SERVER, true);
         $mail = new Zend_Mail();
         $mail->setBodyText($body)
            ->setFrom($params['email'], $params['name'])

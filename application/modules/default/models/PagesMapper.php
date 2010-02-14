@@ -71,8 +71,9 @@ class Default_Model_PagesMapper extends Pub_Model_Mapper
         $db = $dbTable->getAdapter();
         $select = $db->select()
             ->from(array('p' => 'pages'), array('p.pageId', 'p.name', 'p.title'))
-            ->where('MATCH (title, body) AGAINST (? IN BOOLEAN MODE)', $string)
-            ->query();
+            ->where('MATCH (title, body) AGAINST (? IN BOOLEAN MODE)')
+            ->query(Zend_DB::FETCH_ASSOC, array($string));
+
         $result = $select->fetchAll();
         return $result;
     }

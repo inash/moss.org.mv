@@ -8,7 +8,7 @@
  */
 
 $this->headTitle($this->page->title);
-$this->headTitle("Revisions");
+$this->headTitle('Revisions');
 $this->headScript()->appendFile($this->baseUrl.'/scripts/prototype.js');
 $this->headScript()->appendFile($this->baseUrl.'/scripts/jsdiff.js');
 
@@ -22,14 +22,23 @@ $this->headScript()->appendFile($this->baseUrl.'/scripts/jsdiff.js');
 <?php echo date('r', strtotime($this->pageRevision['timestamp'])) ?> 
 for <?php echo $this->page->title ?>.</p>
 
-<div id="wiki-old" style="display: none;"><?php echo $this->prevRevision['body'] ?></div>
-<div id="wiki-new" style="display: none;"><?php echo $this->pageRevision['body'] ?></div>
-<pre width="103" id="diff-rev" class="code"></pre>
-
-<script type="text/javascript">
-var oldt = $('wiki-old').innerHTML;
-var newt = $('wiki-new').innerHTML;
-$('diff-rev').innerHTML = diffString(oldt, newt);
-</script>
+<div id="diff-revs" class="pre"><?php echo $this->diff ?></div>
 
 <?php echo $this->render('wiki/footer.phtml') ?>
+
+<?php if ($this->user['authenticated'] == true &&
+        $this->acl->isAllowed($this->user['userId'], 'default_wiki', 'revert')): ?>
+<form method="post" action="">
+    <input type="submit" id="btnRevert" name="revert" value="Revert" />
+    Revert to this version.
+</form>
+
+<script type="text/javascript">
+$('btnRevert').observe('click', function(e) {
+    e.stop();
+    if (confirm('Sure to Revert to this Version?')) {
+        this.form.submit();
+    }
+});
+</script>
+<?php endif; ?>

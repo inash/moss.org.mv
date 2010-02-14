@@ -18,20 +18,20 @@ $this->headTitle('Manage Users');
 <?php if (isset($this->paginator) && $this->paginator->count() > 0): ?>
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'users/paginator.phtml', $this->params) ?>
 
-<table border="0" cellspacing="0" cellpadding="4" class="border mini" width="100%" id="tblUsers">
+<table border="0" cellspacing="0" cellpadding="4" class="border" width="100%" id="tblUsers">
     <thead>
         <tr>
-	        <th width="80">Username</th>
-	        <th>Name</th>
-	        <th width="120">Last Seen</th>
-	    </tr>
+            <td>Username</td>
+            <td>Name</td>
+            <td width="100">Last Seen</td>
+        </tr>
     </thead>
     <tbody>
         <?php foreach ($this->paginator as $user): ?>
         <tr>
             <td><a href="<?php echo $this->baseUrl ?>/admin/users/view/userId/<?php echo $user['userId'] ?>"><?php echo $user['userId'] ?></a></td>
             <td><?php echo $user['name'] ?></td>
-            <td><?php echo $user['dateLastLogin'] ?></td>
+            <td><?php echo date('d M, Y', strtotime($user['dateLastLogin'])) ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

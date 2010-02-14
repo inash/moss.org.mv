@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * Default listing page for admin_journal.
+ *
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Tue Jan 19, 2010
+ */
+
+$this->headTitle('Journal Entry');
+
+?>
+
+<h1>Journal Entry</h1>
+
+<?php echo $this->action('header', 'journal', 'admin') ?>
+
+<table border="0" cellspacing="0" cellpadding="4" class="border" width="100%">
+    <thead>
+        <tr>
+            <td width="100">Date</td>
+            <td>Accounts</td>
+            <td align="right" width="100">Debit</td>
+            <td align="right" width="100">Credit</td>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->records as $record): ?>
+        <?php if (substr($record['index'], 0, 1) == 1 && $record['side'] == 'Debit') $description = $record['description']; ?>
+        <tr<?php if ($record['index'] == 1): ?> class="border-top-special"<?php endif; ?>>
+            <td><?php echo date('d M, Y', strtotime($record['dateEntry'])) ?></td>
+            <td><?php echo $record['accountName'] ?></td>
+            <td align="right"><?php echo ($record['side'] == 'Debit')  ? $record['amount'] : '&nbsp;' ?></td>
+            <td align="right"><?php echo ($record['side'] == 'Credit') ? $record['amount'] : '&nbsp;' ?></td>
+        </tr>
+        <?php if (substr($record['index'], 0, 1) == substr($record['index'], -1)): ?>
+        <tr><td colspan="4">
+            <?php echo $description ?><br />
+            By: <a href="<?php echo $this->baseUrl ?>/admin/users/view/userId/<?php echo $record['userId'] ?>"><?php echo $record['uname'] ?></a>,
+            On: <?php echo date('d M, Y H:i:s', strtotime($record['dateCreated'])) ?>
+        </td></tr>
+        <?php endif;  ?>
+        <?php endforeach; ?>
+    </tbody>
+</table>

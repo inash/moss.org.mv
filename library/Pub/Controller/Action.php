@@ -12,11 +12,11 @@
 
 abstract class Pub_Controller_Action extends Zend_Controller_Action
 {
-	/**
-	 * Main application configuration.
-	 * 
-	 * @var Zend_Config
-	 */
+    /**
+     * Main application configuration.
+     *
+     * @var Zend_Config
+     */
     protected $config;
     
     /**
@@ -50,6 +50,14 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
         'email'         => null,
         'name'          => null,
         'class'         => null);
+
+    /**
+     * Holds the Zend_Acl object. This is only initialized if the user is
+     * authenticated.
+     * 
+     * @var Zend_Acl
+     */
+    protected $acl;
     
     public function preDispatch()
     {
@@ -68,7 +76,6 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
          * DefaultController property $user, which is described at this class's
          * property declaration area . */
         $userns = new Zend_Session_Namespace('user');
-        $this->user['authenticated'] = false;
         
         if ($userns->authenticated == true) {
             
@@ -118,6 +125,13 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
             $this->user['company']       = $userns->company;
             $this->user['location']      = $userns->location;
             $this->user['groups']        = $userns->groups;
+
+            /* Unserialize acl if authenticated and set in the session. */
+            $aclns = new Zend_Session_Namespace('acl');
+            if (isset($aclns->acl)) {
+                $this->acl = unserialize($aclns->acl);
+                $this->view->acl = $this->acl;
+            }
         }
         
         /* Assign user array to the layout view as well. */

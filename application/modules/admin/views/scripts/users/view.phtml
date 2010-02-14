@@ -19,55 +19,55 @@ $this->headTitle('Manage - '.$this->user->getUserId());
 
 <table border="0" cellspacing="0" cellpadding="4" class="view">
     <tr>
-        <th>Username:</th>
+        <th>Username</th>
         <td><?php echo $this->user->getUserId() ?></td>
     </tr>
     <tr>
-        <th>Name:</th>
+        <th>Name</th>
         <td><?php echo $this->user->getName() ?></td>
     </tr>
     <tr>
-        <th>Email:</th>
+        <th>Email</th>
         <td><?php echo $this->user->getEmail() ?></td>
     </tr>
     <tr>
-        <th>Member Type:</th>
+        <th>Member Type</th>
         <td><?php echo $this->user->getMemberType() ?></td>
     </tr>
     <tr>
-        <th>Primary Group:</th>
+        <th>Primary Group</th>
         <td><?php echo $this->user->getPrimaryGroup() ?></td>
     </tr>
     <tr>
-        <th>Website:</th>
+        <th>Website</th>
         <td><?php echo $this->user->getWebsite() ?></td>
     </tr>
     <tr>
-        <th>Company:</th>
+        <th>Company</th>
         <td><?php echo $this->user->getCompany() ?></td>
     </tr>
     <tr>
-        <th>Location:</th>
+        <th>Location</th>
         <td><?php echo $this->user->getLocation() ?></td>
     </tr>
     <tr>
-        <th>Registered:</th>
-        <td><?php echo ($this->user->getDateRegistered() != '') ? date('r', strtotime($this->user->getDateRegistered())) : '' ?></td>
+        <th>Registered</th>
+        <td><?php echo $this->user->getDateRegistered() ?></td>
     </tr>
     <tr>
-        <th>Last Seen:</th>
-        <td><?php echo ($this->user->getDateLastLogin() != '') ? date('r', strtotime($this->user->getDateLastLogin())) : '' ?></td>
+        <th>Last Seen</th>
+        <td><?php echo $this->user->getDateLastLogin() ?></td>
     </tr>
     <tr>
-        <th>Active:</th>
+        <th>Active</th>
         <td><?php echo $this->user->getActive() ?></td>
     </tr>
     <tr>
-        <th>Reset:</th>
+        <th>Reset</th>
         <td><?php echo $this->user->getReset() ?></td>
     </tr>
     <tr>
-        <th>Disabled:</th>
+        <th>Disabled</th>
         <td><?php echo $this->user->getDisabled() ?></td>
     </tr>
 </table>

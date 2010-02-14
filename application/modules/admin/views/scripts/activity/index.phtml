@@ -9,34 +9,46 @@
  */
 
 $this->headTitle('Recent Activity');
+$this->headLink()->appendStylesheet($this->baseUrl.'/scripts/calendar/calendarview.css');
+$this->headScript()->appendFile($this->baseUrl.'/scripts/calendar/calendarview.js');
 
 ?>
 
 <h1>Recent Activity</h1>
 
-<?php echo $this->paginationControl($this->paginator, 'Sliding', 'index/paginator.phtml') ?>
-<br />
+<div id="submenu">
+    Filter by Date: <input type="text" name="filterDate" id="filterDate" size="15" /> .
+    Filter by Entity: <input type="text" />
+    <input type="button" name="asdf" value="Search" />
+</div>
 
-<table border="0" cellspacing="0" cellpadding="4" class="border mini" width="640">
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'index/paginator.phtml') ?>
+
+<table border="0" cellspacing="0" cellpadding="4" class="border" width="100%">
     <thead>
         <tr>
-            <th width="120">Date</th>
-            <th>Module</th>
-            <th>Code</th>
-            <th>User</th>
-            <th>Message</th>
+            <td>Date</td>
+            <td>Module</td>
+            <td>Code</td>
+            <td>User</td>
         </tr>
     </thead>
     <?php foreach ($this->paginator->getCurrentItems() as $item): ?>
-    <tr>
-        <td><?php echo $item['timestamp'] ?></td>
+    <tr class="border-top-special">
+        <td><?php echo date('d M, Y H:i:s', strtotime($item['timestamp'])) ?></td>
         <td><?php echo $item['entity'] ?>:<?php echo $item['entityId'] ?></td>
         <td><?php echo $item['code'] ?></td>
-        <td><?php echo $item['userId'] ?></td>
-        <td><?php echo $item['message'] ?></td>
+        <td><a href="<?php echo $this->baseUrl ?>/admin/users/view/userId/<?php echo $item['userId'] ?>"><?php echo $item['uname'] ?></a></td>
     </tr>
+    <tr><td colspan="4"><?php echo $item['message'] ?></td></tr>
     <?php endforeach; ?>
 </table>
 <br />
 
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'index/paginator.phtml') ?>
+
+<script type="text/javascript">
+Calendar.setup({
+    dateField: 'filterDate'
+});
+</script>

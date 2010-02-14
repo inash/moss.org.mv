@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * Header view for admin_journal.
+ *
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Tue Jan 19, 2010 5:50 PM
+ */
+
+?>
+
+<div id="submenu">
+    <a href="<?php echo $this->baseUrl ?>/admin/journal">List</a> .
+    <a href="<?php echo $this->baseUrl ?>/admin/journal/new">New Entry</a> .
+    Search:
+    <form method="post">
+    <?php echo $this->formText('search', null, array('size'=>15)) ?>
+    <?php echo $this->formSubmit('btnSearch', 'Search') ?>
+    </form>
+</div>
