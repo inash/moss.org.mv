@@ -13,6 +13,7 @@
   .tabberlive = after the tabber interface is set up
   --------------------------------------------------*/
 .tabber {
+    display: none;
 }
 .tabberlive {
  margin-top:1em;

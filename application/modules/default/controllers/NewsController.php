@@ -9,6 +9,29 @@
 
 class NewsController extends Pub_Controller_Action
 {
+    public function indexAction()
+    {
+        $type = ucfirst($this->_request->getParam('type', 'news'));
+        $page = $this->_request->getParam('page', 1);
+        
+        $typeParam = ($type == 'Announcements') ? 'Announcement' : 'News';
+        $select = $this->db->select(array(
+            'userId', 'date', 'type', 'featured',
+            'name', 'title', 'excerpt'))
+            ->from(array('mn' => 'moss_news'))
+            ->joinLeft(array('u' => 'users'), 'u.userId=mn.userId', array('uname' => 'u.name'))
+            ->where("type='{$typeParam}'")
+            ->order('date DESC');
+        
+        $adapter   = new Zend_Paginator_Adapter_DbSelect($select);
+        $paginator = new Zend_Paginator($adapter);
+        $paginator->setItemCountPerPage(1);
+        $paginator->setCurrentPageNumber($page);
+
+        $this->view->type = $type;
+        $this->view->paginator = $paginator;
+    }
+
     public function viewAction()
     {
         $year  = $this->_request->getParam('year');

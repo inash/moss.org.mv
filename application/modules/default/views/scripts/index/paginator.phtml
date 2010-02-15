@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * Paginator control template file for the Zend_Paginator.
+ * 
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Wed Jun 10, 2009 03:51 PM
+ */
+
+?>
+
+<?php if ($this->pageCount): ?>
+<div class="pagination-control">
+<span class="mini">Displaying Records <?php echo $this->firstItemNumber ?> to <?php echo $this->lastItemNumber ?> of <?php echo $this->totalItemCount ?><br /></span>
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+    <a href="<?php echo $this->url(array('page'=>$this->first), $this->route) ?>">&laquo;</a>
+    <a href="<?php echo $this->url(array('page'=>$this->previous), $this->route) ?>">&lsaquo;</a>
+<?php else: ?>
+    <span class="disabled">&laquo;</span>
+    <span class="disabled">&lsaquo;</span>
+<?php endif; ?>
+
+<!-- Numbered page links -->
+<?php foreach ($this->pagesInRange as $page): ?>
+    <?php if ($page != $this->current): ?>
+        <a href="<?php echo $this->url(array('page'=>$page), $this->route) ?>"><?php echo $page ?></a>
+    <?php else: ?>
+        <?php echo $page ?> 
+    <?php endif; ?>
+<?php endforeach; ?>
+
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+    <a href="<?php echo $this->url(array('page'=>$this->next), $this->route) ?>">&rsaquo;</a>
+    <a href="<?php echo $this->url(array('page'=>$this->last), $this->route) ?>">&raquo;</a>
+<?php else: ?>
+    <span class="disabled">&rsaquo;</span>
+    <span class="disabled">&raquo;</span>
+<?php endif; ?>
+</div>
+<br />
+<?php endif; ?>

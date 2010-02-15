@@ -12,7 +12,6 @@
 <?php echo $this->render('index/sidebar.phtml') ?>
 
 <h1>Recently Joined</h1>
-
 <div id="recently-joined">
 <?php foreach ($this->recentlyJoined as $user): ?>
 <?php
@@ -22,4 +21,13 @@
 ?>
 <a href="<?php echo "{$this->baseUrl}/{$user['userId']}" ?>" title="<?php echo $user['name'] ?>"><img src="<?php echo $gravUrl ?>" width="30" height="30" border="0" /></a>
 <?php endforeach; ?>
+</div>
+
+<h1>Recently Updated Pages</h1>
+<div id="recently-updated-pages">
+    <ul class="ul">
+<?php foreach ($this->recentlyUpdatedPages as $page): ?>
+        <li><a href="<?php echo $this->baseUrl.'/'.$page['name'] ?>"><?php echo $page['title'] ?></a></li>
+<?php endforeach; ?>
+    </ul>
 </div>

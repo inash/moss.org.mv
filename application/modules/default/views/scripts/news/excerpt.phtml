@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * News listing excerpt partial view.
+ *
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Mon Feb 15, 2010 01:56 PM
+ */
+
+require_once 'markdown/markdown.php';
+
+$ndbt = new Default_Model_DbTable_News();
+$this->item['link'] = $ndbt->getLink($this->item);
+
+?>
+
+<div id="news-view">
+    <h2><a href="<?php echo $this->baseUrl.'/'.$this->item['link'] ?>"><?php echo $this->item['title'] ?></a></h2>
+    <div id="info">
+        By <a href="<?php echo $this->baseUrl ?>/<?php echo $this->item['userId'] ?>"><?php echo $this->item['uname'] ?></a> -
+        <?php echo date('M d, Y', strtotime($this->item['date'])) ?>
+    </div>
+    
+    <?php echo markdown($this->item['excerpt']) ?>
+</div>

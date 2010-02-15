@@ -57,24 +57,44 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         /* Add reset password route. */
         $router->addRoute('reset',
-            new Zend_Controller_Router_Route('reset', array(
+            new Zend_Controller_Router_Route_Static('reset', array(
                 'module'     => 'default',
                 'controller' => 'login',
                 'action'     => 'reset')));
 
         /* Add forced change password route. */
         $router->addRoute('change',
-            new Zend_Controller_Router_Route('change', array(
+            new Zend_Controller_Router_Route_Static('change', array(
                 'module'     => 'default',
                 'controller' => 'login',
                 'action'     => 'change')));
 
         /* Add route to view news items. */
-        $router->addRoute('news',
+        $router->addRoute('newsView',
             new Zend_Controller_Router_Route('news/:year/:month/:name', array(
                 'module'     => 'default',
                 'controller' => 'news',
                 'action'     => 'view')));
+
+        /* More announcements listings. */
+        $router->addRoute('announcements', new Zend_Controller_Router_Route(
+            'announcements/:page',
+            array(
+                'module'     => 'default',
+                'controller' => 'news',
+                'action'     => 'index',
+                'type'       => 'announcements',
+                'page'       => 1)));
+
+        /* More news listings. */
+        $router->addRoute('news', new Zend_Controller_Router_Route(
+            'news/:page',
+            array(
+                'module'     => 'default',
+                'controller' => 'news',
+                'action'     => 'index',
+                'type'       => 'news',
+                'page'       => 1)));
     }
     
     protected function _initSessionUser()

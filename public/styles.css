@@ -88,8 +88,6 @@ a:hover {
 #main #body #sidebar {
     float: right;
     width: 200px;
-    spadding-left: 20px;
-    sborder-left: 1px solid #ddd;
 }
 #main #body #sidebar h1 {
     font-size: 14px;
@@ -106,8 +104,9 @@ a:hover {
 #menu-bottom {
     font-size: 11px;
     color: #666;
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid #bbb;
     background-color: #e3e3e3;
+    background-image: url('pix/bg-menu-bottom.gif');
 }
 #menu-bottom #links {
     margin: 0 auto;
@@ -141,7 +140,6 @@ a:hover {
 form {
     margin: 0px;
     padding: 0px;
-    display: inline;
 }
 input[type=text], input[type=password], textarea, select {
     border: 1px solid #999;
@@ -285,12 +283,12 @@ form dl dd ul li {
 }
 #search input[type=text] {
     border: none;
-    width: 162px;
+    width: 167px;
 }
 #search a {
-    padding: 3px 5px 4px 21px;
+    padding: 3px 0 4px 21px;
     background-image: url('pix/find.png');
-    background-position: center 50%;
+    background-position: center center;
     border-left: 1px solid #ccc;
 }
 
@@ -367,11 +365,13 @@ form dl dd ul li {
 
 #featured {
     background-color: #E5EAF2;
+    background-image: url('pix/bg-news.gif');
     padding: 10px;
     margin-bottom: 20px;
 }
 #featured.announcement {
     background-color: #E5F1D0;
+    background-image: url('pix/bg-announcement.gif');
 }
 #featured #type {
     font-size: 11px;
@@ -392,12 +392,22 @@ form dl dd ul li {
 }
 
 /* News view styles. */
+#news-view {
+    margin-bottom: 20px;
+}
 #news-view h1 {
     font-size: 18px;
     margin-bottom: 5px;
 }
 #news-view h2 {
     margin-bottom: 5px;
+}
+#news-view h2 a {
+    color: #333;
+}
+#news-view h2 a:hover {
+    text-decoration: none;
+    color: #1C438B;
 }
 #news-view #info {
     margin-bottom: 10px;
@@ -558,4 +568,21 @@ div.pre del {
 .feed {
     padding: 0 0 0 14px;
     background: url('pix/feed-icon-14x14.png') no-repeat 0 50%;
+}
+.pagination-control {
+    text-align: center;
+}
+.pagination-control a {
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    text-decoration: none;
+}
+.pagination-control a:hover {
+    background-color: #ddd;
+}
+.pagination-control .disabled {
+    display: inline-block;
+    height: 18px;
+    width: 18px;
 }

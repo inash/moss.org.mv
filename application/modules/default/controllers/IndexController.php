@@ -128,12 +128,21 @@ class IndexController extends Pub_Controller_Action
     
     public function sidebarFrontAction()
     {
+        /* Recently joined. */
         $query = $this->db->query(
             "SELECT userId, name, email FROM users "
           . "WHERE active='Y' "
           . "ORDER BY dateRegistered DESC "
           . "LIMIT 5");
         $this->view->recentlyJoined = $query->fetchAll();
+
+        /* Recently updated pages. */
+        $query = $this->db->query(
+            "SELECT * FROM pages "
+          . "GROUP BY pageId "
+          . "ORDER BY dateModified DESC "
+          . "LIMIT 5");
+        $this->view->recentlyUpdatedPages = $query->fetchAll();
         $this->_helper->viewRenderer->setResponseSegment('sidebar');
     }
     

@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * News and Announcement listing page. Show the excerpt from each entry and
+ * links to the actual news/announcement page.
+ *
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Mon Feb 15, 2010 01:54 PM
+ */
+
+?>
+
+<h1><?php echo ucfirst($this->type) ?></h1>
+
+<?php foreach ($this->paginator as $item): ?>
+<?php echo $this->partial('news/excerpt.phtml', array(
+    'item'    => $item,
+    'baseUrl' => $this->baseUrl));
+?>
+<?php endforeach;  ?>
+
+<?php $pages = $this->paginator->getPages(); ?>
+<?php if ($pages->pageCount > 1): ?>
+<?php echo $this->paginationControl($this->paginator, 'sliding', 'index/paginator.phtml', array('route'=>'news')) ?>
+<?php endif; ?>

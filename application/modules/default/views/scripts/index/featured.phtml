@@ -14,7 +14,7 @@
     <h2><a href="<?php echo $this->baseUrl.'/'.$this->featured['link'] ?>"><?php echo $this->featured['title'] ?></a></h2>
     <div class="mini" style="margin-bottom: 10px;">
         By <a href="<?php echo $this->baseUrl.'/'.$this->featured['userId'] ?>"><?php echo $this->featured['uname'] ?></a> -
-        <?php echo date('d M, Y H:i A', strtotime($this->featured['date'])) ?>
+        <?php echo date('M d, Y', strtotime($this->featured['date'])) ?>
     </div>
     <?php echo markdown($this->featured['excerpt']) ?>
     <span class="mini"><a href="<?php echo $this->baseUrl.'/'.$this->featured['link'] ?>">Read More</a></span>

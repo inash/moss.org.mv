@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * News and Announcement listing block partial.
+ *
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Mon Feb 15, 2010 01:43 PM
+ */
+
+?>
+
+<div class="tabbertab" title="<?php echo $this->title ?>">
+    <table border="0" cellspacing="0" cellpadding="2" width="100%" class="listing">
+        <?php foreach ($this->news as $news): ?>
+        <tr>
+            <td width="120"><?php echo date('M d, Y', strtotime($news->date)) ?></td>
+            <td><a href="<?php echo $this->baseUrl.'/'.$news->link ?>"><?php echo $news->title ?></a></td>
+        </tr>
+        <?php endforeach; ?>
+        <tfoot>
+            <tr>
+                <td><a href="#" class="icon icon-feed-14x14" style="margin: 0px;"></a></td>
+                <td align="right" class="mini"><a href="<?php echo $this->baseUrl.'/'.strtolower($this->title) ?>">More</a></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
