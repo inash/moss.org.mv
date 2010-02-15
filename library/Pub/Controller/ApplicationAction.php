@@ -32,7 +32,7 @@ class Pub_Controller_ApplicationAction extends Pub_Controller_Action
         if ((!isset($userns->authenticated) || $userns->authenticated != true)
         && $this->_request->getControllerName() != 'login') {
             parent::postDispatch();
-            $this->_redirect('/login');
+            $this->_forward('denied', 'index', 'default');
         }
         
         /* determine http request context and disable layout and viewRenderer

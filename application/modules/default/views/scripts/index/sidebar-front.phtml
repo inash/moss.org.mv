@@ -11,23 +11,23 @@
 
 <?php echo $this->render('index/sidebar.phtml') ?>
 
-<h1>Recently Joined</h1>
-<div id="recently-joined">
+<ul>
+    <li class="title">Recently Joined</li>
+    <li id="recently-joined">
 <?php foreach ($this->recentlyJoined as $user): ?>
 <?php
-    $size = 30;
+    $size = 28;
     $default = "http://{$_SERVER['HTTP_HOST']}{$this->baseUrl}/pix/gravatar-{$size}.png";
     $gravUrl = 'http://www.gravatar.com/avatar.php?gravatar_id='.md5(strtolower($user['email'])).'&default='.$default.'&size='.$size;
 ?>
-<a href="<?php echo "{$this->baseUrl}/{$user['userId']}" ?>" title="<?php echo $user['name'] ?>"><img src="<?php echo $gravUrl ?>" width="30" height="30" border="0" /></a>
+        <a href="<?php echo "{$this->baseUrl}/{$user['userId']}" ?>" title="<?php echo $user['name'] ?>"><img src="<?php echo $gravUrl ?>" width="28" height="28" border="0" /></a>
 <?php endforeach; ?>
-</div>
+    </li>
+</ul>
 
-<h1>Recently Updated Pages</h1>
-<div id="recently-updated-pages">
-    <ul class="ul">
+<ul>
+    <li class="title">Recently Updated Pages</li>
 <?php foreach ($this->recentlyUpdatedPages as $page): ?>
-        <li><a href="<?php echo $this->baseUrl.'/'.$page['name'] ?>"><?php echo $page['title'] ?></a></li>
+    <li><a href="<?php echo $this->baseUrl.'/'.$page['name'] ?>"><?php echo $page['title'] ?></a></li>
 <?php endforeach; ?>
-    </ul>
-</div>
+</ul>

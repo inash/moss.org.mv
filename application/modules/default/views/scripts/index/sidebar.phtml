@@ -26,25 +26,25 @@
 </div>
 
 <div id="links">
-<?php if (isset($this->adminMenus)): ?>
-<?php $currentGroup = ''; ?>
-<?php foreach ($this->adminMenus as $group => $menu): ?>
+<?php if (isset($this->menus)): ?>
+<?php $currentGroup = '' ?>
+<?php foreach ($this->menus as $menu): ?>
 <?php if ($currentGroup == ''): ?>
-    <h1><?php echo $menu['menuGroupTitle'] ?></h1>
-    <ul class="ul">
-<?php endif; ?>
-<?php $currentGroup = $group ?>
-<?php if ($currentGroup != $group && $currentGroup != ''): ?>
-    </ul>
-    <h1><?php echo $menu['menuGroupTitle'] ?></h1>
     <ul>
+        <li class="title"><?php echo $menu['menuGroupTitle'] ?></li>
 <?php endif; ?>
-        <li><a href="<?php echo $this->baseUrl ?>/<?php echo str_replace('_', '/', $menu['moduleName']) ?>"><?php echo $menu['moduleTitle'] ?></a></li>
+<?php if ($currentGroup != $menu['menuGroup'] && $currentGroup != ''): ?>
+    </ul>
+    <ul>
+        <li class="title"><?php echo $menu['menuGroupTitle'] ?></li>
+<?php endif; ?>
+        <li><a href="<?php echo $this->baseUrl ?>/<?php echo ($menu['menuGroup'] == 'admin') ? str_replace('_', '/', $menu['moduleName']) : array_pop(explode('_', $menu['moduleName'])) ?>"><?php echo $menu['moduleTitle'] ?></a></li>
+<?php $currentGroup = $menu['menuGroup'] ?>
 <?php endforeach; ?>
     </ul>
 <?php endif; ?>
 
-    <ul class="ul">
+    <ul>
         <li><a href="<?php echo $this->baseUrl ?>">Home Page</a></li>
         <li><a href="<?php echo $this->baseUrl ?>/Downloads">Downloads</a></li>
         <li><a href="<?php echo $this->baseUrl ?>/Gallery">Gallery</a></li>

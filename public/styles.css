@@ -84,6 +84,9 @@ a:hover {
     float: left;
     width: 680px;
 }
+#main #body #content h1 {
+    margin-top: 0px;
+}
 
 #main #body #sidebar {
     float: right;
@@ -94,7 +97,26 @@ a:hover {
     padding-bottom: 3px;
     margin-bottom: 10px;
 }
+#main #body #sidebar ul {
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 0px;
+}
+#main #body #sidebar ul li.title {
+    background-image: url('pix/bg-menu-bottom.gif');
+}
+#main #body #sidebar ul li {
+    padding: 2px 10px 2px 10px;
+    border-bottom: 1px solid #eee;
+}
+#main #body #sidebar ul li:last-child {
+    border-bottom: 0px;
+}
 
+#recently-joined {
+    padding: 5px ! important;
+    text-align: center;
+}
 #recently-joined img {
     padding: 2px;
     background-color: #fff;

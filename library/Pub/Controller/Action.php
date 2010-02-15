@@ -89,7 +89,7 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
               . "INNER JOIN modules mo on mo.name = me.moduleName "
               . "INNER JOIN menu_groups mg on mg.name = me.menuGroup "
               . "WHERE me.userGroup in ("
-              .     "SELECT `group` FROM users_groups WHERE userId='{$this->user['userId']}') "
+              .     "SELECT `group` FROM users_groups WHERE userId='{$userns->userId}') "
               . "OR me.userGroup='{$userns->primaryGroup}' "
               . "ORDER BY me.menuGroup, me.`order`");
 
@@ -104,16 +104,16 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
     
                     /* Separate admin menus and normal menus. */
                     if ($row['menuGroup'] == 'admin') {
-                        $adminMenus[$row['moduleName']] = $row;
+                        $adminMenus[] = $row;
                     } else {
-                        $menus[$row['menuGroup']][] = $row;
+                        $menus[] = $row;
                     }
                 }
             }
-
+            
             /* Assign menus to view. */
+            $menus = array_merge($adminMenus, $menus);
             $this->view->menus = $menus;
-            $this->view->adminMenus = $adminMenus;
             
             $this->user['authenticated'] = true;
             $this->user['userId']        = $userns->userId;
