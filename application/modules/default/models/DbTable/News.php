@@ -31,7 +31,16 @@ class Default_Model_DbTable_News extends Zend_Db_Table_Abstract
         $time  = strtotime($item['date']);
         $year  = date('Y', $time);
         $month = date('m', $time);
-        $link  = "{$type}/{$year}/{$month}/{$item['name']}";
+        
+        switch ($type) {
+            case 'announcement':
+                $link = "announcement/{$item['newsId']}";
+                break;
+            case 'news':
+                $link = "news/{$year}/{$month}/{$item['name']}";
+                break;
+        }
+        
         return $link;
     }
 

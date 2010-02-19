@@ -46,8 +46,8 @@ class Admin_Form_News extends Zend_Form
             'rows'     => 10));
 
         /* Add submit button. */
-        $this->addElement('submit', 'edit', array(
-            'label'  => 'Edit',
+        $this->addElement('submit', 'update', array(
+            'label'  => 'Update',
             'ignore' => true));
     }
 }

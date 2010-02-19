@@ -71,7 +71,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         /* Add route to view announcement items. */
         $router->addRoute('announcementView',
-            new Zend_Controller_Router_Route('announcement/:year/:month/:name', array(
+            new Zend_Controller_Router_Route('announcement/:id', array(
                 'module'     => 'default',
                 'controller' => 'news',
                 'action'     => 'view',

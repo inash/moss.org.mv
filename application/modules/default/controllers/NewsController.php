@@ -38,16 +38,26 @@ class NewsController extends Pub_Controller_Action
         $month = $this->_request->getParam('month');
         $name  = $this->_request->getParam('name');
         $type  = $this->_request->getParam('type');
-        
+        $id    = $this->_request->getParam('id');
+
         $select = $this->db->select();
         $select->from(array('mn' => 'moss_news'))
-            ->joinLeft(array('u' => 'users'), 'u.userId=mn.userId', array('uname' => 'u.name'))
-            ->where('type=?', ucfirst($type))
-            ->where("LEFT(`date`, 4)=?")
-            ->where("MID(`date`, 6, 2)=?")
-            ->where("mn.name=?");
+            ->joinLeft(array('u' => 'users'), 'u.userId=mn.userId', array('uname' => 'u.name'));
         
-        $stmt = $select->query(Zend_Db::FETCH_ASSOC, array($year, $month, $name));
+        switch ($type) {
+            case 'announcement':
+                $select->where("type='Announcement'")
+                    ->where('newsId=?');
+                $stmt = $select->query(Zend_Db::FETCH_ASSOC, array($id));
+                break;
+
+            case 'news':
+                $select->where("type='News'")
+                    ->where("LEFT(`date`, 4)=?")
+                    ->where("MID(`date`, 6, 2)=?")
+                    ->where("mn.name=?");
+                $stmt = $select->query(Zend_Db::FETCH_ASSOC, array($year, $month, $name));
+        }
         
         /* Redirect to error404 if the news item does not exist. */
         if ($stmt->rowCount() == 0) {
