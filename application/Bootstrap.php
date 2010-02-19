@@ -69,12 +69,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'controller' => 'login',
                 'action'     => 'change')));
 
+        /* Add route to view announcement items. */
+        $router->addRoute('announcementView',
+            new Zend_Controller_Router_Route('announcement/:year/:month/:name', array(
+                'module'     => 'default',
+                'controller' => 'news',
+                'action'     => 'view',
+                'type'       => 'announcement')));
+        
         /* Add route to view news items. */
         $router->addRoute('newsView',
             new Zend_Controller_Router_Route('news/:year/:month/:name', array(
                 'module'     => 'default',
                 'controller' => 'news',
-                'action'     => 'view')));
+                'action'     => 'view',
+                'type'       => 'news')));
 
         /* More announcements listings. */
         $router->addRoute('announcements', new Zend_Controller_Router_Route(

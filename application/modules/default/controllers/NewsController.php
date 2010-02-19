@@ -37,14 +37,16 @@ class NewsController extends Pub_Controller_Action
         $year  = $this->_request->getParam('year');
         $month = $this->_request->getParam('month');
         $name  = $this->_request->getParam('name');
-
+        $type  = $this->_request->getParam('type');
+        
         $select = $this->db->select();
         $select->from(array('mn' => 'moss_news'))
             ->joinLeft(array('u' => 'users'), 'u.userId=mn.userId', array('uname' => 'u.name'))
+            ->where('type=?', ucfirst($type))
             ->where("LEFT(`date`, 4)=?")
             ->where("MID(`date`, 6, 2)=?")
             ->where("mn.name=?");
-
+        
         $stmt = $select->query(Zend_Db::FETCH_ASSOC, array($year, $month, $name));
         
         /* Redirect to error404 if the news item does not exist. */
