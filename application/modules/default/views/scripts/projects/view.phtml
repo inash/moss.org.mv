@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Displays the project details based on the user's membership level.
+ * Certain information is meant to be hidden if the user has partial-view
+ * permissions on a project.
+ *
+ * The permission for a project can be maintained through the acl object. And
+ * further the queries to the database for membership and permission can
+ * completely be ommitted.
+ *
+ * @author  Inash Zubair <inash@leptone.com>
+ * @created Thu Mar 11, 2010 05:51 AM
+ */
+
+$this->headTitle()->append('Projects');
+$this->headTitle()->append($this->project['title']);
+
+?>
+
+<h1><?php echo $this->project['title'] ?></h1>
+
