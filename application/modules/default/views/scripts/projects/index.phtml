@@ -27,7 +27,7 @@
     <tbody>
 <?php foreach ($this->projects as $project): ?>
         <tr>
-            <td><?php echo $project['title'] ?></td>
+            <td><a href="<?php echo $this->baseUrl ?>/p/<?php echo $project['name'] ?>"><?php echo $project['title'] ?></a></td>
             <td><?php echo $project['uname'] ?></td>
             <td><?php echo date('M d, Y', strtotime($project['dateCreated'])) ?></td>
             <td><?php echo ($project['dateEnd'] != null) ? date('M d, Y', strtotime($project['dateEnd'])) : '-' ?></td>

@@ -104,6 +104,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'action'     => 'index',
                 'type'       => 'news',
                 'page'       => 1)));
+
+        $config = new Zend_Config_Ini(APPLICATION_PATH.'configs/routes.ini', APP_ENV);
+        $router->addConfig($config, 'routes');
     }
     
     protected function _initSessionUser()

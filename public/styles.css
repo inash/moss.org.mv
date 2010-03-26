@@ -39,9 +39,9 @@ a:hover {
     width: 900px;
 }
 #header #content #title a {
-    background-image: url('pix/logo-home-2.png');
+    background-image: url('pix/logo-home.png');
     background-repeat: no-repeat;
-    width: 150px;
+    width: 221px;
     height: 40px;
     float: left;
     margin-top: 10px;

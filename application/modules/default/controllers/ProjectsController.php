@@ -35,4 +35,20 @@ class ProjectsController extends Pub_Controller_ApplicationAction
         $result = $this->db->query($select)->fetchAll();
         $this->view->projects = $result;
     }
+
+    public function viewAction()
+    {
+        static $permission = 'view';
+
+        $name = $this->_request->getParam('name');
+        $pdbt = new Default_Model_DbTable_Projects();
+
+        /* Check whether the project exists. */
+        $project = $pdbt->fetchRow("name='{$name}'");
+        if (!$project) {
+            $this->_forward('error404', 'index', 'default', array('page' => $name));
+        }
+
+        $this->view->project = $project;
+    }
 }

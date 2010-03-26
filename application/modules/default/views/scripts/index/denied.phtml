@@ -14,7 +14,9 @@ $this->headTitle('Unauthorized');
 
 <h1>Unauthorized</h1>
 
-<p>Sorry. The page you're trying to access is unauthorized!</p>
+<p>Sorry. The page you're trying to access is unauthorized!<br />You either do
+not have the permission to access this page or you need to be
+<a href="<?php echo $this->baseUrl ?>/login">logged</a> in.</p>
 
 <p><a href="javascript:window.history.go(-1)">Return</a> back to where you were
 or go back to <a href="<?php echo $this->baseUrl ?>/">Home</a> page.</p>

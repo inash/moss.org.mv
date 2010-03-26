@@ -1,3 +1,15 @@
+Thu Mar 11, 2010 06:00 AM
+- created routes.ini config file.
+- added projectsView route p/:name as project details page.
+- created default project db table.
+- roughly created projects view action.
+
+Mon Mar 8, 2010 01:15 AM
+- amended denied.phtml message to include a link to login.
+
+Sat Feb 20, 2010 11:43 PM
+- added field data BLOG NULL to db.logs.
+- added tables moss_news and projects.
 
 Fri Aug 28, 2009 04:41 AM
 - added: db table fields fee.enteredBy, fee.method. method field indicates
