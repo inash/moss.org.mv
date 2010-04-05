@@ -12,6 +12,13 @@
 
 class Admin_UsersController extends Pub_Controller_ApplicationAction
 {
+    private $udbt;
+    
+    public function init()
+    {
+        $this->udbt = new Default_Model_DbTable_Users();
+    }
+    
     public function headerAction()
     {
         static $permission = 'view';
@@ -261,5 +268,31 @@ class Admin_UsersController extends Pub_Controller_ApplicationAction
         $this->_helper->flashMessenger->addMessage(
             "Subscription Fee entered successfully!");
         $this->_redirect("admin/users/view/userId/{$userId}");
+    }
+
+    public function deleteAction()
+    {
+        static $permission = 'delete';
+
+        /* Find user. */
+        $userId = $this->_request->getParam('userId');
+        $user = $this->udbt->find($userId)->current();
+        $name = $user->name;
+
+        /* Delete user. */
+        $user->delete();
+
+        /* Add log message. */
+        $this->log->insert(array(
+            'entity'    => 'admin_users',
+            'entityId'  => $userId,
+            'code'      => 'delete',
+            'message'   => "user {$name} deleted.",
+            'timestamp' => date('Y-m-d'),
+            'userId'    => $this->user['userId']));
+
+        /* Set session flash message and redirect to user listing index page. */
+        $this->_helper->flashMessenger->addMessage("User {$name} deleted.");
+        $this->_redirect('/admin/users');
     }
 }

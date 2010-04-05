@@ -3,5 +3,6 @@
 .settings/*
 misc/moss-data.sql
 public/captcha/*
+public/scripts/ext-core
 library/zf
 

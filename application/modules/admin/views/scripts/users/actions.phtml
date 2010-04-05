@@ -13,8 +13,17 @@
     Actions:
     <a href="<?php echo $this->baseUrl ?>/admin/users/view/userId/<?php echo $this->user->getUserId() ?>">View</a> .
     <a href="<?php echo $this->baseUrl ?>/admin/users/edit/userId/<?php echo $this->user->getUserId() ?>">Edit</a> .
-    <a href="#" id="lnkDelete">Delete</a> .
+    <a id="lnkDelete" href="<?php echo $this->baseUrl ?>/admin/users/delete/userId/<?php echo $this->user->getUserId() ?>">Delete</a> .
     <a href="<?php echo $this->baseUrl ?>/admin/users/subscription/userId/<?php echo $this->user->getUserId() ?>">Subscription</a> .
     <a href="#">Reset Password</a> .
     <a href="#">Disable</a>
 </div>
+
+<script type="text/javascript">
+Ext.get('lnkDelete').on('click', function(ev, el) {
+    ev.stopEvent();
+    if (confirm('Sure to Delete user <?php echo $this->user->getName() ?>?')) {
+        window.location.href = el.href;
+    }
+});
+</script>
