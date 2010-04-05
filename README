@@ -1,0 +1,13 @@
+This houses the website and infrastructure for the Maldives Open Source Society
+(MOSS) hosted at moss.org.mv, and is infact a compact application framework and
+content management system written in PHP.
+
+When this project matures, it can be used to build websites easily. It is also
+an objective of the project to sport modules that enable ngos and not for
+profits to run their websites and manage other aspects of their organizations
+through the website in a central manner.
+
+The project is developed using the latest version of the Zend Framework and uses
+the Ext Core javascript framework where javascript is required, and we believe
+the requirements for the development of a software project is only complete when
+you use git as an scm.
