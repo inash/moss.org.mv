@@ -96,8 +96,9 @@ class Admin_JournalController extends Pub_Controller_ApplicationAction
         $journalDbTable = new Default_Model_DbTable_Journal();
 
         /* Get last sequence number from settings table. */
-        $sequence = $this->db->query("SELECT mj_sequence FROM moss_settings")->fetch();
-        $sequence = $sequence['mj_sequence'];
+        $sdbt = new Default_Model_DbTable_Settings();
+        $setting = $sdbt->fetchRow("sField='journal-sequence'");
+        $sequence = $setting->sValue;
         $sequence++;
         
         /* Insert the debit side of the entry. */
@@ -143,7 +144,8 @@ class Admin_JournalController extends Pub_Controller_ApplicationAction
         }
 
         /* Update sequence settings. */
-        $this->db->query("UPDATE moss_settings SET mj_sequence='{$sequence}'");
+        $setting->sValue = $sequence;
+        $setting->save();
 
         /* Insert log entry. */
         $this->log->insert(array(

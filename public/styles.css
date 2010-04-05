@@ -162,6 +162,7 @@ a:hover {
 form {
     margin: 0px;
     padding: 0px;
+    display: inline;
 }
 input[type=text], input[type=password], textarea, select {
     border: 1px solid #999;
