@@ -288,7 +288,7 @@ class Admin_UsersController extends Pub_Controller_ApplicationAction
             'entityId'  => $userId,
             'code'      => 'delete',
             'message'   => "user {$name} deleted.",
-            'timestamp' => date('Y-m-d'),
+            'timestamp' => date('Y-m-d H:i:s'),
             'userId'    => $this->user['userId']));
 
         /* Set session flash message and redirect to user listing index page. */
