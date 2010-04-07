@@ -9,11 +9,28 @@
 
 class WikiController extends Pub_Controller_Action
 {
+    /* Private property to hold Pages DbTable. */
+    private $pdbt;
+
+    /* Private property to hold Page Revisions DbTable. */
+    private $prdbt;
+
+    public function init()
+    {
+        parent::init();
+        $this->pdbt  = new Default_Model_DbTable_Pages();
+        $this->prdbt = new Default_Model_DbTable_PageRevisions();
+
+        /* Add required acl resources and default permissions. */
+        $this->acl->addResource('default_wiki');
+        $this->acl->allow('user', 'default_wiki', 'view');
+    }
+
     public function preDispatch()
     {
         parent::preDispatch();
         $action = $this->_request->getActionName();
-        $restricted = array('new', 'edit', 'update');
+        $restricted = array('new', 'edit', 'update', 'delete');
         $userns = new Zend_Session_Namespace('user');
         if (in_array($action, $restricted) && $userns->authenticated == false) {
             $this->_redirect('/login');
@@ -96,6 +113,10 @@ class WikiController extends Pub_Controller_Action
                     $this->_forward('revision', 'wiki', 'default', array(
                         'page' => $pageName,
                         'pageRevisionId' => $params[0]));
+                    break;
+
+                case 'delete':
+                    $this->_forward('delete', 'wiki', 'default', array('page' => $pageName));
                     break;
 
                 /* Generic viewing of the page. */
@@ -383,5 +404,50 @@ class WikiController extends Pub_Controller_Action
         $diff = htmlDiff($prevRevision['body'], $pageRevision['body']);
         $diff = str_replace("\n", "<br />", $diff);
         $this->view->diff = $diff;
+    }
+
+    public function deleteAction()
+    {
+        /* If user does not have permission to delete, redirect to unauthorised
+         * action. */
+        if (!$this->acl->isAllowed($this->user['userId'], 'default_wiki', 'delete')) {
+            $this->_forward('denied', 'index', 'default');
+            return false;
+        }
+
+        /* Get page name request variable. */
+        $pageName = $this->_request->getParam('page');
+
+        /* Get the page and check if it exists or not. */
+        $page = $this->pdbt->fetchRow("name='{$pageName}'");
+
+        if (!$page) {
+            $this->view->page = $pageName;
+            $this->render('index/non-existent');
+            return false;
+        }
+
+        /* Convert to array. */
+        $pageInfo = $page->toArray();
+
+        /* Delete page, but leave the page revisions as is without deleting as
+         * that will assist in restoring the page later onwards if needed. */
+        $page->delete();
+
+        /* Add log entry indicating the delete operation. */
+        $this->log->insert(array(
+            'entity'    => 'pages',
+            'entityId'  => $pageInfo['pageId'],
+            'code'      => 'delete',
+            'message'   => "page [{$pageInfo['name']}] {$pageInfo['title']} deleted",
+            'timestamp' => date('Y-m-d H:i:s'),
+            'userId'    => $this->user['userId']));
+
+        /* Add session flash message. */
+        $this->_helper->flashMessenger->addMessage(
+            "Page [{$pageInfo['name']}] {$pageInfo['title']} deleted successfully.");
+
+        /* Redirect to home page. */
+        $this->_redirect('/');
     }
 }

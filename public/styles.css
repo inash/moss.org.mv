@@ -114,13 +114,21 @@ a:hover {
 }
 
 #recently-joined {
-    padding: 5px ! important;
+    padding: 3px ! important;
     text-align: center;
 }
-#recently-joined img {
-    padding: 2px;
-    background-color: #fff;
+#recently-joined a {
+    display: inline-block;
+    border: 1px solid #ccc;
+    vertical-align: bottom;
+}
+#recently-joined a:hover {
     border: 1px solid #aaa;
+}
+#recently-joined img {
+    padding: 3px;
+    background-color: #fff;
+    vertical-align: bottom;
 }
 
 #menu-bottom {
@@ -453,6 +461,9 @@ a.link-icon {
 }
 a.wiki-edit {
     background-image: url('pix/page_edit.png');
+}
+a.wiki-delete {
+    background-image: url('pix/delete.png');
 }
 a.wiki-history {
     background-image: url('pix/time.png');

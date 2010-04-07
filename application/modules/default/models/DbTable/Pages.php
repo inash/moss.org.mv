@@ -13,7 +13,7 @@ class Default_Model_DbTable_Pages extends Zend_Db_Table_Abstract
 {
     protected $_name       = 'pages';
     protected $_primaryKey = 'pageId';
-    protected $_dependentTables = array('PageRevisions');
+    protected $_dependentTables = array('Default_Model_DbTable_PageRevisions');
     
     protected $_referenceMap    = array(
         'CreatedBy' => array(

@@ -58,14 +58,16 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
      * @var Zend_Acl
      */
     protected $acl;
+
+    public function init()
+    {
+        /* Initialize default acl with guest role. */
+        $this->acl = new Zend_Acl();
+        $this->acl->addRole('user');
+    }
     
     public function preDispatch()
     {
-        $this->view->baseUrl = $this->_request->getBaseUrl();
-        
-        /* Set config to local protected $config. */
-//        $this->config = Zend_Registry::get('config');
-        
         /* Set the default database adapter to the local protected db. */
         $this->db = $this->getInvokeArg('bootstrap')->getResource('db');
         
@@ -130,13 +132,14 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
             $aclns = new Zend_Session_Namespace('acl');
             if (isset($aclns->acl)) {
                 $this->acl = unserialize($aclns->acl);
-                $this->view->acl = $this->acl;
             }
         }
-        
-        /* Assign user array to the layout view as well. */
-        $this->view->user = $this->user;
-        
+
+        /* Assign required resources to the view. */
+        $this->view->user    = $this->user;
+        $this->view->acl     = $this->acl;
+        $this->view->baseUrl = $this->_request->getBaseUrl();
+
         /* Check if the flash messenger has any messages. Process them. */
         if ($this->_helper->flashMessenger->hasMessages()) {
             $this->view->messages = $this->_helper->flashMessenger->getMessages();

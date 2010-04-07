@@ -6,6 +6,9 @@
  * @author  Inash Zubair <inash@leptone.com>
  * @created Mon Jun 01, 2009 12:08 PM
  */
+
+$this->headScript()->appendFile($this->baseUrl.'/scripts/ext-core/ext-core.js');
+
 ?>
 
 <div id="wiki-info-box">
@@ -13,5 +16,19 @@
         <?php if ($this->user['authenticated'] == true): ?>
         <li><a href="<?php echo $this->baseUrl.'/'.$this->page->name ?>/edit" class="link-icon wiki-edit">Edit</a></li>
         <?php endif; ?>
+        <?php if ($this->acl->isAllowed($this->user['userId'], 'default_wiki', 'delete')): ?>
+        <li><a id="lnkDelete" href="<?php echo $this->baseUrl.'/'.$this->page->name ?>/delete" class="link-icon wiki-delete">Delete</a></li>
+        <?php endif; ?>
     </ul>
 </div>
+
+<?php if ($this->acl->isAllowed($this->user['userId'], 'default_wiki', 'delete')): ?>
+<script type="text/javascript">
+Ext.get('lnkDelete').on('click', function(ev, el) {
+    ev.stopEvent();
+    if (confirm('Sure to Delete this page?')) {
+        window.location.href = el.href;
+    }
+});
+</script>
+<?php endif; ?>
