@@ -16,6 +16,7 @@ class Admin_UsersController extends Pub_Controller_ApplicationAction
     
     public function init()
     {
+        parent::init();
         $this->udbt = new Default_Model_DbTable_Users();
     }
     

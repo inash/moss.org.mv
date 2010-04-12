@@ -21,9 +21,12 @@ class WikiController extends Pub_Controller_Action
         $this->pdbt  = new Default_Model_DbTable_Pages();
         $this->prdbt = new Default_Model_DbTable_PageRevisions();
 
-        /* Add required acl resources and default permissions. */
-        $this->acl->addResource('default_wiki');
-        $this->acl->allow('user', 'default_wiki', 'view');
+        /* Add required acl resources and default permissions if not defined
+         * in the session acl from abstract action. */
+        if (!$this->acl->has('default_wiki')) {
+            $this->acl->addResource('default_wiki');
+            $this->acl->allow('user', 'default_wiki', 'view');
+        }
     }
 
     public function preDispatch()

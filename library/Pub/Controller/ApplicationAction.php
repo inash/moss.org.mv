@@ -14,14 +14,7 @@ class Pub_Controller_ApplicationAction extends Pub_Controller_Action
      * @var Zend_Acl
      */
     protected $acl;
-    
-    /**
-     * The debug logger for logging exceptions and application errors.
-     *
-     * @var Zend_Log
-     */
-    protected $debug; // TODO set this logger
-    
+
     public function preDispatch()
     {
         parent::preDispatch();
@@ -43,24 +36,13 @@ class Pub_Controller_ApplicationAction extends Pub_Controller_Action
             $this->_helper->viewRenderer->setNoRender();
         }
 
-        /* initialize debug logger. we're going to use FirePHP to log debug
-         * messages during runtime, using the Zend_Log_Writer_Firebug which
-         * uses the Wildfire protocol. */
-        require_once 'Zend/Log.php';
-        require_once 'Zend/Log/Writer/Firebug.php';
-        $this->debug = new Zend_Log(new Zend_Log_Writer_Firebug());
-        
         /* check authentication and load user information from session. */
-        if (isset($userns->authenticated) && $userns->authenticated == true) {
+        if ($userns->authenticated == true) {
             
             /* load and initialize access control lists and permissions for the
              * current module and controller. authority is asserted by requested
              * controller's action. */
-            $aclns = new Zend_Session_Namespace('acl');
-            $this->acl = unserialize($aclns->acl);
-            
             $this->checkAcl();
-            $this->view->acl = $this->acl;
         }
     }
 

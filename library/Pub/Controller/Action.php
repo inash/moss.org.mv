@@ -33,7 +33,14 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
      * @var Zend_Db_Table_Abstract
      */
     protected $log;
-    
+
+    /**
+     * The debug logger for logging exceptions and application errors.
+     *
+     * @var Zend_Log
+     */
+    protected $debug;
+
     /**
      * Holds a reference to the user session namespace if the user is
      * authenticated.
@@ -49,7 +56,8 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
         'userId'        => null,
         'email'         => null,
         'name'          => null,
-        'class'         => null);
+        'memberType'    => null,
+        'primaryGroup'  => null);
 
     /**
      * Holds the Zend_Acl object. This is only initialized if the user is
@@ -61,19 +69,49 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
 
     public function init()
     {
+        /* Set the default database adapter to the local protected db. */
+        $this->db = $this->getInvokeArg('bootstrap')->getResource('db');
+
+        /* Set logs protected property with an instance of the Logs model. */
+        $this->log = new Default_Model_DbTable_Logs();
+
+        /* initialize debug logger. we're going to use FirePHP to log debug
+         * messages during runtime, using the Zend_Log_Writer_Firebug which
+         * uses the Wildfire protocol. */
+        $logger = new Zend_Log_Writer_Null();
+        if (APP_ENV != 'production') {
+            $logger = new Zend_Log_Writer_Firebug();
+        }
+        $this->debug = new Zend_Log($logger);
+
         /* Initialize default acl with guest role. */
         $this->acl = new Zend_Acl();
         $this->acl->addRole('user');
+
+        /* Initialize user if already authenticated. */
+        $userns = new Zend_Session_Namespace('user');
+        if ($userns->authenticated == true) {
+            $this->user['authenticated'] = true;
+            $this->user['userId']        = $userns->userId;
+            $this->user['email']         = $userns->email;
+            $this->user['name']          = $userns->name;
+            $this->user['memberType']    = $userns->memberType;
+            $this->user['primaryGroup']  = $userns->primaryGroup;
+            $this->user['website']       = $userns->website;
+            $this->user['company']       = $userns->company;
+            $this->user['location']      = $userns->location;
+            $this->user['groups']        = $userns->groups;
+
+            /* Unserialize acl if authenticated and set in the session. */
+            $aclns = new Zend_Session_Namespace('acl');
+            if (isset($aclns->acl)) {
+                $this->acl = unserialize($aclns->acl);
+            }
+        }
     }
     
     public function preDispatch()
     {
-        /* Set the default database adapter to the local protected db. */
-        $this->db = $this->getInvokeArg('bootstrap')->getResource('db');
-        
-        /* Set logs protected property with an instance of the Logs model. */
-        $this->log = new Default_Model_DbTable_Logs();
-        
         /* Assign user session namespace as an array to the protected
          * DefaultController property $user, which is described at this class's
          * property declaration area . */
@@ -84,15 +122,16 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
             /* Fetch menus for the current user's groups assignment. Sarey's
              * magnificent query for retrieving a set from a tertiary
              * relationship table. */
+            $groups = $this->user['groups'];
+            $sqlg   = "'".join("', '", $groups)."'";
+            
             $query = $this->db->query(
                 "SELECT me.*, mg.title as menuGroupTitle, mo.title as moduleTitle, "
               . "mo.description "
               . "FROM menus me "
               . "INNER JOIN modules mo on mo.name = me.moduleName "
               . "INNER JOIN menu_groups mg on mg.name = me.menuGroup "
-              . "WHERE me.userGroup in ("
-              .     "SELECT `group` FROM users_groups WHERE userId='{$userns->userId}') "
-              . "OR me.userGroup='{$userns->primaryGroup}' "
+              . "WHERE me.userGroup in ({$sqlg}) "
               . "ORDER BY me.menuGroup, me.`order`");
 
             /* Filter and normalize menu entries, removing any subsequent
@@ -112,27 +151,10 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
                     }
                 }
             }
-            
+
             /* Assign menus to view. */
             $menus = array_merge($adminMenus, $menus);
             $this->view->menus = $menus;
-            
-            $this->user['authenticated'] = true;
-            $this->user['userId']        = $userns->userId;
-            $this->user['email']         = $userns->email;
-            $this->user['name']          = $userns->name;
-            $this->user['memberType']    = $userns->memberType;
-            $this->user['primaryGroup']  = $userns->primaryGroup;
-            $this->user['website']       = $userns->website;
-            $this->user['company']       = $userns->company;
-            $this->user['location']      = $userns->location;
-            $this->user['groups']        = $userns->groups;
-
-            /* Unserialize acl if authenticated and set in the session. */
-            $aclns = new Zend_Session_Namespace('acl');
-            if (isset($aclns->acl)) {
-                $this->acl = unserialize($aclns->acl);
-            }
         }
 
         /* Assign required resources to the view. */
