@@ -150,7 +150,7 @@ class RegisterController extends Pub_Controller_Action
          * the activation process failed. */
         if (!$record) {
             $this->_helper->flashMessenger->addMessage(
-                "The Activation process failed.!");
+                "The Activation process failed.");
             $this->_redirect('/Front');
             return false;
         }

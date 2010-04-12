@@ -114,7 +114,30 @@ class LoginController extends Pub_Controller_Action
         foreach ($results as $row) {
             if ($row['group'] != '' && !in_array($row['group'], $xGroups)) $xGroups[] = $row['group'];
         }
-        
+
+        /* Get all parent groups of existing groups. */
+        $gdbt = new Default_Model_DbTable_Groups();
+        $yGroups = array();
+        foreach ($xGroups as $grp) {
+            
+            /* Get group. */
+            $grpe = $gdbt->find($grp)->current();
+
+            /* Skip if no parent is defined. */
+            if ($grpe->parent == '') continue;
+
+            /* If parent group is not in the existing defined xGroups set, add
+             * it. Otherwise skip. */
+            if (!in_array($grpe->parent, $xGroups)) {
+                $yGroups[] = $grpe->parent;
+            }
+        }
+
+        /* Merge xGroups and yGroups arrays if pGroups is not empty. */
+        if (!empty($yGroups)) {
+            $xGroups = array_merge($xGroups, $yGroups);
+        }
+
         /* Prepare array for permissions retrieval. */
         $sqlga = array();
         foreach ($xGroups as $xg) $sqlga[] = "role='{$xg}'";
