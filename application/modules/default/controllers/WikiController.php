@@ -406,6 +406,8 @@ class WikiController extends Pub_Controller_Action
         require_once 'simplediff.php';
         $diff = htmlDiff($prevRevision['body'], $pageRevision['body']);
         $diff = str_replace("\n", "<br />", $diff);
+
+        $this->view->pageRevision = $pageRevision;
         $this->view->diff = $diff;
     }
 

@@ -15,7 +15,8 @@ $this->headScript()->appendFile("{$this->baseUrl}/scripts/tabber-minimized.js");
 
 ?>
 
-<?php if (!empty($this->featuredAnnouncement)): ?>
+<?php if (!empty($this->featuredAnnouncement) &&
+        strtotime($this->featuredAnnouncement['date']) > strtotime($this->featuredNews['date'])): ?>
 <?php echo $this->partial('index/featured.phtml', array(
     'featured' => $this->featuredAnnouncement,
     'baseUrl'  => $this->baseUrl)) ?>
@@ -24,6 +25,13 @@ $this->headScript()->appendFile("{$this->baseUrl}/scripts/tabber-minimized.js");
 <?php echo $this->partial('index/featured.phtml', array(
     'featured' => $this->featuredNews,
     'baseUrl'  => $this->baseUrl)) ?>
+
+<?php if (!empty($this->featuredAnnouncement) &&
+        strtotime($this->featuredAnnouncement['date']) < strtotime($this->featuredNews['date'])): ?>
+<?php echo $this->partial('index/featured.phtml', array(
+    'featured' => $this->featuredAnnouncement,
+    'baseUrl'  => $this->baseUrl)) ?>
+<?php endif; ?>
 
 <div class="tabber" style="margin-bottom: 20px;">
     <?php if (isset($this->announcements) && count($this->announcements) > 0): ?>
