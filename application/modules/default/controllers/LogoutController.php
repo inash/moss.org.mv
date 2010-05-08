@@ -11,12 +11,9 @@
 
 class LogoutController extends Pub_Controller_Action
 {
-	public function preDispatch() {}
-	
     public function indexAction()
     {
     	Zend_Session::destroy(true);
-        session_destroy();
         $this->_redirect('/');
     }
 }

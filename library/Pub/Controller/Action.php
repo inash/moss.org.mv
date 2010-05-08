@@ -124,7 +124,7 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
              * relationship table. */
             $groups = $this->user['groups'];
             $sqlg   = "'".join("', '", $groups)."'";
-            
+
             $query = $this->db->query(
                 "SELECT me.*, mg.title as menuGroupTitle, mo.title as moduleTitle, "
               . "mo.description "
@@ -172,6 +172,9 @@ abstract class Pub_Controller_Action extends Zend_Controller_Action
     {
         /* Set referer into user session namespace. */
         $userns = new Zend_Session_Namespace('user');
-        $userns->requestUri = $this->_request->getRequestUri();
+        $requestUri = $this->_request->getRequestUri();
+        if (!strstr($requestUri, 'favicon.ico')) {
+            $userns->requestUri = $this->_request->getRequestUri();
+        }
     }
 }
