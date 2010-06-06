@@ -296,4 +296,38 @@ class Admin_UsersController extends Pub_Controller_ApplicationAction
         $this->_helper->flashMessenger->addMessage("User {$name} deleted.");
         $this->_redirect('/admin/users');
     }
+
+    public function exportcsvAction()
+    {
+        static $permission = 'edit';
+
+        $select = $this->db->select()
+                ->from('users')
+                ->order('name ASC');
+
+        $result = $select->query()->fetchAll();
+
+        if (count($result) == 0) return false;
+
+        unset($result[0]['password']);
+        $fields = array_keys($result[0]);
+        unset($fields['password']);
+
+        /* Output header. */
+        $date = date('Ymd_His');
+        header('Content-type: text/csv');
+        header("Content-disposition: attachment; filename=users_{$date}.csv");
+        echo join(',', $fields)."\n";
+
+        /* Output records. */
+        foreach ($result as $record) {
+            unset($record['password']);
+            foreach ($record as $key => $value) {
+                $record[$key] = stripcslashes($value);
+            }
+            echo '"'.join('","', $record).'"'."\n";
+        }
+
+        exit;
+    }
 }

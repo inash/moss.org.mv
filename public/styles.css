@@ -470,7 +470,7 @@ a.wiki-history {
 }
 .icon {
     margin-left: 3px;
-    padding: 2px 0 1px 16px;
+    padding: 2px 0 1px 20px;
     background-repeat: no-repeat;
     background-position: 0 50%;
 }
@@ -488,6 +488,9 @@ a.wiki-history {
 }
 .icon-feed {
     background-image: url('pix/rss_16.png');
+}
+.icon-csv {
+    background-image: url('pix/page_white_excel.png');
 }
 .icon-feed-14x14 {
     padding: 0 0 0 14px;
@@ -603,8 +606,8 @@ div.pre del {
     padding: 0 0 0 14px;
     background: url('pix/feed-icon-14x14.png') no-repeat 0 50%;
 }
-.pagination-control {
-    text-align: center;
+.paginationControl {
+    margin-bottom: 10px;
 }
 .pagination-control a {
     display: inline-block;
