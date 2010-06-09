@@ -450,6 +450,23 @@ form dl dd ul li {
     font-size: 10px;
 }
 
+#news-view-images a {
+    display: inline-block;
+    border: 1px solid #ccc;
+    vertical-align: bottom;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+#news-view-images a:hover {
+    border: 1px solid #aaa;
+}
+#news-view-images img {
+    border: none;
+    padding: 3px;
+    background-color: #fff;
+    vertical-align: bottom;
+}
+
 /* Icons */
 a.link-icon {
     height: 16px;

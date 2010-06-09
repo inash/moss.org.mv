@@ -69,5 +69,15 @@ class NewsController extends Pub_Controller_Action
         $news = $stmt->fetch();
         $news['link'] = $ndbt->getLink($news);
         $this->view->news = $news;
+
+        /* Search flickr tags for related pictures. */
+        $flickr = new Zend_Service_Flickr('');
+        $tag = "mossorgmv{$type}{$news['newsId']}";
+        $this->view->flickrTag = $tag;
+        $results = $flickr->tagSearch($tag, array('per_page' => 14));
+
+        if ($results->totalResultsAvailable > 0) {
+            $this->view->flickr = $results;
+        }
     }
 }

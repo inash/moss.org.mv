@@ -25,8 +25,19 @@ $this->headTitle($this->news['title']);
     <h1><?php echo $this->news['title'] ?></h1>
     <div id="info">
         By <a href="<?php echo $this->baseUrl ?>/<?php echo $this->news['userId'] ?>"><?php echo $this->news['uname'] ?></a> -
-        <?php echo date('d M, Y H:i A', strtotime($this->news['date'])) ?>
+        <?php echo date('d M, Y H:i A', strtotime($this->news['date'])) ?> -
+        ID <?php echo $this->news['newsId'] ?>
     </div>
     
     <?php echo markdown($this->news['content']) ?>
 </div>
+
+<?php if (isset($this->flickr)): ?>
+<h2>Pictures</h2>
+<div id="news-view-images">
+<?php foreach ($this->flickr as $flick): ?>
+    <a href="<?php echo str_replace('/sizes/sq/', '', $flick->Square->clickUri) ?>" target="_blank" title="<?php echo $flick->title ?>"><img src="<?php echo $flick->Square->uri ?>" width="<?php echo $flick->Square->width ?>" height="<?php echo $flick->Square->height ?>" alt="<?php echo $flick->title ?>" /></a>
+<?php endforeach; ?>
+</div>
+<a href="http://www.flickr.com/photos/tags/<?php echo $this->flickrTag ?>" target="_blank">View More</a>
+<?php endif; ?>
