@@ -10,6 +10,10 @@
 ?>
 
 <div id="wiki-info-box-footer">
+    Page Created By
+    <a href="<?php echo $this->baseUrl ?>/<?php echo $this->page->createdBy ?>">
+    <?php echo $this->page->findParentRow('Default_Model_DbTable_Users', 'CreatedBy')->name ?></a>
+    on <?php echo date('r', strtotime($this->page->dateCreated)) ?><br />
     Page Last Modified By
     <a href="<?php echo $this->baseUrl ?>/<?php echo $this->page->modifiedBy ?>">
     <?php echo $this->page->findParentRow('Default_Model_DbTable_Users', 'ModifiedBy')->name ?></a>
