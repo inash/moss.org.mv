@@ -23,16 +23,16 @@ class ErrorController extends Pub_Controller_Action
         /* Prepare body. */
         $body  = print_r($errors, true);
         $body .= print_r($_SERVER, true);
-        $mail->setBodyText($body);
-        
-        /* Use smtp if environment is not production. */
-        if (APP_ENV != 'production') {
-            $server = $this->getInvokeArg('bootstrap')->getOption('mail');
-            $server = $server['server'];
-            $mail->send(new Zend_Mail_Transport_Smtp($server));
-        } else {
-            $mail->send();
+
+        /* User details if user authenticated. */
+        $userns = new Zend_Session_Namespace('user');
+        if ($userns->authenticated) {
+            $errors['userId'] = $userns->userId;
+            $errors['timestamp'] = date('r');
         }
+        $body .= print_r($errors, true);
+        $mail->setBodyText($body);
+        $mail->send();
 		
 		switch ($errors->type) {
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER :
